@@ -1,0 +1,122 @@
+*,*::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+:root{
+    --light-grey: #2B2D31;
+    --grey: #A4A4A4;
+    --background: #212227;
+    --heading-fsize: 20px;
+    --subheading-fsize: 16px;
+    --page-width: 600px;
+    --secondary-clr: #1B1C21;
+}
+body{
+    background-color: var(--background);
+}
+
+.teams-container{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: var(--page-width);/*Should be the parent width*/
+    border-top: 3px solid var(--light-grey);
+    border-bottom: 3px solid var(--light-grey);
+    padding: 3em 1.5em;
+
+}
+
+.teams-container-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.teams-container-header .title{
+    color: var(--White, #FFF);
+    font-family: Inter;
+    font-size: var(--heading-fsize);
+    font-style: normal;
+    font-weight: 600;
+}
+.teams-container-header .arrows-div{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+.teams-container-header .arrows-div i{
+    width: 24px;
+    height: 24px;
+    padding: .25em;
+    border-radius: 50%;
+}
+.teams-container-header .arrows-div i:hover{
+    color: white !important;
+}
+
+.teams-container-header, .teams-section{
+    padding: .5em;
+}
+.teams-section{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.team{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.team .team-name{
+    color: var(--White, #FFF);
+    font-family: Inter;
+    font-size: var(--subheading-fsize);
+    font-style: normal;
+    font-weight: 600;
+}
+
+.team-div{
+    /* width: 124px; */
+    border-radius: 50%;
+    padding: 1.8em;
+    background-color: var(--secondary-clr);
+    position: relative;
+    cursor: pointer;
+}
+
+.team-div::before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background-color: #F5C451;
+    opacity: 0;
+    z-index: -1; /* Places it behind the div */
+}
+
+.team-div:hover::before {
+    opacity: 1; /* Show on hover */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth effect */
+}
+
+.team-div .team-logo{
+    width: 64px;
+    height: 64px;
+    display: flex;
+    margin: 0 auto;
+}
+.team-div .team-logo img{
+    width: 100%;
+    object-fit: cover;
+}

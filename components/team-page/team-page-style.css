@@ -1,0 +1,145 @@
+
+/* Init */
+*,*::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+:root{
+    --light-grey: #2B2D31;
+    --grey: #A4A4A4;
+    --background: #212227;
+    --secondary-clr: #1B1C21;
+    --heading-fsize: 20px;
+    --subheading-fsize: 16px;
+    --page-width: 600px;
+    --third-clr:#F5C451;
+    --grey-hover: #a4a4a4bd;
+    --transition: all ease-in-out 150ms;
+}
+body{
+    font-family: Inter;
+    background-color: #212227d4;
+}
+
+/* utility Classes */
+
+/* Tooltip */
+/* use data-tooltip to write your tooltip content */
+.tooltiped::after{
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 0;
+    top: 36px;
+    width: max-content;
+    border-radius: 18px;
+    background-color: var(--third-clr);
+    padding: 8px 12px;
+    color: #000000;
+    font-size: 14px;
+    z-index: 1;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity  0.3s ;
+    pointer-events: none; /* Prevents tooltip from being hovered */
+}
+.tooltiped::after:hover{
+    display: none;
+}
+.tooltiped{
+    position: relative;
+}
+.tooltiped:hover::after{
+    opacity: 1;
+}
+
+.team-nav-selected{
+    border-bottom: 2px solid var(--third-clr);
+}
+.white-font{
+    color: white;
+}
+.grey-font{
+    color: var(--grey);
+}
+
+/* Start */
+.header{
+    display: flex;
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    padding: 40px 32px 0 32px;
+    border-radius: 15px;
+    background-color: var(--secondary-clr);
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+.header-subsec1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.header-subsec1-team{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.header-subsec1-team-img-container{
+    width: 40px;
+    height: 40px;
+}
+.header-subsec1-team-img-container img{
+    width: 100%;
+    object-fit: cover;
+}
+.header-subsec1-team-title{
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+}
+.header-subsec1-team-title h3{
+    font-size: 19px;
+}
+.header-subsec1-team-title h4{
+    font-size: 14px;
+}
+
+.header-subsec1-calendar{
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 4px 14px;
+    border: 1px solid var(--grey);
+    background-color: var(--secondary-clr);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.header-subsec1-calendar:hover{
+    border-color: var(--third-clr);
+}
+.header-nav-ul{
+    list-style: none;
+    text-decoration: none;
+    display: flex;
+    gap: 32px;
+ 
+}
+.header-nav-ul li{
+    padding: 24px 0 24px 0;
+    font-size: 14px;
+    text-transform: capitalize;
+    transition: var(--transition);
+    font-weight: 500;
+    cursor: pointer;
+}
+.header-nav-ul li:hover{
+    color: var(--grey-hover);
+}

@@ -1,0 +1,136 @@
+/* Init */
+*,*::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+:root{
+    --light-grey: #2B2D31;
+    --grey: #A4A4A4;
+    --background: #212227;
+    --secondary-clr: #1B1C21;
+    --heading-fsize: 20px;
+    --subheading-fsize: 16px;
+    --page-width: 600px;
+    --third-clr:#F5C451;
+    --grey-hover: #a4a4a4bd;
+    --transition: all ease-in-out 150ms;
+}
+body{
+    font-family: Inter;
+    background-color: rgb(17, 17, 17);
+}
+a{
+    font-family: Inter;
+    text-decoration: none;
+}
+
+/* utility Classes */
+
+/* Tooltip */
+/* use data-tooltip to write your tooltip content */
+.tooltiped::after{
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 0;
+    top: 36px;
+    width: max-content;
+    border-radius: 18px;
+    background-color: var(--third-clr);
+    padding: 8px 12px;
+    color: #000000;
+    font-size: 14px;
+    z-index: 1;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity  0.3s ;
+    pointer-events: none; /* Prevents tooltip from being hovered */
+}
+.tooltiped::after:hover{
+    display: none;
+}
+.tooltiped{
+    position: relative;
+}
+.tooltiped:hover::after{
+    opacity: 1;
+}
+
+.team-nav-selected{
+    border-bottom: 2px solid var(--third-clr);
+}
+.white-font{
+    color: white;
+}
+.grey-font{
+    color: var(--grey);
+}
+
+.staff-container{
+    padding: 0 16px 16px 16px;
+}
+
+.staff-subcontainer{
+    padding: 24px;
+    border-radius: 15px;
+    background-color: var(--secondary-clr);
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.staff-title{
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.staff-section{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+}
+
+
+.staff-card{
+    padding: 24px;
+    border-radius: 10px;
+    background-color: var(--light-grey);
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 24px;
+    width: 330px;
+    border: 1.5px solid var(--light-grey);
+    transition: var(--transition);
+}
+.staff-card:hover{
+    background-color: #a4a4a458;
+    /* border-color: var(--third-clr); */
+}
+.staff-card-person{
+    width: 40px;
+    height: 40px;
+}
+.staff-card-person img{
+    border-radius: 50%;
+    width: 100%;
+    object-fit: cover;
+}
+.staff-card-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 4px;
+}
+
+.staff-name{
+    font-size: 14px;
+    font-weight: 500;
+}
+.staff-country{
+    font-size: 12px;
+    font-weight: 400;
+}
