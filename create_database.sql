@@ -94,3 +94,22 @@ VALUES
 (80000, '2025-04-10', '20:00:00', 'El Clásico', 1, 2),  
 (75000, '2025-04-15', '19:45:00', 'Champions League Semi-Final', 2, 3),  
 (70000, '2025-04-20', '21:00:00', 'Premier League Clash', 3, 1);
+
+
+-- but
+create table but(
+  id_but INT PRIMARY KEY AUTO_INCREMENT,
+min_but int, 
+id_buteur INT NOT NULL,
+id_assisteur INT,
+foreign key(id_buteur) references players(id),
+foreign key(id_assisteur) references players(id)
+);
+
+INSERT INTO but (min_but, id_buteur, id_assisteur) VALUES
+(12, 1, 3),  
+(27, 3, NULL), 
+(43, 2, 1), 
+(55, 1, NULL)
+
+
