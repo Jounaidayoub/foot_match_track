@@ -98,18 +98,24 @@ VALUES
 
 -- but
 create table but(
-  id_but INT PRIMARY KEY AUTO_INCREMENT,
-min_but int, 
-id_buteur INT NOT NULL,
-id_assisteur INT,
+id_but int primary key AUTO_INCREMENT,
+id_match int NOT NULL,
+id_team int NOT NULL,
+id_buteur int NOT NULL,
+id_assisteur int,
+minute int,
+foreign key(id_match) references _match(id_match),
+foreign key(id_team) references teams(id),
 foreign key(id_buteur) references players(id),
 foreign key(id_assisteur) references players(id)
 );
 
-INSERT INTO but (min_but, id_buteur, id_assisteur) VALUES
-(12, 1, 3),  
-(27, 3, NULL), 
-(43, 2, 1), 
-(55, 1, NULL)
+INSERT INTO but (id_match, id_team, id_buteur, id_assisteur, minute) VALUES
+(1, 2, 1, 2, 12),  -- Goal in match 1, scored by player 5 (team 2), assisted by player 8 in the 12th minute
+(1, 1, 3, NULL, 27), -- Goal in match 1, scored by player 3 (team 1), no assist in the 27th minute
+(2, 3, 2, 2, 34),  -- Goal in match 2, scored by player 7 (team 4), assisted by player 2 in the 34th minute
+(2, 2, 1, NULL, 45), 
+(3, 1, 1, 3, 50), 
+(3, 3, 2, NULL, 73)
 
 
