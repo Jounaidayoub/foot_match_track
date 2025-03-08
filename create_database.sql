@@ -72,3 +72,25 @@ CREATE TABLE _match (
 );
 
 
+INSERT INTO teams (team_name, founded_year, country, city, logo_path, primary_color, secondary_color, home_stadium, stadium_capacity, website, email, phone, address, head_coach, assistant_coach, team_manager, physiotherapist, history)  
+VALUES  
+('Real Madrid', 1902, 'Spain', 'Madrid', 'real_madrid_logo.png', '#FFFFFF', '#000000', 'Santiago Bernabéu', 81044, 'https://www.realmadrid.com', 'contact@realmadrid.com', '+34 123 456 789', 'Madrid, Spain', 'Carlo Ancelotti', 'Davide Ancelotti', 'José Ángel Sánchez', 'Dr. Juan Muro', 'One of the most successful clubs in history'),  
+
+('FC Barcelona', 1899, 'Spain', 'Barcelona', 'barcelona_logo.png', '#A50044', '#004D98', 'Camp Nou', 99354, 'https://www.fcbarcelona.com', 'contact@fcbarcelona.com', '+34 987 654 321', 'Barcelona, Spain', 'Xavi Hernandez', 'Óscar Hernández', 'Mateu Alemany', 'Dr. Ricard Pruna', 'A club with a rich footballing culture'),  
+
+('Manchester United', 1878, 'England', 'Manchester', 'manutd_logo.png', '#DA291C', '#FFE500', 'Old Trafford', 74879, 'https://www.manutd.com', 'contact@manutd.com', '+44 161 868 8000', 'Manchester, UK', 'Erik ten Hag', 'Mitchell van der Gaag', 'John Murtough', 'Dr. Steve McNally', 'A club with a deep Premier League history');
+
+INSERT INTO players (first_name, last_name, birth_date, nationality, birth_place, email, phone, social_media, position, secondary_position, jersey_number, preferred_foot, team, goals, assists, appearances, height, weight, bmi, fitness_level, medical_conditions, contract_start, contract_end, agent_name, agent_contact, release_clause, market_value, contract_notes, player_photo)  
+VALUES  
+('Karim', 'Benzema', '1987-12-19', 'France', 'Lyon', 'karim@example.com', '+33 123 456 789', 'instagram.com/karimbenzema', 'Striker', 'Winger', 9, 'Right', 'Real Madrid', 230, 120, 600, 1.85, 81.5, 23.8, 90, NULL, '2021-07-01', '2025-06-30', 'Agent X', '+33 987 654 321', 100000000, 50000000, NULL, 'benzema.jpg'),  
+
+('Lionel', 'Messi', '1987-06-24', 'Argentina', 'Rosario', 'messi@example.com', '+54 234 567 890', 'instagram.com/leomessi', 'Forward', 'Attacking Midfielder', 10, 'Left', 'FC Barcelona', 672, 268, 778, 1.70, 72.0, 24.9, 95, NULL, '2020-07-01', '2023-06-30', 'Agent Y', '+54 876 543 210', 700000000, 120000000, NULL, 'messi.jpg'),  
+
+('Cristiano', 'Ronaldo', '1985-02-05', 'Portugal', 'Madeira', 'cr7@example.com', '+351 345 678 901', 'instagram.com/cristiano', 'Forward', 'Winger', 7, 'Right', 'Manchester United', 800, 250, 1100, 1.87, 83.0, 23.7, 98, NULL, '2021-07-01', '2024-06-30', 'Agent Z', '+351 543 210 987', 500000000, 150000000, NULL, 'ronaldo.jpg');
+
+
+INSERT INTO _match (Nombre_spectateur, date_match, time_match, Nom_match, id_equipe1, id_equipe2)  
+VALUES  
+(80000, '2025-04-10', '20:00:00', 'El Clásico', 1, 2),  
+(75000, '2025-04-15', '19:45:00', 'Champions League Semi-Final', 2, 3),  
+(70000, '2025-04-20', '21:00:00', 'Premier League Clash', 3, 1);
