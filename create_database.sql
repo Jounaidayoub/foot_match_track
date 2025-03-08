@@ -59,3 +59,16 @@ CREATE TABLE players (
     player_photo VARCHAR(255)
 );
 
+CREATE TABLE _match (
+    id_match INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_spectateur INT DEFAULT NULL,
+    date_match DATE NOT NULL,
+    time_match TIME NOT NULL,
+    Nom_match VARCHAR(50) DEFAULT NULL,
+    id_equipe1 INT NOT NULL,
+    id_equipe2 INT NOT NULL,
+    FOREIGN KEY (id_equipe1) REFERENCES teams(id),
+    FOREIGN KEY (id_equipe2) REFERENCES teams(id)
+);
+
+
