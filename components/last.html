@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Player Stats Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+        <input type="radio" name="tabs" id="tab2" class="tab-input">
+        
+        <div class="tabs">
+            <label for="tab1" class="tab-label tab1-label">Value History</label>
+            <label for="tab2" class="tab-label tab2-label">Career Stats</label>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tab-content tab1-content">
+                <div class="graph">
+                    <svg viewBox="0 0 500 300" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.4" />
+                                <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Area fill -->
+                        <path class="graph-area" 
+                              d="M50,250 L50,200 L130,180 L210,150 L290,100 L370,70 L450,50 L450,250 Z" />
+                        
+                        <!-- Line -->
+                        <path class="graph-line" 
+                              d="M50,200 L130,180 L210,150 L290,100 L370,70 L450,50" />
+                        
+                        <!-- Data points and labels -->
+                        <circle class="data-point" cx="50" cy="200" r="6" />
+                        <text class="value-label" x="50" y="180">€15M</text>
+                        
+                        <circle class="data-point" cx="130" cy="180" r="6" />
+                        <text class="value-label" x="130" y="160">€25M</text>
+                        
+                        <circle class="data-point" cx="210" cy="150" r="6" />
+                        <text class="value-label" x="210" y="130">€45M</text>
+                        
+                        <circle class="data-point" cx="290" cy="100" r="6" />
+                        <text class="value-label" x="290" y="80">€65M</text>
+                        
+                        <circle class="data-point" cx="370" cy="70" r="6" />
+                        <text class="value-label" x="370" y="50">€85M</text>
+                        
+                        <circle class="data-point" cx="450" cy="50" r="6" />
+                        <text class="value-label" x="450" y="30">€95M</text>
+                        
+                        <!-- Year labels -->
+                        <text x="50" y="270" fill="#a1a1aa" text-anchor="middle">2018</text>
+                        <text x="130" y="270" fill="#a1a1aa" text-anchor="middle">2019</text>
+                        <text x="210" y="270" fill="#a1a1aa" text-anchor="middle">2020</text>
+                        <text x="290" y="270" fill="#a1a1aa" text-anchor="middle">2021</text>
+                        <text x="370" y="270" fill="#a1a1aa" text-anchor="middle">2022</text>
+                        <text x="450" y="270" fill="#a1a1aa" text-anchor="middle">2023</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="tab-content tab2-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="team-name">Ajax</div>
+                        <div class="team-year">2018-2020</div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Goals</div>
+                                <div class="stat-value">28</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Assists</div>
+                                <div class="stat-value">15</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Apps</div>
+                                <div class="stat-value">72</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="team-name">Borussia Dortmund</div>
+                        <div class="team-year">2020-2022</div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Goals</div>
+                                <div class="stat-value">35</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Assists</div>
+                                <div class="stat-value">22</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Apps</div>
+                                <div class="stat-value">89</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="team-name">Manchester City</div>
+                        <div class="team-year">2022-Present</div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Goals</div>
+                                <div class="stat-value">42</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Assists</div>
+                                <div class="stat-value">18</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Apps</div>
+                                <div class="stat-value">62</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
