@@ -1,24 +1,9 @@
 <?php
 session_start();
 require '../includes/db.php';
-//get the closest non played matches
-function getClosestMatch(){
-    global $bd;
-    $sql = "SELECT id_match, Nom_match, date_match, time_match, t1.team_name AS team1_name, t1.logo_path AS team1_logo, t2.team_name AS team1_name, t2.logo_path AS team2_logo
-            FROM _match JOIN teams t1, teams t2 where id_equipe1=t1.id and id_equipe2=t2.id
-            AND 
-                (date_match > CURRENT_DATE) 
-                OR (date_match = CURRENT_DATE AND time_match > CURRENT_TIME)
-            ORDER BY date_match ASC, time_match ASC
-            LIMIT 1;";
-    $stmt = $bd->query($sql);
-    $stmt->execute();
-    $match = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $match;
-}
 
 //get the latest played matches
-function getLatestMatches(){
+function getLatestMatches($limit = 10){
     global $bd;
     //create a view of the latest matches
     $LatestMatchesView = " CREATE OR REPLACE VIEW latest_matches AS SELECT DISTINCT 
@@ -59,7 +44,7 @@ function getLatestMatches(){
             ";
     $bd->query($matchInfo)->execute();
 
-    $stmt = $bd->query("SELECT * FROM match_info");
+    $stmt = $bd->query("SELECT * FROM match_info limit $limit");
 
     $matches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -68,10 +53,26 @@ function getLatestMatches(){
 
     return $matches;
 }
-$closestMatch = getClosestMatch();
-$latestMatches = getLatestMatches();
 
-$comingMatches = [];
+function getComingMatches($limit = 10){
+    global $bd;
+    $comingSql = "SELECT id_match, Nom_match, date_match, time_match,  t1.id AS id_team1, t1.team_name AS team1_name, t1.logo_path AS team1_logo,t1.id AS id_team2, t2.team_name AS team2_name, t2.logo_path AS team2_logo
+            FROM _match JOIN teams t1, teams t2 where id_equipe1=t1.id and id_equipe2=t2.id
+            AND 
+                (date_match > CURRENT_DATE) 
+                OR (date_match = CURRENT_DATE AND time_match > CURRENT_TIME)
+            ORDER BY date_match ASC, time_match ASC limit $limit
+            ";
+    $comingStmt = $bd->query($comingSql);
+    $comingStmt->execute();
+    $matches = $comingStmt->fetchAll(PDO::FETCH_ASSOC);
+    return $matches;
+}
+
+$comingMatches = getComingMatches();
+$closestMatch = $comingMatches[0];
+$latestMatches = getLatestMatches(10);
+
 ?>
 
 <!DOCTYPE html>
@@ -194,41 +195,39 @@ function getLatestMatches(){
 <main class="container">
   <header class="header">
     <h1 class="title">⚽ Football Match</h1>
-    <nav class="menu">
-      <div class="menu-line">
-        <div class="line-bg"></div>
-        <div class="line-active"></div>
-      </div>
       <ul class="menu-items">
-        <li class="menu-item active" onclick="show('latest-matches')">Latest Match</li>
-        <li class="menu-item"  onclick="show('coming-matches')">Coming Match</li>
+        <li class="menu-item active" onclick="show('latest-matches', event)" >Latest Match</li>
+        <li class="menu-item"  onclick="show('coming-matches', event)" >Coming Match</li>
         <li class="menu-item">Pre-season</li>
       </ul>
-    </nav>
   </header>
 
   <!-- latest matches -->
-  <section class="matches" id="latest-matches">
+  <section class="matches " id="latest-matches">
     <?php foreach($latestMatches as $match): ?>
     <article class="match">
       <div class="team-section">
-        <div class="team">
+
+        <a href="../teams/<?= $match["id_team1"]?>" class="team">
           <img
             src="../assets/<?= $match["team1_logo"]?>"
             alt="<?= $match["team1_name"]?>"
             class="team-flag"
           />
           <h2 class="team-name"><?= $match["team1_name"]?></h2>
-        </div>
+        </a>
+
         <div class="score"><?=isset($match["butes_team1"]) ? $match["butes_team1"] : ""?> - <?=isset($match["butes_team1"]) ? $match["butes_team2"] : ""?></div>
-        <div class="team right">
+        
+        <a href="../teams/<?= $match["id_team2"]?>" class="team right">
           <h2 class="team-name right"><?= $match["team2_name"]?></h2>
           <img
             src="../assets/<?= $match["team2_logo"]?>"
             alt="<?= $match["team2_name"]?>"
             class="team-flag"
           />
-        </div>
+        </a>
+
       </div>
       <div class="match-status">Full - Time</div>
       <div class="match-info">
@@ -274,26 +273,31 @@ function getLatestMatches(){
   <!-- coming matches -->
   <section class="matches hidden" id="coming-matches">
     
-    <?php foreach($comingMatches as $match): ?>
+    <?php
+     foreach($comingMatches as $match): 
+     ?>
     <article class="match">
       <div class="team-section">
-        <div class="team">
+        <a href="../teams/<?= $match["id_team1"]?>" class="team" >
           <img
             src="../assets/<?= $match["team1_logo"]?>"
             alt="<?= $match["team1_name"]?>"
             class="team-flag"
           />
           <h2 class="team-name"><?= $match["team1_name"]?></h2>
-        </div>
-        <div class="score"><?=$match["butes_team1"]?> - <?=$match["butes_team2"]?></div>
-        <div class="team right">
+        </a>
+
+        <div class="score"></div>
+
+        <a href="../teams/<?= $match["id_team2"]?>" class="team right">
           <h2 class="team-name right"><?= $match["team2_name"]?></h2>
           <img
             src="../assets/<?= $match["team2_logo"]?>"
             alt="<?= $match["team2_name"]?>"
             class="team-flag"
           />
-        </div>
+     </a>
+
       </div>
       <div class="match-status">Full - Time</div>
       <div class="match-info">
@@ -339,13 +343,24 @@ function getLatestMatches(){
 
 
 <script>
-    function show(id){
-        console.log(id)
+
+    function show(id, event){
         document.querySelectorAll(".matches").forEach((elm)=>{
             elm.classList.add("hidden");
         })
         document.getElementById(id).classList.remove("hidden");
+        // change <li> style
+        setActive(event)
     }
+
+    //set the <li> to be active(just change the style so it's shown as if it's selected)
+    function setActive(event){
+        document.querySelectorAll(".active").forEach((elm)=>{
+            elm.classList.remove("active");
+        })
+        event.target.classList.add("active");
+    }
+
 </script>
 </body>
 </html>

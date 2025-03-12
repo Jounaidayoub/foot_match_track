@@ -329,10 +329,14 @@
     font-weight: 400;
     cursor: pointer;
     color: #fff;
+    padding-top: 1em;
+    transition: all ease 300ms;
+    border: none;
   }
   
   .menu-item.active {
     color: #5742a9;
+    border-top: 3px solid #5742a9;
   }
   
   .matches {
@@ -362,6 +366,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    text-decoration: none;
   }
   
   .team.right {
