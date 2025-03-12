@@ -119,3 +119,13 @@ INSERT INTO but (id_match, id_team, id_buteur, id_assisteur, minute) VALUES
 (3, 3, 2, NULL, 73)
 
 
+create table users(
+ id INT primary key auto_increment, 
+nom varchar(50),
+email varchar(100),
+password varchar(100),
+role char(1)
+);
+
+insert into users values(1 ,'Alice Dupont' ,'alice@example.com' ,'1' ,'g');
+insert into users values (2 ,'Thomas Bernard' ,'thomas@example.com' ,'motdepasse3' ,'t');
