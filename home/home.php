@@ -59,8 +59,7 @@ function getLatestMatches(){
             ";
     $bd->query($matchInfo)->execute();
 
-    // $stmt = $bd->query("SELECT * FROM match_info");
-    $stmt = $bd->query("SELECT * FROM latest_matches");
+    $stmt = $bd->query("SELECT * FROM match_info");
 
     $matches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -102,13 +101,13 @@ $comingMatches = [];
         alt="Live match stream"
       /> -->
 
-    <img src="<?= $closestMatch["team1_logo"]?>" alt="">
+    <img src="../assets/<?= $closestMatch["team1_logo"]?>" alt="">
       <div class="info">
-        <h2 class="info-match-name"><?=$closestMatch["Nom_match"]?></h2>
-        <h2 class="info-match-date"><?=$closestMatch["date_match"]?></h2>
-        <h2 class="info-match-time"><?=$closestMatch["time_match"]?></h2>
+        <h2 class="info-match-name"><?= $closestMatch ? $closestMatch["Nom_match"] : ''?></h2>
+        <h2 class="info-match-date"><?= $closestMatch ? $closestMatch["date_match"] : ''?></h2>
+        <h2 class="info-match-time"><?= $closestMatch ? $closestMatch["time_match"] : ''?></h2>
       </div>
-      <img src="<?= $closestMatch["team2_logo"]?>" alt="">
+      <img src="../assets/<?= $closestMatch["team2_logo"]?>" alt="">
     </section>
     <section class="stats-section">
       <article class="stats-card">
@@ -118,14 +117,14 @@ $comingMatches = [];
         </header>
         <section class="teams-score">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/731d07c0b7fb62dd7e9763bbfec59873cc9a44737ff1cfd1002c87cb78e7895f?placeholderIfAbsent=true&apiKey=b69a661c5a894991ba35079be4d28be0"
-            class="team-logo"
+            src="../assets/<?=$latestMatches[0]["team1_logo"]?>"
+          class="team-logo"
             alt="Home team logo"
           />
           <p class="score-display">2 - 2</p>
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/029656b72b111a69c0be1a672e290cff6f48b1492df58713a24cebb38a19c170?placeholderIfAbsent=true&apiKey=b69a661c5a894991ba35079be4d28be0"
-            class="team-logo"
+          src="../assets/<?=$latestMatches[0]["team2_logo"]?>"
+          class="team-logo"
             alt="Away team logo"
           />
         </section>
