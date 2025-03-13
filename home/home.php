@@ -208,7 +208,7 @@ function getLatestMatches(){
     <article class="match">
       <div class="team-section">
 
-        <a href="../teams/<?= $match["id_team1"]?>" class="team">
+        <a href="../teams/team-info.php?idTeam=<?= $match["id_team1"]?>" class="team">
           <img
             src="../assets/<?= $match["team1_logo"]?>"
             alt="<?= $match["team1_name"]?>"
@@ -219,7 +219,7 @@ function getLatestMatches(){
 
         <div class="score"><?=isset($match["butes_team1"]) ? $match["butes_team1"] : ""?> - <?=isset($match["butes_team1"]) ? $match["butes_team2"] : ""?></div>
         
-        <a href="../teams/<?= $match["id_team2"]?>" class="team right">
+        <a href="../teams/team-info.php?idTeam=<?= $match["id_team2"]?>" class="team right">
           <h2 class="team-name right"><?= $match["team2_name"]?></h2>
           <img
             src="../assets/<?= $match["team2_logo"]?>"
@@ -278,7 +278,7 @@ function getLatestMatches(){
      ?>
     <article class="match">
       <div class="team-section">
-        <a href="../teams/<?= $match["id_team1"]?>" class="team" >
+        <a href="../teams/team-info.php?idTeam=<?= $match["id_team1"]?>" class="team" >
           <img
             src="../assets/<?= $match["team1_logo"]?>"
             alt="<?= $match["team1_name"]?>"
@@ -289,7 +289,7 @@ function getLatestMatches(){
 
         <div class="score"></div>
 
-        <a href="../teams/<?= $match["id_team2"]?>" class="team right">
+        <a href="../teams/team-info.php?idTeam=<?= $match["id_team2"]?>" class="team right">
           <h2 class="team-name right"><?= $match["team2_name"]?></h2>
           <img
             src="../assets/<?= $match["team2_logo"]?>"
