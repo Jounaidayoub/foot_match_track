@@ -356,3 +356,28 @@ insert into staff values(2, "FIE", "Jamal", "Assistant Coach",'', '2020-03-01', 
 insert into staff values(3, "Hmdsi", "Said", "Team Manager", '', '2020-03-01', '2033-02-01',8, 128);
 
 
+create table composer(
+id_composer int primary key auto_increment,
+id_player int,
+id_team int,
+id_position int ,
+d_debut date,
+d_fin date,
+num_maillot int,
+foreign key(id_position) references player_position(id),
+foreign key(id_team) references teams(id),
+foreign key(id_player) references players(id)
+);
+
+
+insert into composer(id_player, id_team,id_position, d_debut,d_fin,num_maillot)
+values(1,5,4,'2020-03-01','2025-02-10' ,9),
+(2,6,1,'2020-03-01','2025-02-10' ,6),
+(3,8,3,'2020-03-01','2025-02-10' ,1),
+(4,9,2,'2020-03-01','2025-02-10' ,15),
+(5,10,1,'2020-03-01','2025-02-10' ,20),
+(6,8,2,'2020-03-01','2025-02-10' ,23),
+(7,8,1,'2020-03-01','2025-02-10' ,1),
+(8,8,3,'2020-03-01','2025-02-10' ,18);
+
+

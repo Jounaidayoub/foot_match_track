@@ -31,16 +31,24 @@ require '../includes/db.php';
     // players
     /** TO DO: get players by team id 
     */
-    function getPlayersByPosition(){
+    function getPlayersByPosition($idTeam){
         global $bd;
-        $sql = " SELECT position_name , first_name, last_name, country_name, alpha2_code  FROM player_position join players on players.id_position = player_position.id
-                 left join countries on players.id_country = countries.id order by player_position.position_name ";
-        $result = $bd->query($sql);
+        $sql = " SELECT position_name , first_name, last_name, country_name, alpha2_code  
+                FROM players JOIN composer on players.id = composer.id_player
+                JOIN teams on composer.id_team = teams.id
+                JOIN player_position on composer.id_position = player_position.id 
+                left join countries on players.id_country = countries.id 
+                where composer.id_team = :idTeam
+                order by player_position.position_name 
+                ";
+        $pst = $bd->prepare($sql);
+        $pst->bindValue("idTeam", $idTeam);
+        $pst->execute();
 
         $players_by_position = [];
 
         // if ($result->num_rows > 0) {
-            while ($row = $result->fetch()) {
+            while ($row = $pst->fetch(PDO::FETCH_ASSOC)) {
                 $players_by_position[$row['position_name']][] = $row;
             }
         // }
@@ -48,7 +56,7 @@ require '../includes/db.php';
         return $players_by_position;
     }
 
-    $players_by_position = getPlayersByPosition();
+    $players_by_position = getPlayersByPosition($id);
     // print_r($staff);
     // print_r($team);
 ?>
