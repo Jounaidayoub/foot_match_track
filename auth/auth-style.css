@@ -1,0 +1,256 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Universal selector to apply styles to all elements */
+* {
+  font-family: "poppins", sans-serif; /* Setting the font family */
+  margin: 12; /* Removing default margin */
+  padding: 0; /* Removing default padding */
+  box-sizing: border-box; /* Including padding and border in the element's total width and height */
+}
+
+/* Styling the body element */
+body {
+    background-color: #212227; /* Setting background color */
+    background: linear-gradient(to right, #212227, #212227); /* Applying a linear gradient background */
+    display: flex; /* Using flexbox for layout */
+    justify-content: center; /* Centering content horizontally */
+    align-items: center; /* Centering content vertically */
+    flex-direction: column; /* Arranging children in a column */
+    height: 100vh; /* Setting height to 100% of the viewport height */
+}
+
+/* Styling the main container */
+.container {
+    background-color: #26282e; /* Setting background color */
+    border-radius: 30px; /* Rounding the corners */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.35); /* Adding a shadow effect */
+    position: relative; /* Setting position to relative */
+    overflow: hidden; /* Hiding overflow content */
+    width: 768px; /* Setting width */
+    max-width: 100%; /* Setting maximum width */
+    min-height: 480px; /* Setting minimum height */
+}
+
+/* Styling paragraphs inside the container */
+.container p {
+    font-size: 14px; /* Setting font size */
+    line-height: 20px; /* Setting line height */
+    letter-spacing: 0.3px; /* Setting letter spacing */
+    margin: 20px 0; /* Setting margin */
+}
+
+/* Styling spans inside the container */
+.container span {
+    font-size: 13px; /* Setting font size */
+}
+
+/* Styling links inside the container */
+.container a {
+    color: #D6A243; /* Setting text color */
+    font-size: 13px; /* Setting font size */
+    text-decoration: none; /* Removing underline */
+    margin: 15px 0 10px; /* Setting margin */
+}
+
+/* Styling buttons inside the container */
+.container button {
+    background-color: #D6A243; /* Setting background color */
+    color: #fff; /* Setting text color */
+    font-size: 12px; /* Setting font size */
+    padding: 10px 45px; /* Setting padding */
+    border: 1px solid transparent; /* Setting border */
+    border-radius: 8px; /* Rounding the corners */
+    font-weight: 600; /* Setting font weight */
+    letter-spacing: 0.5px; /* Setting letter spacing */
+    text-transform: uppercase; /* Transforming text to uppercase */
+    margin-top: 10px; /* Setting top margin */
+    cursor: pointer; /* Changing cursor to pointer */
+}
+
+/* Styling hidden buttons inside the container */
+.container button.hidden {
+    background-color: transparent; /* Setting background color */
+    border-color: #fff; /* Setting border color */
+    width: 50%; /* Setting width */
+    margin-left: 80px; 
+    
+}
+
+/* Styling forms inside the container */
+.container form {
+    background-color: #26282e; /* Setting background color */
+    display: flex; /* Using flexbox for layout */
+    justify-content: center; /* Centering content horizontally */
+    align-items: center; /* Centering content vertically */
+    flex-direction: column; /* Arranging children in a column */
+    padding: 0 40px; /* Setting padding */
+    height: 100%; /* Setting height */
+    color: white;
+}
+
+
+
+
+
+/* Styling input fields inside the container */
+.container input {
+   
+    background: transparent;
+    color: white;
+    border: 1px solid white ;
+    /* border-color: #D6A243;  */
+    /* Setting border */
+    /* background-color: none; Setting background color */
+    /* border-color :#D6A243 ; Removing border */
+    margin: 8px 0; /* Setting margin */
+    padding: 10px 15px; /* Setting padding */
+    font-size: 13px; /* Setting font size */
+    border-radius: 12px; /* Rounding the corners */
+    width: 100%; /* Setting width */
+    outline: none;
+    
+    
+    
+    /* width: 50%; Setting width */
+    /* margin-left: 80px; Setting left margin */
+}
+
+/* Styling form containers */
+.form-container {
+    position: absolute; /* Setting position to absolute */
+    top: 0; /* Setting top position */
+    height: 100%; /* Setting height */
+    transition: all 0.6s ease-in-out; /* Adding transition effect */
+}
+
+/* Styling sign-in form */
+.sign-in {
+    left: 0; /* Setting left position */
+    width: 50%; /* Setting width */
+    z-index: 2; /* Setting z-index */
+}
+
+/* Styling active sign-in form */
+.container.active .sign-in {
+    transform: translateX(100%); /* Moving element to the right */
+}
+
+/* Styling sign-up form */
+.sign-up {
+    left: 0; /* Setting left position */
+    width: 50%; /* Setting width */
+    opacity: 0; /* Setting opacity */
+    z-index: 1; /* Setting z-index */
+}
+
+/* Styling active sign-up form */
+.container.active .sign-up {
+    transform: translateX(100%); /* Moving element to the right */
+    opacity: 1; /* Setting opacity */
+    z-index: 5; /* Setting z-index */
+    animation: move 0.6s; /* Adding animation */
+}
+
+/* Keyframes for move animation */
+@keyframes move {
+    0%, 49.99% {
+        opacity: 0; /* Setting opacity */
+        z-index: 1; /* Setting z-index */
+    }
+    50%, 100% {
+        opacity: 1; /* Setting opacity */
+        z-index: 5; /* Setting z-index */
+    }
+}
+
+/* Styling social icons container */
+.social-icons {
+    margin: 20px 0; /* Setting margin */
+}
+
+/* Styling social icons */
+.social-icons a {
+    border: 1px solid #ccc; /* Setting border */
+    border-radius: 20%; /* Rounding the corners */
+    display: inline-flex; /* Using inline-flex for layout */
+    justify-content: center; /* Centering content horizontally */
+    align-items: center; /* Centering content vertically */
+    margin: 0 3px; /* Setting margin */
+    width: 40px; /* Setting width */
+    height: 40px; /* Setting height */
+}
+
+/* Styling toggle container */
+.toggle-container {
+    position: absolute; /* Setting position to absolute */
+    top: 0; /* Setting top position */
+    left: 50%; /* Setting left position */
+    width: 50%; /* Setting width */
+    height: 100%; /* Setting height */
+    overflow: hidden; /* Hiding overflow content */
+    transition: all 0.6s ease-in-out; /* Adding transition effect */
+    border-radius: 150px 0 0 100px; /* Rounding the corners */
+    z-index: 1000; /* Setting z-index */
+}
+
+/* Styling active toggle container */
+.container.active .toggle-container {
+    transform: translateX(-100%); /* Moving element to the left */
+    border-radius: 0 150px 100px 0; /* Rounding the corners */
+}
+
+/* Styling toggle */
+.toggle {
+    background-color: #D6A243 ; /* Setting background color */
+    height: 100%; /* Setting height */
+    background: linear-gradient(to right, #D6A243, #D6A243); /* Applying a linear gradient background */
+    color: #fff; /* Setting text color */
+    position: relative; /* Setting position to relative */
+    left: -100%; /* Setting left position */
+    height: 100%; /* Setting height */
+    width: 200%; /* Setting width */
+    transform: translateX(0); /* Setting transform */
+    transition: all 0.6s ease-in-out; /* Adding transition effect */
+}
+
+/* Styling active toggle */
+.container.active .toggle {
+    transform: translateX(50%); /* Moving element to the right */
+}
+
+/* Styling toggle panels */
+.toggle-panel {
+    position: absolute; /* Setting position to absolute */
+    width: 50%; /* Setting width */
+    height: 100%; /* Setting height */
+    display: flex; /* Using flexbox for layout */
+    justify-content: center; /* Centering content horizontally */
+    flex-direction: column; /* Arranging children in a column */
+    padding: 0 30px; /* Setting padding */
+    text-align: center; /* Centering text */
+    top: 0; /* Setting top position */
+    transform: translateX(0); /* Setting transform */
+    transition: all 0.6s ease-in-out; /* Adding transition effect */
+}
+
+/* Styling left toggle panel */
+.toggle-left {
+    transform: translateX(-200%); /* Moving element to the left */
+}
+
+/* Styling active left toggle panel */
+.container.active .toggle-left {
+    transform: translateX(0); /* Moving element to the original position */
+}
+
+/* Styling right toggle panel */
+.toggle-right {
+    right: 0; /* Setting right position */
+    transform: translateX(0); /* Setting transform */
+}
+
+/* Styling active right toggle panel */
+.container.active .toggle-right {
+    transform: translateX(200%); /* Moving element to the right */
+}

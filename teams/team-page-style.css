@@ -25,21 +25,6 @@ body{
 
 /* utility Classes */
 
-/* badge */
-.badge{
-    background-color: var(--third-clr);
-    padding: .2em .6em .3em;
-    font-size: 65%;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    border-radius: .25em;
-    margin: 0 0 auto auto;
-}
-
 /* Tooltip */
 /* use data-tooltip to write your tooltip content */
 .tooltiped::after{
@@ -82,7 +67,6 @@ body{
 
 /* Start */
 .header{
-    margin-top: 1em;
     display: flex;
     align-items: start;
     gap: 24px;
@@ -268,7 +252,6 @@ a{
     width: 330px;
     border: 1.5px solid var(--light-grey);
     transition: var(--transition);
-    position: relative;
 }
 .staff-card:hover{
     background-color: #a4a4a458;
