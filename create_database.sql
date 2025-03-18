@@ -72,51 +72,19 @@ CREATE TABLE _match (
 );
 
 
-INSERT INTO teams (team_name, founded_year, country, city, logo_path, primary_color, secondary_color, home_stadium, stadium_capacity, website, email, phone, address, head_coach, assistant_coach, team_manager, physiotherapist, history)  
-VALUES  
-('Real Madrid', 1902, 'Spain', 'Madrid', 'real_madrid_logo.png', '#FFFFFF', '#000000', 'Santiago Bernabéu', 81044, 'https://www.realmadrid.com', 'contact@realmadrid.com', '+34 123 456 789', 'Madrid, Spain', 'Carlo Ancelotti', 'Davide Ancelotti', 'José Ángel Sánchez', 'Dr. Juan Muro', 'One of the most successful clubs in history'),  
-
-('FC Barcelona', 1899, 'Spain', 'Barcelona', 'barcelona_logo.png', '#A50044', '#004D98', 'Camp Nou', 99354, 'https://www.fcbarcelona.com', 'contact@fcbarcelona.com', '+34 987 654 321', 'Barcelona, Spain', 'Xavi Hernandez', 'Óscar Hernández', 'Mateu Alemany', 'Dr. Ricard Pruna', 'A club with a rich footballing culture'),  
-
-('Manchester United', 1878, 'England', 'Manchester', 'manutd_logo.png', '#DA291C', '#FFE500', 'Old Trafford', 74879, 'https://www.manutd.com', 'contact@manutd.com', '+44 161 868 8000', 'Manchester, UK', 'Erik ten Hag', 'Mitchell van der Gaag', 'John Murtough', 'Dr. Steve McNally', 'A club with a deep Premier League history');
-
-INSERT INTO players (first_name, last_name, birth_date, nationality, birth_place, email, phone, social_media, position, secondary_position, jersey_number, preferred_foot, team, goals, assists, appearances, height, weight, bmi, fitness_level, medical_conditions, contract_start, contract_end, agent_name, agent_contact, release_clause, market_value, contract_notes, player_photo)  
-VALUES  
-('Karim', 'Benzema', '1987-12-19', 'France', 'Lyon', 'karim@example.com', '+33 123 456 789', 'instagram.com/karimbenzema', 'Striker', 'Winger', 9, 'Right', 'Real Madrid', 230, 120, 600, 1.85, 81.5, 23.8, 90, NULL, '2021-07-01', '2025-06-30', 'Agent X', '+33 987 654 321', 100000000, 50000000, NULL, 'benzema.jpg'),  
-
-('Lionel', 'Messi', '1987-06-24', 'Argentina', 'Rosario', 'messi@example.com', '+54 234 567 890', 'instagram.com/leomessi', 'Forward', 'Attacking Midfielder', 10, 'Left', 'FC Barcelona', 672, 268, 778, 1.70, 72.0, 24.9, 95, NULL, '2020-07-01', '2023-06-30', 'Agent Y', '+54 876 543 210', 700000000, 120000000, NULL, 'messi.jpg'),  
-
-('Cristiano', 'Ronaldo', '1985-02-05', 'Portugal', 'Madeira', 'cr7@example.com', '+351 345 678 901', 'instagram.com/cristiano', 'Forward', 'Winger', 7, 'Right', 'Manchester United', 800, 250, 1100, 1.87, 83.0, 23.7, 98, NULL, '2021-07-01', '2024-06-30', 'Agent Z', '+351 543 210 987', 500000000, 150000000, NULL, 'ronaldo.jpg');
-
-
-INSERT INTO _match (Nombre_spectateur, date_match, time_match, Nom_match, id_equipe1, id_equipe2)  
-VALUES  
-(80000, '2025-04-10', '20:00:00', 'El Clásico', 1, 2),  
-(75000, '2025-04-15', '19:45:00', 'Champions League Semi-Final', 2, 3),  
-(70000, '2025-04-20', '21:00:00', 'Premier League Clash', 3, 1);
-
-
 -- but
 create table but(
-id_but int primary key AUTO_INCREMENT,
-id_match int NOT NULL,
-id_team int NOT NULL,
-id_buteur int NOT NULL,
-id_assisteur int,
-minute int,
-foreign key(id_match) references _match(id_match),
-foreign key(id_team) references teams(id),
-foreign key(id_buteur) references players(id),
-foreign key(id_assisteur) references players(id)
+    id_but int primary key AUTO_INCREMENT,
+    id_match int NOT NULL,
+    id_team int NOT NULL,
+    id_buteur int NOT NULL,
+    id_assisteur int,
+    minute int,
+    foreign key(id_match) references _match(id_match),
+    foreign key(id_team) references teams(id),
+    foreign key(id_buteur) references players(id),
+    foreign key(id_assisteur) references players(id)
 );
-
-INSERT INTO but (id_match, id_team, id_buteur, id_assisteur, minute) VALUES
-(1, 2, 1, 2, 12),  -- Goal in match 1, scored by player 5 (team 2), assisted by player 8 in the 12th minute
-(1, 1, 3, NULL, 27), -- Goal in match 1, scored by player 3 (team 1), no assist in the 27th minute
-(2, 3, 2, 2, 34),  -- Goal in match 2, scored by player 7 (team 4), assisted by player 2 in the 34th minute
-(2, 2, 1, NULL, 45), 
-(3, 1, 1, 3, 50), 
-(3, 3, 2, NULL, 73)
 
 
 create table users(
@@ -127,8 +95,12 @@ password varchar(100),
 role char(1)
 );
 
-insert into users values(1 ,'Alice Dupont' ,'alice@example.com' ,'1' ,'g');
-insert into users values (2 ,'Thomas Bernard' ,'thomas@example.com' ,'motdepasse3' ,'t');
+
+CREATE TABLE countries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(100) NOT NULL,
+    alpha2_code CHAR(2) NOT NULL UNIQUE
+);
 
 
 -- staff
@@ -145,16 +117,24 @@ id_country int,
 foreign key(id_team) references teams(id),
 foreign key(id_country) references countries(id)
 );
-insert into staff values(1, "Elsiss", "Hamid", "Coach",'', '2020-03-01', '2033-02-01',8);
-insert into staff values(2, "FIE", "Jamal", "Assistant Coach",'', '2020-03-01', '2033-02-01',8);
-insert into staff values(3, "Hmdsi", "Said", "Team Manager", '', '2020-03-01', '2033-02-01',8);
 
 
-CREATE TABLE countries (
+CREATE TABLE player_position (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    alpha2_code CHAR(2) NOT NULL UNIQUE
+    position_name VARCHAR(50) NOT NULL UNIQUE
 );
+
+
+alter table players add column id_position int;
+alter table players add FOREIGN key (id_position) references player_position(id);
+
+
+ALTER TABLE `players` ADD `id_country` INT AFTER `player_photo`; 
+ALTER TABLE `players` ADD FOREIGN KEY(id_country) REFERENCES countries(id);
+
+
+
+
 
 INSERT INTO countries (name, alpha2_code) VALUES
     ('Afghanistan', 'AF'),
@@ -293,21 +273,86 @@ INSERT INTO countries (name, alpha2_code) VALUES
     ('Zambia', 'ZM'),
     ('Zimbabwe', 'ZW');
 
-
-
-ALTER TABLE `players` ADD `id_country` INT AFTER `player_photo`; 
-ALTER TABLE `players` ADD FOREIGN KEY(id_country) REFERENCES countries(id);
-
-CREATE TABLE player_position (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    position_name VARCHAR(50) NOT NULL UNIQUE
-);
-
-INSERT INTO player_position (name) VALUES
+INSERT INTO player_position (position_name) VALUES
     ('Goalkeeper'),
     ('Defender'),
     ('Midfielder'),
     ('Attacker');
 
-alter table players add column id_position int;
-alter table players add FOREIGN key (id_position) references player_position(id);
+
+INSERT INTO `teams` (`id`, `team_name`, `founded_year`, `country`, `city`, `logo_path`, `primary_color`, `secondary_color`, `home_stadium`, `stadium_capacity`, `website`, `email`, `phone`, `address`, `head_coach`, `assistant_coach`, `team_manager`, `physiotherapist`, `history`) VALUES
+(5, 'AS Sale', 0, 'Morocco', 'Sale', 'teams_logos/AS_Sale.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'Difaa Hassani El Jadidi', 0, 'Morocco', 'El Jadida', 'teams_logos/Difaa_Hassani_El_Jadidi.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'FAR Rabat', 0, 'Morocco', 'Rabat', 'teams_logos/FAR_Rabat.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'FUS Rabat', 0, 'Morocco', 'Rabat', 'teams_logos/FUS_Rabat.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'Hassania Agadir', 0, 'Morocco', 'Agadir', 'teams_logos/Hassania_Agadir.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'IR Tanger', 0, 'Morocco', 'Tanger', 'teams_logos/IR_Tanger.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'Maghreb Fez', 0, 'Morocco', 'Fez', 'teams_logos/Maghreb_Fez.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'Moghreb Tetouan', 0, 'Morocco', 'Tetouan', 'teams_logos/Moghreb_Tetouan.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 'Chabab Mohammedia', 0, 'Morocco', 'Mohammedia', 'teams_logos/mohammedia.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 'Mouloudia Oujda', 0, 'Morocco', 'Oujda', 'teams_logos/Mouloudia_Oujda.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 'Olympic Club Safi', 0, 'Morocco', 'Safi', 'teams_logos/Olympic_Club_Safi.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, 'Racing de Casablanca', 0, 'Morocco', 'Casablanca', 'teams_logos/Racing_de_Casablanca.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 'Raja Casablanca', 0, 'Morocco', 'Casablanca', 'teams_logos/Raja_Casablanca.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, 'Rapide Oued Zem', 0, 'Morocco', 'Oued Zem', 'teams_logos/Rapide_Oued_Zem.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 'Riadi Salmi', 0, 'Morocco', 'Salmi', 'teams_logos/Riadi_Salmi.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, 'RS Berkane', 0, 'Morocco', 'Berkane', 'teams_logos/RS_Berkane.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(21, 'US Touarga', 0, 'Morocco', 'Touarga', 'teams_logos/US_Touarga.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(22, 'Wydad Casablanca', 0, 'Morocco', 'Casablanca', 'teams_logos/Wydad_Casablanca.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, 'Youssoufia Berrechid', 0, 'Morocco', 'Berrechid', 'teams_logos/Youssoufia_Berrechid.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(24, 'Nehda', 2025, 'Morocco', 'Mohammedia', '', '#00ffff', '#2563eb', 'Eljf', 23521, 'http://www.sldkqj.com', 'lqkjsdf@jle', '3292325', 'lksjqfmlksdjfk qsmflkqs flkqjds fls', 'abc', 'abc', 'abc', 'abc', 'abc abc abcv vabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc'),
+(25, 'Difaa Hassani El Jadidi', 2000, 'Morocco', 'Jedida', 'teams_logos/Difaa_Hassani_El_Jadidi.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+--
+INSERT INTO `players` (`id`, `first_name`, `last_name`, `birth_date`, `nationality`, `birth_place`, `email`, `phone`, `social_media`, `secondary_position`, `jersey_number`, `preferred_foot`, `team`, `goals`, `assists`, `appearances`, `height`, `weight`, `bmi`, `fitness_level`, `medical_conditions`, `contract_start`, `contract_end`, `agent_name`, `agent_contact`, `release_clause`, `market_value`, `contract_notes`, `player_photo`, `id_country`, `id_position`) VALUES
+(1, 'Karim', 'Benzema', '1987-12-19', 'France', 'Lyon', 'karim@example.com', '+33 123 456 789', 'instagram.com/karimbenzema', 'Winger', 9, 'Right', 'Real Madrid', 230, 120, 600, 1.85, 81.50, 23.80, 90, NULL, '2021-07-01', '2025-06-30', 'Agent X', '+33 987 654 321', 100000000.00, 50000000.00, NULL, 'benzema.jpg', 15, 4),
+(2, 'Lionel', 'Messi', '1987-06-24', 'Argentina', 'Rosario', 'messi@example.com', '+54 234 567 890', 'instagram.com/leomessi', 'Attacking Midfielder', 10, 'Left', 'FC Barcelona', 672, 268, 778, 1.70, 72.00, 24.90, 95, NULL, '2020-07-01', '2023-06-30', 'Agent Y', '+54 876 543 210', 700000000.00, 120000000.00, NULL, 'messi.jpg', 22, 1),
+(3, 'Cristiano', 'Ronaldo', '1985-02-05', 'Portugal', 'Madeira', 'cr7@example.com', '+351 345 678 901', 'instagram.com/cristiano', 'Winger', 7, 'Right', 'Manchester United', 800, 250, 1100, 1.87, 83.00, 23.70, 98, NULL, '2021-07-01', '2024-06-30', 'Agent Z', '+351 543 210 987', 500000000.00, 150000000.00, NULL, 'ronaldo.jpg', 42, 4),
+(4, 'Mohamed', 'El Karti', '1995-06-17', 'Moroccan', 'Casablanca', NULL, NULL, NULL, NULL, 10, 'Right', 'Wydad Casablanca', 30, 15, 120, 1.80, 75.00, 23.10, 90, NULL, '2023-07-01', '2026-06-30', 'Agent1', 'agent1@example.com', NULL, 1500000.00, NULL, NULL, 13, 1),
+(5, 'Ayoub', 'El Kaabi', '1993-06-26', 'Moroccan', 'Rabat', NULL, NULL, NULL, NULL, 9, 'Right', 'FAR Rabat', 45, 10, 110, 1.82, 76.00, 22.90, 88, NULL, '2022-08-01', '2025-07-30', 'Agent2', 'agent2@example.com', NULL, 1800000.00, NULL, NULL, 10, 3),
+(6, 'Soufiane', 'Rahimi', '1996-06-02', 'Moroccan', 'Marrakech', NULL, NULL, NULL, NULL, 11, 'Left', 'Raja Casablanca', 50, 20, 140, 1.78, 73.00, 23.00, 92, NULL, '2023-01-01', '2026-12-31', 'Agent3', 'agent3@example.com', NULL, 2000000.00, NULL, NULL, 5, 3),
+(7, 'Anas', 'Zniti', '1990-10-28', 'Moroccan', 'Fez', NULL, NULL, NULL, NULL, 1, 'Right', 'Maghreb Fez', 0, 0, 180, 1.85, 80.00, 23.40, 95, NULL, '2023-07-01', '2026-06-30', 'Agent4', 'agent4@example.com', NULL, 1000000.00, NULL, NULL, 7, 1),
+(8, 'Achraf', 'Dari', '1999-05-06', 'Moroccan', 'Casablanca', NULL, NULL, NULL, NULL, 5, 'Right', 'RS Berkane', 5, 2, 100, 1.87, 78.00, 22.50, 90, NULL, '2022-07-01', '2026-06-30', 'Agent5', 'agent5@example.com', NULL, 1200000.00, NULL, NULL, 2, 4);
+
+
+INSERT INTO `_match` (`id_match`, `Nombre_spectateur`, `date_match`, `time_match`, `Nom_match`, `id_equipe1`, `id_equipe2`) VALUES
+(4, 25000, '2025-03-01', '19:00:00', 'Wydad vs Raja', 22, 17),
+(5, 18000, '2025-03-02', '18:30:00', 'FAR Rabat vs RS Berkane', 7, 20),
+(6, 12000, '2025-03-03', '17:00:00', 'Maghreb Fez vs Hassania Agadir', 11, 9),
+(7, 22000, '2025-03-04', '20:00:00', 'FUS Rabat vs Moghreb Tetouan', 8, 12),
+(8, 15000, '2025-03-05', '16:00:00', 'AS Sale vs IR Tanger', 5, 10),
+(9, 2392, '2025-03-15', '15:00:50', 'Derbi El Hassania', 9, 6),
+(10, 2256, '2025-03-28', '11:00:20', NULL, 14, 15);
+
+
+
+
+INSERT INTO `but` (`id_but`, `id_match`, `id_team`, `id_buteur`, `id_assisteur`, `minute`) VALUES
+(1, 1, 2, 1, 2, 12),
+(2, 1, 1, 3, NULL, 27),
+(3, 2, 3, 2, 2, 34),
+(4, 2, 2, 1, NULL, 45),
+(5, 3, 1, 1, 3, 50),
+(6, 1, 2, 2, NULL, 73),
+(7, 4, 22, 1, 3, 12),
+(8, 4, 17, 3, NULL, 34),
+(9, 5, 7, 2, NULL, 45),
+(10, 5, 20, 5, 2, 67),
+(11, 3, 11, 4, NULL, 80),
+(12, 7, 8, 3, 1, 15),
+(13, 5, 7, 2, 3, 90),
+(14, 7, 12, 7, 5, 77),
+(15, 6, 9, 1, 6, 60),
+(16, 6, 9, 6, NULL, 66),
+(17, 6, 11, 4, NULL, 93);
+
+insert into users values(1 ,'Alice Dupont' ,'alice@example.com' ,'1' ,'g');
+insert into users values (2 ,'Thomas Bernard' ,'thomas@example.com' ,'motdepasse3' ,'t');
+insert into users values (2 ,'Marie Dupont' ,'marie@marie.com' ,'marie' ,'u');
+
+
+insert into staff values(1, "Elsiss", "Hamid", "Coach",'', '2020-03-01', '2033-02-01',8, 84);
+insert into staff values(2, "FIE", "Jamal", "Assistant Coach",'', '2020-03-01', '2033-02-01',8, 3);
+insert into staff values(3, "Hmdsi", "Said", "Team Manager", '', '2020-03-01', '2033-02-01',8, 128);
+
+
