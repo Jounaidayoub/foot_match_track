@@ -316,7 +316,7 @@
                     </a>
                 <?php endif;?>
                 <?php if(isset($_SESSION["role"]) && $_SESSION["role"] === 't'):?>
-                    <a href="admint.php" class="link" >
+                    <a href="../admin-general/tour.html" class="link" >
                         Espace Admin
                     </a>
                 <?php endif;?>
