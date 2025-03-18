@@ -69,10 +69,20 @@ function getComingMatches($limit = 10){
     return $matches;
 }
 
+
+function getTeams($limit = 10){
+    global $bd;
+    $teamsSql = "SELECT * from teams limit $limit";
+    $teams = $bd->query($teamsSql);
+    $teams->execute();
+    $teams = $teams->fetchAll(PDO::FETCH_ASSOC);
+    return $teams;
+}
+
 $comingMatches = getComingMatches();
 $closestMatch = $comingMatches[0];
 $latestMatches = getLatestMatches(10);
-
+$teams = getTeams(10);
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +97,10 @@ $latestMatches = getLatestMatches(10);
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
   rel="stylesheet"
 />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="teams.css">
 
 </head>
 <body>
@@ -340,7 +354,68 @@ function getLatestMatches(){
   </section>
 </main>
 
+<!-- teams bar -->
+<section class="teams-container">
+        <section class="teams-container-header">
+            <h3 class="title">🎮 Follow Club</h3>
+            <div class="arrows-div">
+                <i id="left-arrow" class="fa-solid fa-arrow-left" style="color: #A4A4A4;"></i>
+                <i id="right-arrow" class="fa-solid fa-arrow-right" style="color: #A4A4A4;"></i>
+            </div>
+        </section>
+        <section class="teams-section" id="teams-section">
+            <?php foreach($teams as $team): ?>
+            <section class="team">
+                <a class="team-div" href="../teams/team-info.php?idTeam=<?= $team["id"] ?>">
+                        <div class="team-logo">
+                            <img src="../assets/<?= $team["logo_path"] ?>" alt="">
+                        </div>
+                </a>
+                <h5 class="team-name"><?= $team["team_name"] ?></h5>
+            </section>
+            <?php endforeach;?>
+        </section>
+    </section>
 
+
+<script>
+    const leftArrow = document.getElementById("left-arrow");
+    const rightArrow = document.getElementById("right-arrow");
+    const teamsSection = document.getElementById("teams-section");
+    leftArrow.addEventListener("click", ()=>{
+        teamsSection.scrollLeft -= 250; // Scroll left
+    })
+    rightArrow.addEventListener("click", ()=>{
+        teamsSection.scrollLeft += 250; // Scroll left
+    })
+
+    // // To delete 
+    // const teams = [
+    //     {name: "Arsenal", img: "https://1000logos.net/wp-content/uploads/2018/07/Feyenoord-Logo.png"}, 
+    //     {name: "Mcity", img: "https://1000logos.net/wp-content/uploads/2017/05/Manchester-City-Logo.png"},
+    //     {name: "Real", img: "https://1000logos.net/wp-content/uploads/2017/04/Logo-Liverpool.png"},
+    //     {name: "Arsenal", img: "https://1000logos.net/wp-content/uploads/2018/07/Feyenoord-Logo.png"}, 
+    //     {name: "Mcity", img: "https://1000logos.net/wp-content/uploads/2017/05/Manchester-City-Logo.png"},
+    //     {name: "Real", img: "https://1000logos.net/wp-content/uploads/2017/04/Logo-Liverpool.png"},
+    //     {name: "Arsenal", img: "https://1000logos.net/wp-content/uploads/2018/07/Feyenoord-Logo.png"}, 
+    //     {name: "Mcity", img: "https://1000logos.net/wp-content/uploads/2017/05/Manchester-City-Logo.png"},
+    //     {name: "Real", img: "https://1000logos.net/wp-content/uploads/2017/04/Logo-Liverpool.png"},
+    //     ]
+        
+    // teamsSection.textContent ="";
+    // for (const team of teams) {
+    //     teamsSection.innerHTML += `
+    //         <section class="team">
+    //             <a class="team-div" href="${team.img}">
+    //                     <div class="team-logo">
+    //                         <img src="${team.img}" alt="${team.name}">
+    //                     </div>
+    //             </a>
+    //             <h5 class="team-name">${team.name}</h5>
+    //         </section>
+    //     `
+    // }
+</script>
 
 <script>
 
