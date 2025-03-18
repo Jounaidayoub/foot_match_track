@@ -33,7 +33,7 @@ require '../includes/db.php';
     */
     function getPlayersByPosition($idTeam){
         global $bd;
-        $sql = " SELECT position_name , first_name, last_name, country_name, alpha2_code  
+        $sql = " SELECT composer.id_player as 'id_player', position_name , first_name, last_name, country_name, alpha2_code  
                 FROM players JOIN composer on players.id = composer.id_player
                 JOIN teams on composer.id_team = teams.id
                 JOIN player_position on composer.id_position = player_position.id 
@@ -72,7 +72,7 @@ require '../includes/db.php';
 <!-- use: https://www.iso.org/obp/ui/ -->
 </head>
 <!-- <body style="background-color: white"> -->
-<body style="background-color: white">
+<body>
 
 <?php require('../includes/header.php');?>
 
@@ -120,7 +120,7 @@ require '../includes/db.php';
                 <!-- this card represent a staff member(a player, a coach, a medecin) -->
 
                 <?php foreach ($players as $player) : ?>
-                <a href="" class="staff-card">
+                <a href="../player/player-info?id=<?=$player["id_player"]?>" class="staff-card">
                     <div class="staff-card-person">
                         <img src="<?= !empty($player["player_photo"])? $player["player_photo"] : '../assets/imgs/no_user.jpg'?>" alt="" >
                     </div>
