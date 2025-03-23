@@ -381,3 +381,30 @@ values(1,5,4,'2020-03-01','2025-02-10' ,9),
 (8,8,3,'2020-03-01','2025-02-10' ,18);
 
 
+
+
+
+-- Create tournaments table
+CREATE TABLE IF NOT EXISTS tournaments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_name VARCHAR(255) NOT NULL,
+    format VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    status ENUM('upcoming', 'active', 'completed') NOT NULL DEFAULT 'upcoming',
+    num_teams INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create tournament_teams table (to link tournaments with teams)
+CREATE TABLE IF NOT EXISTS tournament_teams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    team_id INT NOT NULL,
+    group_name VARCHAR(50), -- For group stage tournaments
+    position INT, -- For seeding or final position
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_tournament_team (tournament_id, team_id)
+);
