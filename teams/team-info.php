@@ -120,7 +120,7 @@ require '../includes/db.php';
                 <!-- this card represent a staff member(a player, a coach, a medecin) -->
 
                 <?php foreach ($players as $player) : ?>
-                <a href="../player/player-info?id=<?=$player["id_player"]?>" class="staff-card">
+                <a href="../player/player-info.php?id=<?=$player["id_player"]?>" class="staff-card">
                     <div class="staff-card-person">
                         <img src="<?= !empty($player["player_photo"])? $player["player_photo"] : '../assets/imgs/no_user.jpg'?>" alt="" >
                     </div>
