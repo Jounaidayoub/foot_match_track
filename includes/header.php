@@ -42,10 +42,10 @@
         position: sticky;
         top: 0;
         width: 100%;
-        padding: 8px 32px;
+        padding: 16px 32px;
         border-bottom: 1px solid #ccd1d6;
         z-index: 1000;
-        background-color: white;
+        background-color: #1b1c21;
         padding-left: 32px !important;
     }
     /* the left navigation part */
@@ -75,7 +75,8 @@
         
     }
     .link{
-        color: var(--black);
+        /* color: var(--black); */
+        color: white;
         font-size: 16px;
         font-family: Lato, sans-serif;
         font-weight: 700;
@@ -91,9 +92,11 @@
 
     /* the right navigation part */
     .nav-r{
+        width: 40%;
         display: flex;
         gap: 16px;
         align-items: center;
+        justify-content: space-between;
     }
     .search-div{
         display: flex;
@@ -147,6 +150,7 @@
     }
     .auth-div{
         margin: 0 16px;
+        width: 15%;
     }
     .custom-btn{
         font-family: Lato, sans-serif;
@@ -276,6 +280,7 @@
         }
         .nav{
             z-index: 3000;
+            
         }    
         .profile-div img, .profile-pop-info img{
             object-fit: cover;
@@ -345,11 +350,12 @@
 
             <?php endif;?>
     		
-            <form class="search-div" method="GET" action="search" id="search-form">
-                <img src="../assets/imgs/search.svg" alt="search-bar" class="search-icon">
+            <!-- <div class="search-div" id="search-form"> -->
+                <!-- <img src="../assets/imgs/search.svg" alt="search-bar" class="search-icon">
                 <input type="text" name="search" id="search-inpt" class="search-inpt" placeholder="Search...">
-                <input type="hidden" name="filter" value="masters">
-            </form>
+                <input type="hidden" name="filter" value="masters"> -->
+                <?php require('search.php') ?>
+            <!-- </div> -->
             <!--the profile icon -->
             <?php if(isset($_SESSION["id"])) :?>
 	            <section class="profile-wraper">
