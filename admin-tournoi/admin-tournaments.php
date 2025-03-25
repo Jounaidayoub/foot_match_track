@@ -143,7 +143,7 @@ print_r($tournaments);
                                 </svg>
                                 Back
                             </button>
-                            <button class="btn btn-primary" id="add-match" >
+                            <button class="btn btn-primary" id="add-match">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <line x1="12" y1="8" x2="12" y2="16"></line>
@@ -189,12 +189,13 @@ print_r($tournaments);
                                     <th>Teams</th>
                                     <th>Date & Time</th>
                                     <th>Venue</th>
+                                    <th>Fans</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="match-list">
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -404,84 +405,70 @@ print_r($tournaments);
     </div>
 
     <!-- Edit Match Modal -->
+    <!-- filepath: c:\xampp\htdocs\foot_match_track\admin-tournoi\admin-tournaments.php -->
+
+    <!-- Edit Match Modal -->
     <div class="modal" id="edit-match-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Edit Match Details</h3>
+                <h3 id="modal-title">Add Match</h3>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-            <form id="edit-match-form">
+                <form id="edit-match-form">
                     <input type="hidden" id="match-id">
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="match-home-team">Home Team</label>
-                            <select id="match-home-team" >
-                                
+                            <select id="match-home-team" required>
+                                <!-- Teams will be loaded dynamically -->
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="match-away-team">Away Team</label>
-                            <select id="match-away-team" >
-                                <option value="2">Real Madrid</option>
+                            <select id="match-away-team" required>
+                                <!-- Teams will be loaded dynamically -->
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="match-date">Date</label>
-                            <input type="date" id="match-date">
+                            <input type="date" id="match-date" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="match-time">Time</label>
-                            <input type="time" id="match-time">
+                            <input type="time" id="match-time" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="match-venue">Venue</label>
-                            <input type="text" id="match-venue">
+                            <label for="match-venue">Venue/Stadium</label>
+                            <input type="text" id="match-venue" required>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="match-status">Status</label>
-                            <select id="match-status">
-                                <option value="scheduled">Scheduled</option>
-                                <option value="in-progress">In Progress</option>
-                                <option value="completed">Completed</option>
-                                <option value="postponed">Postponed</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
+                            <label for="match-spectators">Number of Spectators</label>
+                            <input type="number" id="match-spectators" min="0" value="0">
                         </div>
                     </div>
-                    
-                    <div class="form-row" id="score-container">
+
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="home-score">Home Score</label>
-                            <input type="number" id="home-score" min="0">
+                            <label for="match-name">Match Name (Optional)</label>
+                            <input type="text" id="match-name">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="away-score">Away Score</label>
-                            <input type="number" id="away-score" min="0">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="match-notes">Notes</label>
-                        <textarea id="match-notes" placeholder="Add any additional information about the match"></textarea>
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="cancel-edit">Cancel</button>
-                <button class="btn btn-primary" id="save-match">Save Changes</button>
+                <button class="btn btn-primary" id="save-match">Save Match</button>
             </div>
         </div>
     </div>

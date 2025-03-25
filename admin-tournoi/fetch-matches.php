@@ -19,7 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // fetch matches for the given tournamnt id
     $sql = "SELECT m.id_match, m.date_match, m.time_match, m.Nom_match, 
                    t1.team_name AS home_team, t2.team_name AS away_team, 
-                   m.Nombre_spectateur, m.tournament_id
+                   m.Nombre_spectateur, m.tournament_id , m.staduim ,
+                   CASE 
+                       WHEN CONCAT(m.date_match, ' ', m.time_match) > NOW() THEN 'scheduled'
+                       WHEN CONCAT(m.date_match, ' ', m.time_match) <= NOW() AND CONCAT(m.date_match, ' ', m.time_match) >= DATE_SUB(NOW(), INTERVAL 2 HOUR) THEN 'in-progress'
+                       ELSE 'completed'
+                   END AS status
             FROM _match m
             JOIN teams t1 ON m.id_equipe1 = t1.id
             JOIN teams t2 ON m.id_equipe2 = t2.id
