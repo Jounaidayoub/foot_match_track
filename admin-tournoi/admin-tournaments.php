@@ -405,7 +405,7 @@ print_r($tournaments);
     </div>
 
     <!-- Edit Match Modal -->
-    <!-- filepath: c:\xampp\htdocs\foot_match_track\admin-tournoi\admin-tournaments.php -->
+   
 
     <!-- Edit Match Modal -->
     <div class="modal" id="edit-match-modal">

@@ -1,5 +1,4 @@
 <?php
-// filepath: c:\xampp\htdocs\foot_match_track\admin-tournoi\add-match.php
 require '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

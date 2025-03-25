@@ -119,9 +119,31 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", function () {
         const matchId = this.getAttribute("data-id");
         if (confirm("Are you sure you want to delete this match?")) {
-          // Delete the match
-          // In a real implementation, you would send a request to the server
+          // Delete the match by id 
+          const matchId = this.getAttribute("data-id");
+
+          const requestData = {match_id: matchId}
+          fetch("delete-match.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert("Match deleted successfully!");
+                closeModal();
+                // fetchMatches(tournamentId);
+              } else {
+                alert("Error deleting match: " + (data.error || "Unknown error"));
+              }
+            })
           console.log(`Delete match ${matchId}`);
+          const tournamentId = tournamentTitle.getAttribute("data-id");
+          console.log(tournamentId);
+          fetchMatches(tournamentId);
         }
       });
     });
@@ -164,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Prepare the request data
+      
       const requestData = {
         tournament_id: tournamentId,
         id_equipe1: homeTeam,
