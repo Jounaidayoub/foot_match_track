@@ -21,6 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const matchCard = document.createElement("div");
             matchCard.className = "match-card";
             matchCard.setAttribute("data-match-id", match.id_match);
+            matchCard.setAttribute("data-", match.id_match);
+            
+            ///for home/away team id
+            matchCard.setAttribute("data-away-team-id", match.away_team_id);
+            matchCard.setAttribute("data-home-team-id", match.home_team_id);
+
+
 
             // New structure for match cards
             matchCard.innerHTML = `
@@ -33,7 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <div class="match-teams">
                                     <div class="team-display">
                                         <div class="team-logo">
-                                        <img src="../assets/${match.home_team_logo}"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
+                                        <img src="../assets/${
+                                          match.home_team_logo
+                                        }"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
                                         </div>
                                         <span>${match.home_team}</span>
                                     </div>
@@ -46,7 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }</span>
                                     <div class="team-display">
                                         <div class="team-logo">
-                                        <img src="../assets/${match.away_team_logo}"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
+                                        <img src="../assets/${
+                                          match.away_team_logo
+                                        }"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
                                         </div>
                                         <span>${match.away_team}</span>
                                     </div>
@@ -90,30 +101,40 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("detail-match-id").value = matchId;
 
         // Set match details based on the selected match card
-        const homeTeam = this.querySelector(".team-display:first-child span").textContent;
-        const awayTeam = this.querySelector(".team-display:last-child span").textContent;
+        const homeTeam = this.querySelector(
+          ".team-display:first-child span"
+        ).textContent;
+        const awayTeam = this.querySelector(
+          ".team-display:last-child span"
+        ).textContent;
 
         document.getElementById("detail-home-team").textContent = homeTeam;
         document.getElementById("detail-away-team").textContent = awayTeam;
+
+        //adding team id to home and away teams
 
         const matchDateText = this.querySelector(".match-date").textContent;
         const matchDateParts = matchDateText.split(" - ");
         const dateStr = matchDateParts[0];
         const timeStr = matchDateParts[1];
 
-        document.getElementById("detail-match-date").value = formatDateForInput(dateStr);
+        document.getElementById("detail-match-date").value =
+          formatDateForInput(dateStr);
         document.getElementById("detail-match-time").value = timeStr;
 
         const venueElement = this.querySelector(".match-venue");
         if (venueElement) {
-          document.getElementById("detail-match-venue").value = venueElement.textContent;
+          document.getElementById("detail-match-venue").value =
+            venueElement.textContent;
         }
 
         const statusElement = this.querySelector(".match-status");
         if (statusElement) {
-          const statusClass = Array.from(statusElement.classList)
-            .find(cls => cls !== "match-status");
-          document.getElementById("detail-match-status").value = statusClass || "scheduled";
+          const statusClass = Array.from(statusElement.classList).find(
+            (cls) => cls !== "match-status"
+          );
+          document.getElementById("detail-match-status").value =
+            statusClass || "scheduled";
         }
 
         // Fetch match stats
@@ -126,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const tabButtons = matchDetailsModal.querySelectorAll(".tab-btn");
         const tabContents = matchDetailsModal.querySelectorAll(".tab-content");
 
-        tabButtons.forEach(btn => btn.classList.remove("active"));
-        tabContents.forEach(content => content.classList.remove("active"));
+        tabButtons.forEach((btn) => btn.classList.remove("active"));
+        tabContents.forEach((content) => content.classList.remove("active"));
 
         tabButtons[0].classList.add("active");
         tabContents[0].classList.add("active");
@@ -452,6 +473,61 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add Event Button
   const addEventButton = document.querySelector(".add-event");
 
+  // Helper function to update event fields based on event type
+  function updateEventFields(eventTypeSelect, goalDetailsElement) {
+    const eventType = eventTypeSelect.value;
+
+    if (eventType === "goal") {
+      goalDetailsElement.style.display = "block";
+      goalDetailsElement
+        .closest(".event-item")
+        .querySelector(".event-assist").style.display = "block";
+    } else {
+      goalDetailsElement.style.display = "none";
+      goalDetailsElement
+        .closest(".event-item")
+        .querySelector(".event-assist").style.display =
+        eventType === "substitution" ? "block" : "none";
+    }
+  }
+
+  // Function to load players for a team
+  function loadPlayersForTeam(
+    teamType,
+    playerSelectElement,
+    assistSelectElement
+  ) {
+    const matchId = document.getElementById("detail-match-id").value;
+
+    // Clear existing options
+    playerSelectElement.innerHTML = '<option value="">Select player</option>';
+    assistSelectElement.innerHTML =
+      '<option value="">Assist by (optional)</option>';
+
+    // Get team ID based on home/away selection
+    let teamId;
+    if (teamType === "home") {
+    teamId = document.querySelector(`.match-card[data-match-id="${matchId}"]`).getAttribute("data-home-team-id");
+    } else {
+        teamId = document.querySelector(`.match-card[data-match-id="${matchId}"]`).getAttribute("data-away-team-id");
+    }
+
+    // Fetch team players
+    fetch(`get_team_players.php?team_id=${teamId}`)
+      .then((response) => response.json())
+      .then((players) => {
+        players.forEach((player) => {
+          const option = document.createElement("option");
+          option.value = player.id;
+          option.textContent = `${player.number} - ${player.full_name}`;
+
+          playerSelectElement.appendChild(option.cloneNode(true));
+          assistSelectElement.appendChild(option);
+        });
+      })
+      .catch((error) => console.error("Error loading players:", error));
+  }
+
   if (addEventButton) {
     addEventButton.addEventListener("click", () => {
       const eventList = document.getElementById("match-events");
@@ -459,35 +535,70 @@ document.addEventListener("DOMContentLoaded", () => {
       const eventItem = document.createElement("div");
       eventItem.className = "event-item";
       eventItem.innerHTML = `
-                <div class="event-time">
-                    <input type="number" min="1" max="120" placeholder="Min">
-                </div>
-                <div class="event-team">
-                    <select>
-                        <option value="home">Home Team</option>
-                        <option value="away">Away Team</option>
-                    </select>
-                </div>
-                <div class="event-type">
-                    <select>
-                        <option value="goal">Goal</option>
-                        <option value="own-goal">Own Goal</option>
-                        <option value="yellow">Yellow Card</option>
-                        <option value="red">Red Card</option>
-                        <option value="penalty">Penalty</option>
-                        <option value="substitution">Substitution</option>
-                    </select>
-                </div>
-                <div class="event-player">
-                    <input type="text" placeholder="Player Name">
-                </div>
-                <div class="event-assist">
-                    <input type="text" placeholder="Assist By (Optional)">
-                </div>
-                <button type="button" class="remove-event">×</button>
-            `;
+        <div class="event-time">
+          <input type="number" class="event-minute" min="1" max="120" placeholder="Min">
+        </div>
+        <div class="event-team">
+          <select class="event-team-select">
+            <option value="home">Home Team</option>
+            <option value="away">Away Team</option>
+          </select>
+        </div>
+        <div class="event-type">
+          <select class="event-type-select">
+            <option value="goal">Goal</option>
+            <option value="yellow">Yellow Card</option>
+            <option value="red">Red Card</option>
+            <option value="substitution">Substitution</option>
+          </select>
+        </div>
+        <div class="event-player">
+          <select class="player-select"><option>Select player</option></select>
+        </div>
+        <div class="event-details goal-details">
+          <select class="goal-type">
+            <option value="normal">Normal</option>
+            <option value="penalty">Penalty</option>
+            <option value="own-goal">Own Goal</option>
+            <option value="free-kick">Free Kick</option>
+            <option value="header">Header</option>
+          </select>
+        </div>
+        <div class="event-assist">
+          <select class="assist-player-select"><option>Assist by (optional)</option></select>
+        </div>
+        <button type="button" class="remove-event">×</button>
+      `;
 
       eventList.appendChild(eventItem);
+
+      // Load players for the selected team
+      const teamSelect = eventItem.querySelector(".event-team-select");
+      const eventTypeSelect = eventItem.querySelector(".event-type-select");
+      const goalDetails = eventItem.querySelector(".goal-details");
+
+      // Initially hide/show fields based on selected event type
+      updateEventFields(eventTypeSelect, goalDetails);
+
+      // Add event listeners for dynamic behavior
+      teamSelect.addEventListener("change", () =>
+        loadPlayersForTeam(
+          teamSelect.value,
+          eventItem.querySelector(".player-select"),
+          eventItem.querySelector(".assist-player-select")
+        )
+      );
+
+      eventTypeSelect.addEventListener("change", () => {
+        updateEventFields(eventTypeSelect, goalDetails);
+      });
+
+      // Load players for initial team selection
+      loadPlayersForTeam(
+        teamSelect.value,
+        eventItem.querySelector(".player-select"),
+        eventItem.querySelector(".assist-player-select")
+      );
 
       // Add event listener to remove button
       eventItem

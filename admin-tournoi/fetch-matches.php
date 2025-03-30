@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $sql = "SELECT m.id_match, m.date_match, m.time_match, m.Nom_match, 
                    t1.team_name AS home_team, t2.team_name AS away_team, 
                    m.Nombre_spectateur, m.tournament_id , m.staduim , t1.logo_path AS home_team_logo, t2.logo_path AS away_team_logo,
+                   t1.id AS home_team_id, t2.id AS away_team_id,
                    CASE 
                        WHEN CONCAT(m.date_match, ' ', m.time_match) > NOW() THEN 'scheduled'
                        WHEN CONCAT(m.date_match, ' ', m.time_match) <= NOW() AND CONCAT(m.date_match, ' ', m.time_match) >= DATE_SUB(NOW(), INTERVAL 2 HOUR) THEN 'in-progress'
