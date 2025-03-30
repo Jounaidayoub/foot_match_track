@@ -528,86 +528,86 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error loading players:", error));
   }
 
-  if (addEventButton) {
-    addEventButton.addEventListener("click", () => {
-      const eventList = document.getElementById("match-events");
+//   if (addEventButton) {
+//     addEventButton.addEventListener("click", () => {
+//       const eventList = document.getElementById("match-events");
 
-      const eventItem = document.createElement("div");
-      eventItem.className = "event-item";
-      eventItem.innerHTML = `
-        <div class="event-time">
-          <input type="number" class="event-minute" min="1" max="120" placeholder="Min">
-        </div>
-        <div class="event-team">
-          <select class="event-team-select">
-            <option value="home">Home Team</option>
-            <option value="away">Away Team</option>
-          </select>
-        </div>
-        <div class="event-type">
-          <select class="event-type-select">
-            <option value="goal">Goal</option>
-            <option value="yellow">Yellow Card</option>
-            <option value="red">Red Card</option>
-            <option value="substitution">Substitution</option>
-          </select>
-        </div>
-        <div class="event-player">
-          <select class="player-select"><option>Select player</option></select>
-        </div>
-        <div class="event-details goal-details">
-          <select class="goal-type">
-            <option value="normal">Normal</option>
-            <option value="penalty">Penalty</option>
-            <option value="own-goal">Own Goal</option>
-            <option value="free-kick">Free Kick</option>
-            <option value="header">Header</option>
-          </select>
-        </div>
-        <div class="event-assist">
-          <select class="assist-player-select"><option>Assist by (optional)</option></select>
-        </div>
-        <button type="button" class="remove-event">×</button>
-      `;
+//       const eventItem = document.createElement("div");
+//       eventItem.className = "event-item";
+//       eventItem.innerHTML = `
+//         <div class="event-time">
+//           <input type="number" class="event-minute" min="1" max="120" placeholder="Min">
+//         </div>
+//         <div class="event-team">
+//           <select class="event-team-select">
+//             <option value="home">Home Team</option>
+//             <option value="away">Away Team</option>
+//           </select>
+//         </div>
+//         <div class="event-type">
+//           <select class="event-type-select">
+//             <option value="goal">Goal</option>
+//             <option value="yellow">Yellow Card</option>
+//             <option value="red">Red Card</option>
+//             <option value="substitution">Substitution</option>
+//           </select>
+//         </div>
+//         <div class="event-player">
+//           <select class="player-select"><option>Select player</option></select>
+//         </div>
+//         <div class="event-details goal-details">
+//           <select class="goal-type">
+//             <option value="normal">Normal</option>
+//             <option value="penalty">Penalty</option>
+//             <option value="own-goal">Own Goal</option>
+//             <option value="free-kick">Free Kick</option>
+//             <option value="header">Header</option>
+//           </select>
+//         </div>
+//         <div class="event-assist">
+//           <select class="assist-player-select"><option>Assist by (optional)</option></select>
+//         </div>
+//         <button type="button" class="remove-event">×</button>
+//       `;
 
-      eventList.appendChild(eventItem);
+//       eventList.appendChild(eventItem);
 
-      // Load players for the selected team
-      const teamSelect = eventItem.querySelector(".event-team-select");
-      const eventTypeSelect = eventItem.querySelector(".event-type-select");
-      const goalDetails = eventItem.querySelector(".goal-details");
+//       // Load players for the selected team
+//       const teamSelect = eventItem.querySelector(".event-team-select");
+//       const eventTypeSelect = eventItem.querySelector(".event-type-select");
+//       const goalDetails = eventItem.querySelector(".goal-details");
 
-      // Initially hide/show fields based on selected event type
-      updateEventFields(eventTypeSelect, goalDetails);
+//       // Initially hide/show fields based on selected event type
+//       updateEventFields(eventTypeSelect, goalDetails);
 
-      // Add event listeners for dynamic behavior
-      teamSelect.addEventListener("change", () =>
-        loadPlayersForTeam(
-          teamSelect.value,
-          eventItem.querySelector(".player-select"),
-          eventItem.querySelector(".assist-player-select")
-        )
-      );
+//       // Add event listeners for dynamic behavior
+//       teamSelect.addEventListener("change", () =>
+//         loadPlayersForTeam(
+//           teamSelect.value,
+//           eventItem.querySelector(".player-select"),
+//           eventItem.querySelector(".assist-player-select")
+//         )
+//       );
 
-      eventTypeSelect.addEventListener("change", () => {
-        updateEventFields(eventTypeSelect, goalDetails);
-      });
+//       eventTypeSelect.addEventListener("change", () => {
+//         updateEventFields(eventTypeSelect, goalDetails);
+//       });
 
-      // Load players for initial team selection
-      loadPlayersForTeam(
-        teamSelect.value,
-        eventItem.querySelector(".player-select"),
-        eventItem.querySelector(".assist-player-select")
-      );
+//       // Load players for initial team selection
+//       loadPlayersForTeam(
+//         teamSelect.value,
+//         eventItem.querySelector(".player-select"),
+//         eventItem.querySelector(".assist-player-select")
+//       );
 
-      // Add event listener to remove button
-      eventItem
-        .querySelector(".remove-event")
-        .addEventListener("click", function () {
-          this.closest(".event-item").remove();
-        });
-    });
-  }
+//       // Add event listener to remove button
+//       eventItem
+//         .querySelector(".remove-event")
+//         .addEventListener("click", function () {
+//           this.closest(".event-item").remove();
+//         });
+//     });
+//   }
 
   // Remove Event Button - for existing buttons
   document.addEventListener("click", function (event) {

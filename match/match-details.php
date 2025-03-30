@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <?php require('../includes/header.php') ?>
+
     <div class="container">
         <div class="main-content">
             <!-- Match Header Card -->
@@ -132,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-label">Expected goals (xG)</div>
                         <div class="stat-values">
@@ -140,7 +144,7 @@
                             <div class="away-value">2.87</div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-label">Total shots</div>
                         <div class="stat-values">
@@ -148,7 +152,7 @@
                             <div class="away-value">10</div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-label">Big chances</div>
                         <div class="stat-values">
@@ -164,7 +168,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar Competition Card -->
@@ -201,7 +205,7 @@
                             </div>
                             <div class="match-status">FT</div>
                         </div>
-                        
+
                         <div class="match-item">
                             <div class="match-teams">
                                 <div class="team">
@@ -223,7 +227,7 @@
                             </div>
                             <div class="match-status">FT</div>
                         </div>
-                        
+
                         <div class="match-item highlighted">
                             <div class="match-teams">
                                 <div class="team">
@@ -245,7 +249,7 @@
                             </div>
                             <div class="match-status">FT</div>
                         </div>
-                        
+
                         <div class="match-item upcoming">
                             <div class="match-teams">
                                 <div class="team">
@@ -272,5 +276,5 @@
 
     <script src="match-details.js"></script>
 </body>
-</html>
 
+</html>
