@@ -677,9 +677,9 @@ print_r($tournaments);
                     </div>
 
                     <!-- Stats Tab Content -->
+                    <!-- Stats Tab Content -->
                     <div class="tab-content" id="stats">
                         <div class="stats-comparison">
-                            <!-- Add stat rows here from demo.html -->
                             <div class="stat-row">
                                 <div class="stat-label">Possession (%)</div>
                                 <div class="stat-values">
@@ -705,14 +705,6 @@ print_r($tournaments);
                                 </div>
                             </div>
                             <div class="stat-row">
-                                <div class="stat-label">Expected Goals (xG)</div>
-                                <div class="stat-values">
-                                    <input type="number" id="home-xg" min="0" step="0.01" value="0.00">
-                                    <span class="stat-divider">-</span>
-                                    <input type="number" id="away-xg" min="0" step="0.01" value="0.00">
-                                </div>
-                            </div>
-                            <div class="stat-row">
                                 <div class="stat-label">Corners</div>
                                 <div class="stat-values">
                                     <input type="number" id="home-corners" min="0" value="0">
@@ -729,30 +721,13 @@ print_r($tournaments);
                                 </div>
                             </div>
                             <div class="stat-row">
-                                <div class="stat-label">Yellow Cards</div>
+                                <div class="stat-label">Passes</div>
                                 <div class="stat-values">
-                                    <input type="number" id="home-yellow" min="0" value="0">
+                                    <input type="number" id="home-passes" min="0" value="0">
                                     <span class="stat-divider">-</span>
-                                    <input type="number" id="away-yellow" min="0" value="0">
+                                    <input type="number" id="away-passes" min="0" value="0">
                                 </div>
                             </div>
-                            <div class="stat-row">
-                                <div class="stat-label">Red Cards</div>
-                                <div class="stat-values">
-                                    <input type="number" id="home-red" min="0" value="0">
-                                    <span class="stat-divider">-</span>
-                                    <input type="number" id="away-red" min="0" value="0">
-                                </div>
-                            </div>
-                            <div class="stat-row">
-                                <div class="stat-label">Offsides</div>
-                                <div class="stat-values">
-                                    <input type="number" id="home-offsides" min="0" value="0">
-                                    <span class="stat-divider">-</span>
-                                    <input type="number" id="away-offsides" min="0" value="0">
-                                </div>
-                            </div>
-                            <!-- Add more stat rows as needed -->
                         </div>
                     </div>
 
@@ -784,7 +759,7 @@ print_r($tournaments);
 </body>
 <script src="admin-tournaments.js"></script>
 <script src="match_detail.js"></script>
-<script src="match-dash.js"></script>
+   d<script src="match-dash.js"></script>   
 
 
 </html>
