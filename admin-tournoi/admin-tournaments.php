@@ -10,7 +10,7 @@ $sql = "SELECT * FROM tournaments";
 $stmt = $bd->prepare($sql);
 $stmt->execute();
 $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-print_r($tournaments);
+// print_r($tournaments);
 ?>
 
 
@@ -31,7 +31,12 @@ print_r($tournaments);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
+
+
 <body>
+
+<?php require('../includes/header.php') ?>
+
     <div class="container">
         <header class="header">
             <div class="icon">
