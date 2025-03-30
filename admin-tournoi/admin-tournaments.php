@@ -801,6 +801,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <script src="match_detail.js"></script>
 <script src="match-dash.js"></script>
 <script src="lineup.js"></script>
+<script src="goals.js"></script>
 
 
 
