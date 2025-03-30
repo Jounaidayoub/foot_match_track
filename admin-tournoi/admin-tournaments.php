@@ -24,7 +24,11 @@ print_r($tournaments);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Admin Dashboard</title>
     <link rel="stylesheet" href="admin-tournaments.css">
+    <link rel="stylesheet" href="match_detaills.css">
+    <link rel="stylesheet" href="detail.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
@@ -84,6 +88,15 @@ print_r($tournaments);
                             Reports
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-target="match-dashboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                            Match Dashboard
+                        </a>
+                    </li>
+
                 </ul>
             </aside>
 
@@ -198,6 +211,68 @@ print_r($tournaments);
 
                             </tbody>
                         </table>
+                    </div>
+                </section>
+
+                <!-- Match Dashboard Panel -->
+                <section class="panel" id="match-dashboard">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                            Match Dashboard
+                        </h2>
+                        <div class="filter-controls">
+                            <div class="filter-group">
+                                <label for="tournament-filter">Tournament:</label>
+                                <select id="tournament-filter">
+                                    <option value="all">All Tournaments</option>
+                                    <?php foreach ($tournaments as $tournament): ?>
+                                        <option value="<?= $tournament['id'] ?>"><?= htmlspecialchars($tournament['tournament_name']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="match-dashboard-grid">
+                        <?php
+                        // You would typically load these from the database
+                        $matches = []; // Replace with actual match data fetch
+
+                        // For demo purposes, showing how to create match cards
+                        if (empty($matches)) {
+                            echo '<p class="no-matches">No matches available. Filter by tournament or add new matches.</p>';
+                        } else {
+                            foreach ($matches as $match) {
+                                // Display match card for each match
+                                // This would use actual data from your database
+                            }
+                        }
+                        ?>
+
+                        <!-- Sample match card for reference -->
+                        <div class="match-card" data-match-id="sample-1">
+                            <div class="match-card-header">
+                                <div class="match-date">Mar 30, 2025 - 20:00</div>
+                            </div>
+                            <div class="match-card-body">
+                                <div class="match-teams">
+                                    <div class="team-display">
+                                        <div class="team-logo"></div>
+                                        <span>Team A</span>
+                                    </div>
+                                    <span class="vs">vs</span>
+                                    <div class="team-display">
+                                        <div class="team-logo"></div>
+                                        <span>Team B</span>
+                                    </div>
+                                </div>
+                                <div class="match-venue">Stadium Name, City</div>
+                                <div class="match-status scheduled">Scheduled</div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -404,8 +479,11 @@ print_r($tournaments);
         </div>
     </div>
 
-    <!-- Edit Match Modal -->
-   
+
+
+
+
+
 
     <!-- Edit Match Modal -->
     <div class="modal" id="edit-match-modal">
@@ -473,7 +551,240 @@ print_r($tournaments);
         </div>
     </div>
 
+
+    <!-- Match Details Modal -->
+    <div class="modal match-details-modal" id="match-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Match Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="match-details-form">
+                    <input type="hidden" id="detail-match-id">
+
+                    <div class="tab-navigation">
+                        <button type="button" class="tab-btn active" data-tab="basic-info">Basic Info</button>
+                        <button type="button" class="tab-btn" data-tab="lineups">Lineups</button>
+                        <button type="button" class="tab-btn" data-tab="stats">Match Stats</button>
+                        <button type="button" class="tab-btn" data-tab="events">Match Events</button>
+                    </div>
+
+                    <div class="tab-content active" id="basic-info">
+                        <div class="match-header">
+                            <div class="team-vs">
+                                <div class="team home-team">
+                                    <div class="team-logo"></div>
+                                    <span class="team-name" id="detail-home-team">Home Team</span>
+                                </div>
+                                <div class="score-display">
+                                    <input type="number" id="detail-home-score" min="0" value="0">
+                                    <span class="vs">:</span>
+                                    <input type="number" id="detail-away-score" min="0" value="0">
+                                </div>
+                                <div class="team away-team">
+                                    <div class="team-logo"></div>
+                                    <span class="team-name" id="detail-away-team">Away Team</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rest of Basic Info Section -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="detail-match-date">Date</label>
+                                <input type="date" id="detail-match-date">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="detail-match-time">Time</label>
+                                <input type="time" id="detail-match-time">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="detail-match-venue">Venue</label>
+                                <input type="text" id="detail-match-venue">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="detail-match-status">Status</label>
+                                <select id="detail-match-status">
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="postponed">Postponed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="detail-referee">Referee</label>
+                                <input type="text" id="detail-referee" placeholder="Main referee name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="detail-attendance">Attendance</label>
+                                <input type="number" id="detail-attendance" placeholder="Number of spectators">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="detail-match-notes">Match Notes</label>
+                            <textarea id="detail-match-notes" placeholder="Add any additional information about the match"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Lineups Tab Content -->
+                    <div class="tab-content" id="lineups">
+                        <div class="team-tabs">
+                            <button type="button" class="team-tab active" data-team="home">Home Team</button>
+                            <button type="button" class="team-tab" data-team="away">Away Team</button>
+                        </div>
+
+                        <div class="team-lineup active" id="home-lineup">
+                            <h4>Starting XI</h4>
+                            <div class="lineup-container" id="home-starting">
+                                <!-- Players will be added dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-secondary add-player" data-team="home" data-type="starting">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                Add Player
+                            </button>
+                        </div>
+
+                        <div class="team-lineup" id="away-lineup">
+                            <h4>Starting XI</h4>
+                            <div class="lineup-container" id="away-starting">
+                                <!-- Players will be added dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-secondary add-player" data-team="away" data-type="starting">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                Add Player
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Tab Content -->
+                    <div class="tab-content" id="stats">
+                        <div class="stats-comparison">
+                            <!-- Add stat rows here from demo.html -->
+                            <div class="stat-row">
+                                <div class="stat-label">Possession (%)</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-possession" min="0" max="100" value="50">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-possession" min="0" max="100" value="50">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Shots</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-shots" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-shots" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Shots on Target</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-shots-target" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-shots-target" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Expected Goals (xG)</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-xg" min="0" step="0.01" value="0.00">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-xg" min="0" step="0.01" value="0.00">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Corners</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-corners" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-corners" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Fouls</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-fouls" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-fouls" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Yellow Cards</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-yellow" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-yellow" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Red Cards</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-red" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-red" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-label">Offsides</div>
+                                <div class="stat-values">
+                                    <input type="number" id="home-offsides" min="0" value="0">
+                                    <span class="stat-divider">-</span>
+                                    <input type="number" id="away-offsides" min="0" value="0">
+                                </div>
+                            </div>
+                            <!-- Add more stat rows as needed -->
+                        </div>
+                    </div>
+
+                    <!-- Events Tab Content -->
+                    <div class="tab-content" id="events">
+                        <div class="events-timeline">
+                            <div class="event-list" id="match-events">
+                                <!-- Events will be added dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-secondary add-event">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                Add Event
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-details">Cancel</button>
+                <button class="btn btn-primary" id="save-details">Save Match Details</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 <script src="admin-tournaments.js"></script>
+<script src="match_detail.js"></script>
+<script src="match-dash.js"></script>
+
 
 </html>

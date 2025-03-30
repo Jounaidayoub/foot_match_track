@@ -309,7 +309,7 @@
                 <a href="" class="link" >
                     Equipes
                 </a>
-                <a href="facultes" class="link" >
+                <a href=" ../match/match-details.html" class="link" >
                     Matches
                 </a>
                 <a href="faq.jsp" class="link">

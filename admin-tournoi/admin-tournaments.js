@@ -48,8 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td><span class="status-badge ${match.status}">${match.status}</span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn-icon edit-match" data-id="${match.id_match}">Edit</button>
-                                    <button class="btn-icon delete-match" data-id="${match.id_match}">Delete</button>
+                                    <button class="btn-icon edit-match" data-id="${match.id_match}">
+                                        Edit
+                                    </button>
+                                    <button class="btn-icon delete-match" data-id="${match.id_match}">
+                                    <img src="https://img.icons8.com/ios/50/000000/delete-sign.png" width="20" height="20" color="red" alt="Delete" title="Delete" /> 
+                                    </button>
                                 </div>
                             </td>
                         </tr>

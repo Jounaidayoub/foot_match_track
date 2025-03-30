@@ -355,6 +355,8 @@ body {
   width: 30px;
   height: 30px;
   padding: 0;
+  background-color: none;
+  border: none;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -970,4 +972,10 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+
+
+
+
+
+
 
