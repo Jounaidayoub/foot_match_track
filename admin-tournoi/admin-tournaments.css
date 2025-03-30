@@ -971,6 +971,280 @@ textarea {
   .report-stats {
     grid-template-columns: 1fr;
   }
+
+}
+
+
+
+
+
+
+/* Football field styles */
+.football-field-container {
+  margin: 30px 0;
+  position: relative;
+}
+
+.football-field {
+  background-color: #3a7d44;
+  background-image: linear-gradient(#3a7d44, #2d6a38);
+  border-radius: 10px;
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.field-markings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+}
+
+.center-spot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.halfway-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.penalty-area {
+  position: absolute;
+  width: 40%;
+  height: 30%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.penalty-area.top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.penalty-area.bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.goal-area {
+  position: absolute;
+  width: 20%;
+  height: 10%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.goal-area.top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.goal-area.bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.player-position {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.player-position:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.player-position.filled {
+  background-color: #0066cc;
+}
+
+.player-position.selected {
+  background-color: #ff6600;
+  transform: scale(1.1);
+}
+
+.player-info {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.player-position:hover .player-info {
+  opacity: 1;
+}
+
+.player-rating {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  background-color: #ff6600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.player-selector {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 280px;
+  background-color: var(--bg-darker);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  transition: right 0.3s ease;
+  z-index: 100;
+}
+
+.player-selector.active {
+  right: 0;
+}
+
+.player-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.player-selector-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.close-selector {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.player-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.player-list-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.player-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.player-list-item-number {
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.player-list-item-info {
+  flex: 1;
+}
+
+.player-list-item-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.player-list-item-position {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.player-list-item-rating {
+  width: 28px;
+  height: 28px;
+  background-color: #ff6600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.formation-selector {
+  margin-bottom: 20px;
+}
+
+.formation-selector select {
+  width: 100%;
+  background-color: var(--bg-darker);
+  border: 1px solid var(--border-color);
+  color: var(--text-light);
+  border-radius: 4px;
+  padding: 8px;
 }
 
 

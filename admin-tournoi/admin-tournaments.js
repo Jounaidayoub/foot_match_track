@@ -37,9 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td>${match.id_match}</td>
                             <td>
                                 <div class="match-teams">
+                                    <img src="../assets/${match.home_team_logo}"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
                                     <div class="team"><span>${match.home_team}</span></div>
                                     <span class="vs">vs</span>
                                     <div class="team"><span>${match.away_team}</span></div>
+                                    <img src="../assets/${match.away_team_logo}"  style="width: 32px;height: 32px;border-radius: 32px";alt="" >
                                 </div>
                             </td>
                             <td>${match.date_match} ${match.time_match}</td>

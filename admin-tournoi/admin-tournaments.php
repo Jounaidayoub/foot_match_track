@@ -640,39 +640,74 @@ print_r($tournaments);
 
                     <!-- Lineups Tab Content -->
                     <div class="tab-content" id="lineups">
+                        <div class="formation-selector">
+                            <label for="formation-select">Formation:</label>
+                            <select id="formation-select">
+                                <option value="4-3-3">4-3-3</option>
+                                <option value="4-4-2">4-4-2</option>
+                                <option value="3-5-2">3-5-2</option>
+                                <option value="4-2-3-1">4-2-3-1</option>
+                                <option value="5-3-2">5-3-2</option>
+                            </select>
+                        </div>
+
                         <div class="team-tabs">
                             <button type="button" class="team-tab active" data-team="home">Home Team</button>
                             <button type="button" class="team-tab" data-team="away">Away Team</button>
                         </div>
 
                         <div class="team-lineup active" id="home-lineup">
-                            <h4>Starting XI</h4>
-                            <div class="lineup-container" id="home-starting">
-                                <!-- Players will be added dynamically -->
+                            <div class="football-field-container">
+                                <div class="football-field">
+                                    <div class="field-markings">
+                                        <div class="center-circle"></div>
+                                        <div class="center-spot"></div>
+                                        <div class="halfway-line"></div>
+                                        <div class="penalty-area top"></div>
+                                        <div class="penalty-area bottom"></div>
+                                        <div class="goal-area top"></div>
+                                        <div class="goal-area bottom"></div>
+                                    </div>
+                                    <!-- Player positions will be added dynamically -->
+                                </div>
+
+                                <div class="player-selector">
+                                    <div class="player-selector-header">
+                                        <div class="player-selector-title">Select Player</div>
+                                        <button class="close-selector">×</button>
+                                    </div>
+                                    <div class="player-list">
+                                        <!-- Player list will be populated dynamically -->
+                                    </div>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-secondary add-player" data-team="home" data-type="starting">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="16"></line>
-                                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                                </svg>
-                                Add Player
-                            </button>
                         </div>
 
                         <div class="team-lineup" id="away-lineup">
-                            <h4>Starting XI</h4>
-                            <div class="lineup-container" id="away-starting">
-                                <!-- Players will be added dynamically -->
+                            <div class="football-field-container">
+                                <div class="football-field">
+                                    <div class="field-markings">
+                                        <div class="center-circle"></div>
+                                        <div class="center-spot"></div>
+                                        <div class="halfway-line"></div>
+                                        <div class="penalty-area top"></div>
+                                        <div class="penalty-area bottom"></div>
+                                        <div class="goal-area top"></div>
+                                        <div class="goal-area bottom"></div>
+                                    </div>
+                                    <!-- Player positions will be added dynamically -->
+                                </div>
+
+                                <div class="player-selector">
+                                    <div class="player-selector-header">
+                                        <div class="player-selector-title">Select Player</div>
+                                        <button class="close-selector">×</button>
+                                    </div>
+                                    <div class="player-list">
+                                        <!-- Player list will be populated dynamically -->
+                                    </div>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-secondary add-player" data-team="away" data-type="starting">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="16"></line>
-                                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                                </svg>
-                                Add Player
-                            </button>
                         </div>
                     </div>
 
@@ -759,7 +794,9 @@ print_r($tournaments);
 </body>
 <script src="admin-tournaments.js"></script>
 <script src="match_detail.js"></script>
-   d<script src="match-dash.js"></script>   
+<script src="match-dash.js"></script>
+<script src="lineup.js"></script>
+
 
 
 </html>
