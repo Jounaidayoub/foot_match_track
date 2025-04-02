@@ -10,6 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
     element.insertBefore(overlay, element.firstChild);
   }
 
+  function removeOverlay(element) {
+    const overlay = element.querySelector(".tab-content-overlay");
+    if (overlay) {
+      element.removeChild(overlay);
+    }
+  }
+
   // Fetch and display matches from the database
   function fetchMatches(tournamentId = 1) {
     fetch(`fetch-matches.php?tournament_id=${tournamentId}`)
@@ -165,8 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // addOverlay(tabContents[2]);
         // Apply overlay based on match status
-        
-        const matchStatus = document.getElementById("detail-match-status").value;
+
+        const matchStatus = document.getElementById(
+          "detail-match-status"
+        ).value;
         console.log("Match Status:", matchStatus);
         if (matchStatus === "scheduled" || matchStatus === "upcoming") {
           if (tabContents[2]) {
@@ -176,6 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
           if (tabContents[3]) {
             console.log(tabContents[3]);
             addOverlay(tabContents[3]);
+          }
+        } else {
+          if (tabContents[2]) {
+            removeOverlay(tabContents[2]);
+          }
+          if (tabContents[3]) {
+            removeOverlay(tabContents[3]);
           }
         }
       });

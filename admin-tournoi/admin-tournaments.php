@@ -532,7 +532,19 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="form-row">
                         <div class="form-group">
                             <label for="match-venue">Venue/Stadium</label>
-                            <input type="text" id="match-venue" required>
+                            <!-- <input type="text" id="match-venue" required> -->
+                            <select id="match-venue" required>
+                                <?php
+                                $sql = "SELECT id, nom FROM stadium";
+                                $stmt = $bd->prepare($sql);
+                                $stmt->execute();
+                                $stadiums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                foreach ($stadiums as $stadium) {
+                                    echo '<option value="' . htmlspecialchars($stadium['id']) . '">' . htmlspecialchars($stadium['nom']) . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
 
                         <div class="form-group">
