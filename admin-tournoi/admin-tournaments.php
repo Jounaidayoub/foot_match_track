@@ -718,8 +718,9 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- Stats Tab Content -->
                     <!-- Stats Tab Content -->
-                    <div class="tab-content" id="stats">
-                        <div class="stats-comparison">
+                    <div class="tab-content " id="stats" >
+                       
+                        <div class="stats-comparison ">
                             <div class="stat-row">
                                 <div class="stat-label">Possession (%)</div>
                                 <div class="stat-values">

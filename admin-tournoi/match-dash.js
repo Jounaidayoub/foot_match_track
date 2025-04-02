@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+  function addOverlay(element) {
+    const overlay = document.createElement("div");
+    const overlayContent = document.createElement("div");
+    overlay.className = "tab-content-overlay";
+    overlayContent.className = "lock-message";
+    overlayContent.innerHTML = `this will be locked until the match is started`;
+    overlay.appendChild(overlayContent);
+    element.style.position = "relative";
+    element.insertBefore(overlay, element.firstChild);
+  }
+
   // Fetch and display matches from the database
   function fetchMatches(tournamentId = 1) {
     fetch(`fetch-matches.php?tournament_id=${tournamentId}`)
@@ -22,12 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
             matchCard.className = "match-card";
             matchCard.setAttribute("data-match-id", match.id_match);
             matchCard.setAttribute("data-", match.id_match);
-            
+
             ///for home/away team id
             matchCard.setAttribute("data-away-team-id", match.away_team_id);
             matchCard.setAttribute("data-home-team-id", match.home_team_id);
-
-
 
             // New structure for match cards
             matchCard.innerHTML = `
@@ -152,6 +161,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tabButtons[0].classList.add("active");
         tabContents[0].classList.add("active");
+        // console.log(tabContents[2])
+
+        // addOverlay(tabContents[2]);
+        // Apply overlay based on match status
+        
+        const matchStatus = document.getElementById("detail-match-status").value;
+        console.log("Match Status:", matchStatus);
+        if (matchStatus === "scheduled" || matchStatus === "upcoming") {
+          if (tabContents[2]) {
+            console.log(tabContents[2]);
+            addOverlay(tabContents[2]);
+          }
+          if (tabContents[3]) {
+            console.log(tabContents[3]);
+            addOverlay(tabContents[3]);
+          }
+        }
       });
     });
   }
@@ -507,9 +533,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get team ID based on home/away selection
     let teamId;
     if (teamType === "home") {
-    teamId = document.querySelector(`.match-card[data-match-id="${matchId}"]`).getAttribute("data-home-team-id");
+      teamId = document
+        .querySelector(`.match-card[data-match-id="${matchId}"]`)
+        .getAttribute("data-home-team-id");
     } else {
-        teamId = document.querySelector(`.match-card[data-match-id="${matchId}"]`).getAttribute("data-away-team-id");
+      teamId = document
+        .querySelector(`.match-card[data-match-id="${matchId}"]`)
+        .getAttribute("data-away-team-id");
     }
 
     // Fetch team players
@@ -528,86 +558,86 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error loading players:", error));
   }
 
-//   if (addEventButton) {
-//     addEventButton.addEventListener("click", () => {
-//       const eventList = document.getElementById("match-events");
+  //   if (addEventButton) {
+  //     addEventButton.addEventListener("click", () => {
+  //       const eventList = document.getElementById("match-events");
 
-//       const eventItem = document.createElement("div");
-//       eventItem.className = "event-item";
-//       eventItem.innerHTML = `
-//         <div class="event-time">
-//           <input type="number" class="event-minute" min="1" max="120" placeholder="Min">
-//         </div>
-//         <div class="event-team">
-//           <select class="event-team-select">
-//             <option value="home">Home Team</option>
-//             <option value="away">Away Team</option>
-//           </select>
-//         </div>
-//         <div class="event-type">
-//           <select class="event-type-select">
-//             <option value="goal">Goal</option>
-//             <option value="yellow">Yellow Card</option>
-//             <option value="red">Red Card</option>
-//             <option value="substitution">Substitution</option>
-//           </select>
-//         </div>
-//         <div class="event-player">
-//           <select class="player-select"><option>Select player</option></select>
-//         </div>
-//         <div class="event-details goal-details">
-//           <select class="goal-type">
-//             <option value="normal">Normal</option>
-//             <option value="penalty">Penalty</option>
-//             <option value="own-goal">Own Goal</option>
-//             <option value="free-kick">Free Kick</option>
-//             <option value="header">Header</option>
-//           </select>
-//         </div>
-//         <div class="event-assist">
-//           <select class="assist-player-select"><option>Assist by (optional)</option></select>
-//         </div>
-//         <button type="button" class="remove-event">×</button>
-//       `;
+  //       const eventItem = document.createElement("div");
+  //       eventItem.className = "event-item";
+  //       eventItem.innerHTML = `
+  //         <div class="event-time">
+  //           <input type="number" class="event-minute" min="1" max="120" placeholder="Min">
+  //         </div>
+  //         <div class="event-team">
+  //           <select class="event-team-select">
+  //             <option value="home">Home Team</option>
+  //             <option value="away">Away Team</option>
+  //           </select>
+  //         </div>
+  //         <div class="event-type">
+  //           <select class="event-type-select">
+  //             <option value="goal">Goal</option>
+  //             <option value="yellow">Yellow Card</option>
+  //             <option value="red">Red Card</option>
+  //             <option value="substitution">Substitution</option>
+  //           </select>
+  //         </div>
+  //         <div class="event-player">
+  //           <select class="player-select"><option>Select player</option></select>
+  //         </div>
+  //         <div class="event-details goal-details">
+  //           <select class="goal-type">
+  //             <option value="normal">Normal</option>
+  //             <option value="penalty">Penalty</option>
+  //             <option value="own-goal">Own Goal</option>
+  //             <option value="free-kick">Free Kick</option>
+  //             <option value="header">Header</option>
+  //           </select>
+  //         </div>
+  //         <div class="event-assist">
+  //           <select class="assist-player-select"><option>Assist by (optional)</option></select>
+  //         </div>
+  //         <button type="button" class="remove-event">×</button>
+  //       `;
 
-//       eventList.appendChild(eventItem);
+  //       eventList.appendChild(eventItem);
 
-//       // Load players for the selected team
-//       const teamSelect = eventItem.querySelector(".event-team-select");
-//       const eventTypeSelect = eventItem.querySelector(".event-type-select");
-//       const goalDetails = eventItem.querySelector(".goal-details");
+  //       // Load players for the selected team
+  //       const teamSelect = eventItem.querySelector(".event-team-select");
+  //       const eventTypeSelect = eventItem.querySelector(".event-type-select");
+  //       const goalDetails = eventItem.querySelector(".goal-details");
 
-//       // Initially hide/show fields based on selected event type
-//       updateEventFields(eventTypeSelect, goalDetails);
+  //       // Initially hide/show fields based on selected event type
+  //       updateEventFields(eventTypeSelect, goalDetails);
 
-//       // Add event listeners for dynamic behavior
-//       teamSelect.addEventListener("change", () =>
-//         loadPlayersForTeam(
-//           teamSelect.value,
-//           eventItem.querySelector(".player-select"),
-//           eventItem.querySelector(".assist-player-select")
-//         )
-//       );
+  //       // Add event listeners for dynamic behavior
+  //       teamSelect.addEventListener("change", () =>
+  //         loadPlayersForTeam(
+  //           teamSelect.value,
+  //           eventItem.querySelector(".player-select"),
+  //           eventItem.querySelector(".assist-player-select")
+  //         )
+  //       );
 
-//       eventTypeSelect.addEventListener("change", () => {
-//         updateEventFields(eventTypeSelect, goalDetails);
-//       });
+  //       eventTypeSelect.addEventListener("change", () => {
+  //         updateEventFields(eventTypeSelect, goalDetails);
+  //       });
 
-//       // Load players for initial team selection
-//       loadPlayersForTeam(
-//         teamSelect.value,
-//         eventItem.querySelector(".player-select"),
-//         eventItem.querySelector(".assist-player-select")
-//       );
+  //       // Load players for initial team selection
+  //       loadPlayersForTeam(
+  //         teamSelect.value,
+  //         eventItem.querySelector(".player-select"),
+  //         eventItem.querySelector(".assist-player-select")
+  //       );
 
-//       // Add event listener to remove button
-//       eventItem
-//         .querySelector(".remove-event")
-//         .addEventListener("click", function () {
-//           this.closest(".event-item").remove();
-//         });
-//     });
-//   }
+  //       // Add event listener to remove button
+  //       eventItem
+  //         .querySelector(".remove-event")
+  //         .addEventListener("click", function () {
+  //           this.closest(".event-item").remove();
+  //         });
+  //     });
+  //   }
 
   // Remove Event Button - for existing buttons
   document.addEventListener("click", function (event) {
