@@ -303,13 +303,13 @@
                 </a>
             </div>
             <ul class="links">
-                <a href="home" class="link" >
+                <a href="../home/home.php" class="link" >
                     Home
                 </a>
                 <a href="" class="link" >
                     Equipes
                 </a>
-                <a href="facultes" class="link" >
+                <a href=" ../match/match-details.php" class="link" >
                     Matches
                 </a>
                 <a href="faq.jsp" class="link">
@@ -321,7 +321,7 @@
                     </a>
                 <?php endif;?>
                 <?php if(isset($_SESSION["role"]) && $_SESSION["role"] === 't'):?>
-                    <a href="admint.php" class="link" >
+                    <a href="../admin-tournoi/admin-tournaments.php" class="link" >
                         Espace Admin
                     </a>
                 <?php endif;?>
