@@ -290,6 +290,10 @@ print_r($match_id);
         </div>
     </div>
 
+
+    <?php require('comments.php') ?>
+
+    
     <script src="match-details.js"></script>
 </body>
 
