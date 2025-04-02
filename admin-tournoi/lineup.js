@@ -1,24 +1,32 @@
 // Football field lineup functionality
 document.addEventListener("DOMContentLoaded", () => {
-    // Sample player data - in a real app, this would come from your database
-    const samplePlayers = [
-        { id: 1, name: "David De Gea", number: 1, position: "GK", rating: 7.5 },
-        { id: 2, name: "Trent Alexander-Arnold", number: 2, position: "RB", rating: 8.1 },
-        { id: 3, name: "Virgil van Dijk", number: 4, position: "CB", rating: 8.4 },
-        { id: 4, name: "Raphael Varane", number: 5, position: "CB", rating: 7.9 },
-        { id: 5, name: "Andrew Robertson", number: 3, position: "LB", rating: 8.0 },
-        { id: 6, name: "Casemiro", number: 6, position: "CDM", rating: 7.8 },
-        { id: 7, name: "Kevin De Bruyne", number: 7, position: "CM", rating: 8.7 },
-        { id: 8, name: "Bruno Fernandes", number: 8, position: "CAM", rating: 8.2 },
-        { id: 9, name: "Mohamed Salah", number: 11, position: "RW", rating: 8.9 },
-        { id: 10, name: "Harry Kane", number: 9, position: "ST", rating: 8.5 },
-        { id: 11, name: "Kylian Mbappé", number: 10, position: "LW", rating: 8.8 },
-        { id: 12, name: "Ederson", number: 31, position: "GK", rating: 7.6 },
-        { id: 13, name: "Kyle Walker", number: 2, position: "RB", rating: 7.7 },
-        { id: 14, name: "Ruben Dias", number: 3, position: "CB", rating: 8.2 },
-        { id: 15, name: "John Stones", number: 5, position: "CB", rating: 7.5 },
-        { id: 16, name: "Joao Cancelo", number: 7, position: "LB", rating: 7.9 },
-    ];
+    let homeTeamPlayers = [];
+    let awayTeamPlayers = [];
+
+    // Function to fetch players for a team
+    async function fetchPlayersForTeam(teamId) {
+        try {
+            const response = await fetch(`get_team_players.php?team_id=${teamId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const players = await response.json();
+            return players;
+        } catch (error) {
+            console.error("Could not fetch players:", error);
+            return [];
+        }
+    }
+
+    // Initialize team players
+    async function initializeTeamPlayers() {
+        // Replace '1' and '2' with the actual team IDs you want to fetch
+        homeTeamPlayers = await fetchPlayersForTeam(8);
+        awayTeamPlayers = await fetchPlayersForTeam(10);
+
+        console.log("Home Team Players:", homeTeamPlayers);
+        console.log("Away Team Players:", awayTeamPlayers);
+    }
 
     // Formation positions
     const formations = {
@@ -139,6 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle position selection
     function selectPosition() {
+
+        console.log("Position selected:", this.dataset.positionId);
         // Remove selected class from all positions
         document.querySelectorAll('.player-position').forEach(pos => {
             pos.classList.remove('selected');
@@ -157,7 +167,8 @@ document.addEventListener("DOMContentLoaded", () => {
         selector.classList.add('active');
         
         // Filter players by position
-        const filteredPlayers = samplePlayers.filter(player => {
+        const players = team === 'home' ? homeTeamPlayers : awayTeamPlayers;
+        const filteredPlayers = players.filter(player => {
             // Match exact position or similar positions
             if (player.position === positionType) return true;
             
@@ -246,5 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formationSelect.addEventListener('change', initFootballField);
 
     // Initialize the field with default formation
-    initFootballField();
+    initializeTeamPlayers().then(() => {
+        initFootballField();
+    });
 });
