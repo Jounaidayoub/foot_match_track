@@ -67,8 +67,12 @@ CREATE TABLE _match (
     Nom_match VARCHAR(50) DEFAULT NULL,
     id_equipe1 INT NOT NULL,
     id_equipe2 INT NOT NULL,
+    tournament_id INT ,
+    staduim varchar(255),
     FOREIGN KEY (id_equipe1) REFERENCES teams(id),
-    FOREIGN KEY (id_equipe2) REFERENCES teams(id)
+    FOREIGN KEY (id_equipe2) REFERENCES teams(id),
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE
+
 );
 
 
@@ -92,7 +96,9 @@ create table users(
 nom varchar(50),
 email varchar(100),
 password varchar(100),
-role char(1)
+role char(1),
+  tournament_id INT ,
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE
 );
 
 
@@ -408,3 +414,40 @@ CREATE TABLE IF NOT EXISTS tournament_teams (
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
     UNIQUE KEY unique_tournament_team (tournament_id, team_id)
 );
+
+
+CREATE TABLE refree (
+  id INT NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(25) NOT NULL,
+  prenom VARCHAR(25) NOT NULL,
+  date_de_naissance DATE NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
+);
+INSERT INTO refree (id, nom, prenom, date_de_naissance, status) VALUES
+(3, 'Jiyed', 'Redouane', '1979-04-09', 'active'),
+(4, 'test2', 'test2', '2008-07-24', 'actif'),
+(5, 'arbitre1', 'arbitre1', '1990-06-13', 'actif'),
+(6, 'arbitre1', 'arbitre1', '1980-06-18', 'actif'),
+(7, 'arbitre1', 'arbitre1', '1976-02-10', 'retraite');
+
+CREATE TABLE stadium (
+  id INT NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(25) NOT NULL,
+  ville INT NOT NULL,
+  date_de_creation DATE NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  id_team INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_team) REFERENCES teams(id)
+);
+INSERT INTO stadium (id, nom, ville, date_de_creation, status, id_team) VALUES
+(1, 'Moulay Abdellah', 0, '1985-01-23', 'actif', 7);
+
+-- alter table users add column tournament_id int;
+-- alter table users add FOREIGN key (tournament_id) references tournaments(id);
+
+-- alter table _match add column tournament_id int;
+-- alter table _match add FOREIGN key (tournament_id) references tournaments(id);
+
+-- alter table _match add column staduim varchar(255);
