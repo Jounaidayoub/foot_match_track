@@ -135,6 +135,30 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error updating referees:", error));
   }
 
+// a fucntion to fetch referees from the database abd update the modal
+function get_match_referees(matchId) {
+  fetch(`get_match_referees.php?match_id=${matchId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        console.error("Error fetching referees:", data.error);
+        return;
+      }
+
+      // Check for success and referees data
+      if (data.success && data.referees) {
+        document.getElementById("match-referee").value = data.referees.main_referee || "";
+        document.getElementById("match-assistant1").value = data.referees.assistant1 || "";
+        document.getElementById("match-assistant2").value = data.referees.assistant2 || "";
+      } else {
+        console.error("No referee data found in response:", data);
+      }
+    })
+    .catch(error => {
+      console.error("Error updating referees in modal:", error);
+    });
+}
+
   // Add event listeners to match cards
   function setupMatchCardListeners() {
     const matchCards = document.querySelectorAll(".match-card");
@@ -145,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const matchId = this.getAttribute("data-match-id");
         document.getElementById("detail-match-id").value = matchId;
 
-
+        get_match_referees(matchId);
         //this for save this tab button
         const saveThisTabButton = document.getElementById("save-tab");
         if (saveThisTabButton) {
@@ -166,6 +190,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.getElementById("detail-home-team").textContent = homeTeam;
         document.getElementById("detail-away-team").textContent = awayTeam;
+
+        // const referees=
+        //filling the referees from db for eahc match card
+        // document.getElementById("match-referee").value =
+        // document.getElementById("match-assistant1").value =/
+        // document.getElementById("match-assistant2").value =
+
+
+
 
         //adding team id to home and away teams
 
