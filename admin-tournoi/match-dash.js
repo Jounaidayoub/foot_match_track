@@ -106,6 +106,35 @@ document.addEventListener("DOMContentLoaded", () => {
     return date.toLocaleDateString("en-US", options);
   }
 
+
+  function updateMatchReferees(matchId) {
+    const refereeData = {
+      match_id: matchId,
+      main_referee: document.getElementById("match-referee").value,
+      assistant1: document.getElementById("match-assistant1").value,
+      assistant2: document.getElementById("match-assistant2").value,
+    };
+
+    fetch("update_match_referees.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(refereeData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Match referees updated successfully!");
+        } else {
+          alert(
+            `Failed to update match referees: ${data.error || "Unknown error"}`
+          );
+        }
+      })
+      .catch((error) => console.error("Error updating referees:", error));
+  }
+
   // Add event listeners to match cards
   function setupMatchCardListeners() {
     const matchCards = document.querySelectorAll(".match-card");
@@ -115,6 +144,17 @@ document.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("click", function () {
         const matchId = this.getAttribute("data-match-id");
         document.getElementById("detail-match-id").value = matchId;
+
+
+        //this for save this tab button
+        const saveThisTabButton = document.getElementById("save-tab");
+        if (saveThisTabButton) {
+          saveThisTabButton.addEventListener("click", () => {
+
+            updateMatchReferees(matchId);
+
+          })}
+
 
         // Set match details based on the selected match card
         const homeTeam = this.querySelector(

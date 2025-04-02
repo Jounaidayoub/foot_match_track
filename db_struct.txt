@@ -15,4 +15,4 @@ teams: id (int), team_name (varchar), founded_year (int), country (varchar), cit
 tournaments: id (int), tournament_name (varchar), format (varchar), start_date (date), end_date (date), location (varchar), status (enum), num_teams (int), created_at (timestamp)
 tournament_teams: id (int), tournament_id (int), team_id (int), group_name (varchar), position (int)
 users: id (int), nom (varchar), email (varchar), password (varchar), role (char)
-_match: id_match (int), tournament_id (int), Nombre_spectateur (int), date_match (date), time_match (time), Nom_match (varchar), id_equipe1 (int), id_equipe2 (int), staduim (varchar)
+_match: id_match (int), tournament_id (int), Nombre_spectateur (int), date_match (date), time_match (time), Nom_match (varchar), id_equipe1 (int), id_equipe2 (int), staduim (varchar), id_referee_main (int), id_referee_assistant1 (int), id_referee_assistant2 (int)
