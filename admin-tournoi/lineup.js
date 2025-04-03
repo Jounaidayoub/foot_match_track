@@ -1,5 +1,8 @@
 // Football field lineup functionality
 addEventListener("DOMContentLoaded", function () {
+  let homeTeamId_1 = 1; // Replace with actual home team ID
+  let awayTeamId_1 = 2; // Replace with actual away team ID
+
   let homeTeamPlayers = [];
   let awayTeamPlayers = [];
 
@@ -22,9 +25,13 @@ addEventListener("DOMContentLoaded", function () {
   }
   // fetchPlayersForTeam(8);
 
-  function showPlayerSelectionModal(homeTeamId,awayTeamId) {
+  function showPlayerSelectionModal(homeTeamId, awayTeamId) {
+
+    homeTeamId_1=homeTeamId
+    awayTeamId_1=awayTeamId
+
     // Initialize the field with default formation
-    initializeTeamPlayers(homeTeamId,awayTeamId).then(() => {
+    initializeTeamPlayers(homeTeamId, awayTeamId).then(() => {
       initFootballField();
     });
 
@@ -171,7 +178,7 @@ addEventListener("DOMContentLoaded", function () {
 
     selectedAwayPlayers = [...awayTeamPlayers];
     selectedHomePlayers = [...homeTeamPlayers];
-    
+
     console.log("Home Team Players:", homeTeamPlayers);
     console.log("Away Team Players:", awayTeamPlayers);
 
@@ -447,4 +454,86 @@ addEventListener("DOMContentLoaded", function () {
   // initializeTeamPlayers().then(() => {
   //   initFootballField();
   // });
+
+  // Add this near the bottom of your DOMContentLoaded event listener
+
+  // Save Lineup functionality
+  document
+    .getElementById("save-lineup-btn")
+    ?.addEventListener("click", function () {
+      // Get the match details from the modal
+      const matchDetailsModal = document.getElementById("match-details-modal");
+      const matchId =
+        matchDetailsModal.dataset.matchId ||
+        document.getElementById("detail-match-id").value;
+      const homeTeamId = matchDetailsModal.dataset.homeTeamId;
+      const awayTeamId = matchDetailsModal.dataset.awayTeamId;
+
+      // Get the selected formation
+      const formationSelect = document.getElementById("formation-select");
+      const formation = formationSelect.value;
+
+      // Collect home lineup data
+      const homeLineup = {};
+      document
+        .querySelectorAll("#home-lineup .player-position.filled")
+        .forEach((position) => {
+          const positionId = position.dataset.positionId;
+          const playerId = position.dataset.playerId;
+          if (positionId && playerId) {
+            homeLineup[positionId] = playerId;
+          }
+        });
+
+      // Collect away lineup data
+      const awayLineup = {};
+      document
+        .querySelectorAll("#away-lineup .player-position.filled")
+        .forEach((position) => {
+          const positionId = position.dataset.positionId;
+          const playerId = position.dataset.playerId;
+          if (positionId && playerId) {
+            awayLineup[positionId] = playerId;
+          }
+        });
+
+      // Check if lineups are complete
+      // if (Object.keys(homeLineup).length === 0 || Object.keys(awayLineup).length === 0) {
+      //   alert("Please complete both team lineups before saving.");
+      //   return;
+      // }
+
+      // Prepare data for submission
+      const data = {
+        match_id: matchId,
+        home_team_id: homeTeamId_1,
+        away_team_id: awayTeamId_1,
+        formation: formation,
+        home_lineup: homeLineup,
+        away_lineup: awayLineup,
+      };
+
+      console.log("Saving lineup data:", data);
+
+      // Send data to server
+      fetch("save_lineup.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success) {
+            alert("Lineup saved successfully!");
+          } else {
+            alert("Error saving lineup: " + result.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred while saving the lineup.");
+        });
+    });
 });
