@@ -1,3 +1,6 @@
+// import initializeTeamPlayers from "./lineup";
+// import  showPlayerSelectionModal  from "./lineup";
+
 document.addEventListener("DOMContentLoaded", () => {
   function addOverlay(element) {
     const overlay = document.createElement("div");
@@ -166,6 +169,8 @@ function get_match_referees(matchId) {
 
     matchCards.forEach((card) => {
       card.addEventListener("click", function () {
+
+        console.log("Match card clicked:", card);
         const matchId = this.getAttribute("data-match-id");
         document.getElementById("detail-match-id").value = matchId;
 
@@ -178,6 +183,9 @@ function get_match_referees(matchId) {
             updateMatchReferees(matchId);
 
           })}
+
+        console.log("here is the match modal")
+          // initializeTeamPlayers()
 
 
         // Set match details based on the selected match card
@@ -197,6 +205,8 @@ function get_match_referees(matchId) {
         // document.getElementById("match-assistant1").value =/
         // document.getElementById("match-assistant2").value =
 
+
+        // showPlayerSelectionModal()
 
 
 
@@ -225,6 +235,9 @@ function get_match_referees(matchId) {
           document.getElementById("detail-match-status").value =
             statusClass || "scheduled";
         }
+
+
+        // window.initiali
 
         // Fetch match stats
         fetchMatchStats(matchId);
@@ -518,6 +531,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.classList.add("active");
       document.getElementById(target).classList.add("active");
+
+      // can see what the probelm here , to make it work #file:match-dash.js
+      
+      if (target === "lineups") {
+        // Get the match ID from the currently opened modal
+        const matchId = document.getElementById("detail-match-id").value;
+        
+        // Find the match card with this ID to get the team IDs
+        const matchCard = document.querySelector(`.match-card[data-match-id="${matchId}"]`);
+        
+        if (matchCard) {
+          const homeTeamId = matchCard.getAttribute("data-home-team-id");
+          const awayTeamId = matchCard.getAttribute("data-away-team-id");
+          
+          console.log("Opening lineup for teams:", homeTeamId, awayTeamId);
+          
+          // Call the player selection modal function with these team IDs
+          if (typeof window.showPlayerSelectionModal === "function") {
+            window.showPlayerSelectionModal(homeTeamId, awayTeamId);
+          } else {
+            console.error("showPlayerSelectionModal function is not available");
+          }
+        }
+      }
+
+
+
     });
   });
 
@@ -826,3 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal();
   });
 });
+
+
+
+

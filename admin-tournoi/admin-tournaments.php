@@ -854,9 +854,9 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </body>
 <script src="admin-tournaments.js"></script>
-<script src="match_detail.js"></script>
-<script src="match-dash.js"></script>
-<script src="lineup.js"></script>
+<script src="match_detail.js" ></script>
+<script src="match-dash.js" type="module"></script>
+<script src="lineup.js" type="module"></script>
 <script src="goals.js"></script>
 
 

@@ -1,7 +1,10 @@
 // Football field lineup functionality
-document.addEventListener("DOMContentLoaded", () => {
+addEventListener("DOMContentLoaded", function () {
   let homeTeamPlayers = [];
   let awayTeamPlayers = [];
+
+  let selectedHomePlayers = [];
+  let selectedAwayPlayers = [];
 
   // Function to fetch players for a team
   async function fetchPlayersForTeam(teamId) {
@@ -19,17 +22,175 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // fetchPlayersForTeam(8);
 
-  // Initialize team players
-  async function initializeTeamPlayers() {
-    // Replace '1' and '2' with the actual team IDs you want to fetch
-    homeTeamPlayers = await fetchPlayersForTeam(8);
-    awayTeamPlayers = await fetchPlayersForTeam(10);
+  function showPlayerSelectionModal(homeTeamId,awayTeamId) {
+    // Initialize the field with default formation
+    initializeTeamPlayers(homeTeamId,awayTeamId).then(() => {
+      initFootballField();
+    });
 
+    // Create modal
+    const modal = document.createElement("div");
+    modal.className = "player-selection-modal modal active";
+
+    // Create modal content
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Select Players for Match</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="team-tabs">
+            <button type="button" class="team-tab active" data-team="home">Home Team</button>
+            <button type="button" class="team-tab" data-team="away">Away Team</button>
+          </div>
+          
+          <div class="team-players active" id="home-players-list">
+            <div class="player-selection-list">
+              ${homeTeamPlayers
+                .map(
+                  (player) => `
+                <div class="player-selection-item">
+                  <input type="checkbox" id="home-player-${player.id}" data-player-id="${player.id}" checked>
+                  <label for="home-player-${player.id}">
+                    <span class="player-number">${player.number}</span>
+                    <span class="player-name">${player.full_name}</span>
+                    <span class="player-position">${player.position}</span>
+                  </label>
+                </div>
+              `
+                )
+                .join("")}
+            </div>
+          </div>
+          
+          <div class="team-players" id="away-players-list">
+            <div class="player-selection-list">
+              ${awayTeamPlayers
+                .map(
+                  (player) => `
+                <div class="player-selection-item">
+                  <input type="checkbox" id="away-player-${player.id}" data-player-id="${player.id}" checked>
+                  <label for="away-player-${player.id}">
+                    <span class="player-number">${player.number}</span>
+                    <span class="player-name">${player.full_name}</span>
+                    <span class="player-position">${player.position}</span>
+                  </label>
+                </div>
+              `
+                )
+                .join("")}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="confirm-player-selection">Confirm Selection</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add event listeners
+    modal.querySelector(".close-modal").addEventListener("click", () => {
+      modal.remove();
+    });
+
+    // Team tabs functionality
+    const teamTabs = modal.querySelectorAll(".team-tab");
+    teamTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        // Remove active class from all tabs
+        teamTabs.forEach((t) => t.classList.remove("active"));
+        // Add active class to clicked tab
+        tab.classList.add("active");
+
+        // Hide all player lists
+        modal.querySelectorAll(".team-players").forEach((list) => {
+          list.classList.remove("active");
+        });
+
+        // Show the selected team's player list
+        const team = tab.dataset.team;
+        modal.querySelector(`#${team}-players-list`).classList.add("active");
+      });
+    });
+
+    // Confirm button functionality
+    modal
+      .querySelector("#confirm-player-selection")
+      .addEventListener("click", () => {
+        // Get selected home players
+        selectedHomePlayers = [];
+        modal
+          .querySelectorAll("#home-players-list input:checked")
+          .forEach((checkbox) => {
+            const playerId = checkbox.dataset.playerId;
+            const player = homeTeamPlayers.find((p) => p.id == playerId);
+            if (player) {
+              selectedHomePlayers.push(player);
+            }
+          });
+
+        // Get selected away players
+        selectedAwayPlayers = [];
+        modal
+          .querySelectorAll("#away-players-list input:checked")
+          .forEach((checkbox) => {
+            const playerId = checkbox.dataset.playerId;
+            const player = awayTeamPlayers.find((p) => p.id == playerId);
+            if (player) {
+              selectedAwayPlayers.push(player);
+            }
+          });
+
+        // Close modal
+        modal.remove();
+
+        // Initialize football field
+        initFootballField();
+      });
+  }
+
+  window.showPlayerSelectionModal = showPlayerSelectionModal;
+
+  //   const matchCards = document.querySelectorAll(".match-card");
+  //     matchCards.forEach((card) => {
+
+  //     })
+
+  // module.exports = {
+  //   fun: showPlayerSelectionModal,
+  // };
+
+  // Initialize team players
+  async function initializeTeamPlayers(homeTeamId, awayTeamId) {
+    // Replace '1' and '2' with the actual team IDs you want to fetch
+    homeTeamPlayers = await fetchPlayersForTeam(homeTeamId);
+    awayTeamPlayers = await fetchPlayersForTeam(awayTeamId);
+
+    selectedAwayPlayers = [...awayTeamPlayers];
+    selectedHomePlayers = [...homeTeamPlayers];
+    
     console.log("Home Team Players:", homeTeamPlayers);
     console.log("Away Team Players:", awayTeamPlayers);
+
+    // showPlayerSelectionModal();
     // console.log(homeTeamPlayers[0].full_name);
   }
 
+  //   const matchCards = document.querySelectorAll(".match-card");
+  //   //   console.log("aw")
+  //   console.log("macth cards" + matchCards);
+  //   matchCards.forEach((card) => {
+  //     const matchId = card.getAttribute("data-match-id");
+  //     console.log("match iasddddddddd" + matchId);
+  //     console.log("card" + card);
+  //   })
+  const matchCards = document.querySelectorAll(".match-card");
+  matchCards.forEach((card) => {
+    console.log(card);
+  });
   // Formation positions
   const formations = {
     "4-3-3": [
@@ -168,10 +329,9 @@ document.addEventListener("DOMContentLoaded", () => {
     selector.classList.add("active");
 
     // Filter players by position
-    const players = team === "home" ? homeTeamPlayers : awayTeamPlayers;
-    players.forEach(player => {
-        console.log(player.full_name + " " + player.position + " ");
-        
+    const players = team === "home" ? selectedHomePlayers : selectedAwayPlayers;
+    players.forEach((player) => {
+      console.log(player.full_name + " " + player.position + " ");
     });
     const filteredPlayers = players.filter((player) => {
       // Map API positions to formation positions
@@ -211,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     playerList.innerHTML = "";
 
     filteredPlayers.forEach((player) => {
-        console.log("this is "+player);
+      console.log("this is " + player);
       const playerItem = document.createElement("div");
       playerItem.className = "player-list-item";
       playerItem.dataset.playerId = player.id;
@@ -284,7 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
   formationSelect.addEventListener("change", initFootballField);
 
   // Initialize the field with default formation
-  initializeTeamPlayers().then(() => {
-    initFootballField();
-  });
+  // initializeTeamPlayers().then(() => {
+  //   initFootballField();
+  // });
 });
