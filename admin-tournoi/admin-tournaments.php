@@ -35,7 +35,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
 
-<?php require('../includes/header.php') ?>
+    <?php require('../includes/header.php') ?>
 
     <div class="container">
         <header class="header">
@@ -532,7 +532,19 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="form-row">
                         <div class="form-group">
                             <label for="match-venue">Venue/Stadium</label>
-                            <input type="text" id="match-venue" required>
+                            <!-- <input type="text" id="match-venue" required> -->
+                            <select id="match-venue" required>
+                                <?php
+                                $sql = "SELECT id, nom FROM stadium";
+                                $stmt = $bd->prepare($sql);
+                                $stmt->execute();
+                                $stadiums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                foreach ($stadiums as $stadium) {
+                                    echo '<option value="' . htmlspecialchars($stadium['id']) . '">' . htmlspecialchars($stadium['nom']) . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -606,6 +618,51 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="time" id="detail-match-time">
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="match-referee">Main Referee</label>
+                                <select id="match-referee" required>
+                                    <option value="">Select a referee</option>
+                                    <?php
+                                    $sql = "SELECT id, CONCAT(prenom, ' ', nom) AS full_name FROM refree WHERE status = 'actif' ORDER BY nom, prenom";
+                                    $stmt = $bd->prepare($sql);
+                                    $stmt->execute();
+                                    $referees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                    foreach ($referees as $referee) {
+                                        echo '<option value="' . htmlspecialchars($referee['id']) . '">' . htmlspecialchars($referee['full_name']) . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="match-assistant1">Assistant Referee 1</label>
+                                <select id="match-assistant1">
+                                    <option value="">Select assistant referee</option>
+                                    <?php foreach ($referees as $referee): ?>
+                                        <option value="<?= htmlspecialchars($referee['id']) ?>"><?= htmlspecialchars($referee['full_name']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="match-assistant2">Assistant Referee 2</label>
+                                <select id="match-assistant2">
+                                    <option value="">Select assistant referee</option>
+                                    <?php foreach ($referees as $referee): ?>
+                                        <option value="<?= htmlspecialchars($referee['id']) ?>"><?= htmlspecialchars($referee['full_name']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="match-name">Match Name (Optional)</label>
+                                <input type="text" id="match-name">
+                            </div>
+                        </div>
 
                         <div class="form-row">
                             <div class="form-group">
@@ -626,10 +683,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group">
-                                <label for="detail-referee">Referee</label>
-                                <input type="text" id="detail-referee" placeholder="Main referee name">
-                            </div>
+                            
 
                             <div class="form-group">
                                 <label for="detail-attendance">Attendance</label>
@@ -718,8 +772,9 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- Stats Tab Content -->
                     <!-- Stats Tab Content -->
-                    <div class="tab-content" id="stats">
-                        <div class="stats-comparison">
+                    <div class="tab-content " id="stats">
+
+                        <div class="stats-comparison ">
                             <div class="stat-row">
                                 <div class="stat-label">Possession (%)</div>
                                 <div class="stat-values">
@@ -790,6 +845,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </form>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-secondary" id="save-tab">save for this Tab only</button>
                 <button class="btn btn-secondary" id="cancel-details">Cancel</button>
                 <button class="btn btn-primary" id="save-details">Save Match Details</button>
             </div>

@@ -451,3 +451,16 @@ INSERT INTO stadium (id, nom, ville, date_de_creation, status, id_team) VALUES
 -- alter table _match add FOREIGN key (tournament_id) references tournaments(id);
 
 -- alter table _match add column staduim varchar(255);
+
+create table comments(
+    id_comment int primary key auto_increment,
+    id_user int,
+    id_match int,
+    comment text,
+    likes int,
+    date_comment datetime,
+    foreign key(id_user) references users(id),
+    foreign key(id_match) references _match(id_match)
+);
+
+ALTER TABLE `comments` CHANGE `likes` `likes` INT(11) NULL DEFAULT '0'; 

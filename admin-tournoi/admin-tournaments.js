@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const awayTeam = awayTeamSelect.value;
       const matchDate = matchDateInput.value;
       const matchTime = matchTimeInput.value;
-      const matchVenue = matchVenueInput.value;
+      const matchVenue = matchVenueInput.options[matchVenueInput.selectedIndex].text;
       const matchSpectators = matchSpectatorsInput.value;
       const matchName = matchNameInput.value;
 
