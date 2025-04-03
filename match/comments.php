@@ -10,7 +10,7 @@
     border-radius: 17px 17px 27px 27px;
     font-family: Inter,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"
     
-}
+    }
 
     .title {
     width: 100%;
@@ -257,7 +257,7 @@
     align-items: center;
     justify-content: center;
     margin: 10px auto;
-}
+    }
 
     #hide-comments svg {
         transition: transform 0.3s ease;
@@ -276,7 +276,7 @@
     align-items: center;
     justify-content: center;
     margin: 10px auto;
-}
+    }
 
     #show-more svg {
         transition: transform 0.3s ease;
