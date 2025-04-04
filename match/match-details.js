@@ -290,41 +290,91 @@ function updateMatchGoals(goals) {
 }
 
 /**
- * Update the match stats section
- * @param {Object} stats - Match statistics
+ * Update the match stats section with actual DB data
+ * @param {Object} stats - Match statistics from database
  */
 function updateMatchStats(stats) {
-  // Possession
-  const possessionHomeBar = document.querySelector('.stat-item:nth-child(1) .home-bar');
-  const possessionHomeValue = possessionHomeBar.querySelector('.stat-value');
-  const possessionAwayBar = document.querySelector('.stat-item:nth-child(1) .away-bar');
-  const possessionAwayValue = possessionAwayBar.querySelector('.stat-value');
+  // Get the stats container
+  const statsBody = document.querySelector('.stats-card .card-body');
   
-  possessionHomeBar.style.width = `${stats.home_possession || 50}%`;
-  possessionHomeValue.textContent = `${stats.home_possession || 50}%`;
-  possessionAwayBar.style.width = `${stats.away_possession || 50}%`;
-  possessionAwayValue.textContent = `${stats.away_possession || 50}%`;
+  // Clear the existing stats
+  statsBody.innerHTML = '';
   
-  // Expected goals
-  const xgHomeValue = document.querySelector('.stat-item:nth-child(2) .home-value');
-  const xgAwayValue = document.querySelector('.stat-item:nth-child(2) .away-value');
+  // Add possession stat
+  const possessionItem = document.createElement('div');
+  possessionItem.className = 'stat-item';
+  possessionItem.innerHTML = `
+    <div class="stat-label">Ball possession</div>
+    <div class="stat-bar">
+      <div class="home-bar" style="width: ${stats.home_possession}%;">
+        <span class="stat-value">${stats.home_possession}%</span>
+      </div>
+      <div class="away-bar" style="width: ${stats.away_possession}%;">
+        <span class="stat-value">${stats.away_possession}%</span>
+      </div>
+    </div>
+  `;
+  statsBody.appendChild(possessionItem);
   
-  xgHomeValue.textContent = stats.home_xg || '0.00';
-  xgAwayValue.textContent = stats.away_xg || '0.00';
+  // Add total shots stat
+  const shotsItem = document.createElement('div');
+  shotsItem.className = 'stat-item';
+  shotsItem.innerHTML = `
+    <div class="stat-label">Total shots</div>
+    <div class="stat-values">
+      <div class="home-value">${stats.home_shots}</div>
+      <div class="away-value">${stats.away_shots}</div>
+    </div>
+  `;
+  statsBody.appendChild(shotsItem);
   
-  // Total shots
-  const shotsHomeValue = document.querySelector('.stat-item:nth-child(3) .home-value');
-  const shotsAwayValue = document.querySelector('.stat-item:nth-child(3) .away-value');
+  // Add shots on target stat
+  const shotsTargetItem = document.createElement('div');
+  shotsTargetItem.className = 'stat-item';
+  shotsTargetItem.innerHTML = `
+    <div class="stat-label">Shots on target</div>
+    <div class="stat-values">
+      <div class="home-value">${stats.home_shots_target}</div>
+      <div class="away-value">${stats.away_shots_target}</div>
+    </div>
+  `;
+  statsBody.appendChild(shotsTargetItem);
   
-  shotsHomeValue.textContent = stats.home_shots || '0';
-  shotsAwayValue.textContent = stats.away_shots || '0';
+  // Add corners stat
+  const cornersItem = document.createElement('div');
+  cornersItem.className = 'stat-item';
+  cornersItem.innerHTML = `
+    <div class="stat-label">Corners</div>
+    <div class="stat-values">
+      <div class="home-value">${stats.home_corners}</div>
+      <div class="away-value">${stats.away_corners}</div>
+    </div>
+  `;
+  statsBody.appendChild(cornersItem);
   
-  // Big chances
-  const chancesHomeValue = document.querySelector('.stat-item:nth-child(4) .home-value');
-  const chancesAwayValue = document.querySelector('.stat-item:nth-child(4) .away-value');
+  // Add fouls stat
+  const foulsItem = document.createElement('div');
+  foulsItem.className = 'stat-item';
+  foulsItem.innerHTML = `
+    <div class="stat-label">Fouls</div>
+    <div class="stat-values">
+      <div class="home-value">${stats.home_fouls}</div>
+      <div class="away-value">${stats.away_fouls}</div>
+    </div>
+  `;
+  statsBody.appendChild(foulsItem);
   
-  chancesHomeValue.textContent = stats.home_big_chances || '0';
-  chancesAwayValue.textContent = stats.away_big_chances || '0';
+  // Add passes stat
+  const passesItem = document.createElement('div');
+  passesItem.className = 'stat-item';
+  passesItem.innerHTML = `
+    <div class="stat-label">Passes</div>
+    <div class="stat-values">
+      <div class="home-value">${stats.home_passes}</div>
+      <div class="away-value">${stats.away_passes}</div>
+    </div>
+  `;
+  statsBody.appendChild(passesItem);
 }
 
 /**
