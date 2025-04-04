@@ -293,6 +293,83 @@
             box-shadow: none;
             -webkit-box-shadow: none;
         }
+
+        /* notif popup style */
+    .notif-popup {
+    position: absolute;
+    top: 70.3px;
+    right: 20px;
+    width: 498px;
+    background-color: var(--bg-darker);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notif-popup.hidden {
+    display: none;
+}
+
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #2B2D31;
+    border-bottom: 1px solid #ddd;
+}
+
+.notif-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.notif-header button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.notif-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notif-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.notif-item.unread {
+    color: #2B2D31;
+    background-color :#F5C451;
+}
+
+.notif-item a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.notif-item a:hover {
+    text-decoration: underline;
+}
+
+.notif-item .notif-date {
+    font-size: 12px;
+    color: white;
+}
 </style>
 	
     <nav class="nav">
@@ -330,7 +407,7 @@
         <section class="nav-r">
 			<!--notification -->
             <?php if(isset($_SESSION["id"])) :?>
-	            <a href="Notifications" class="notification-bell">
+	            <button class="notification-bell" id="notif-bell-btn">
 	                <img src=../assets/imgs/bell.svg alt="bell">
 <!-- 	                
 	                <%-- storing the notifications number  --%>
@@ -346,8 +423,18 @@
 		        		</span> 
                     <?php endif;?>
 
-	    		</a>
+                </button>
 
+                <!-- notification popup -->
+                <div id="notif-popup" class="notif-popup hidden">
+                    <div class="notif-header">
+                        <h3>Notifications</h3>
+                        <button id="close-notif-popup">&times;</button>
+                    </div>
+                    <div id="notif-list" class="notif-list">
+                        <!-- Notifications will be dynamically rendered here -->
+                    </div>
+                </div>
             <?php endif;?>
     		
             <!-- <div class="search-div" id="search-form"> -->
@@ -408,6 +495,106 @@
         })
     </script>
     
+    <script>
+        async function fetchNotifs(){
+            const response = await fetch('../includes/notif.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            if (data.success) {
+                // Update the notification count in the badge
+                // const badge = document.querySelector('.notification-bell .badge');
+                // badge.textContent = data.notifNum;
+                // console.log('notifs', data.notifs)
+                return data.notifs;
+            } else {
+                console.error('Error fetching notifications:', data.error);
+            }
+        }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const notifPopup = document.getElementById("notif-popup");
+        const notifBellBtn = document.getElementById("notif-bell-btn");
+        const closeNotifPopup = document.getElementById("close-notif-popup");
+        const notifList = document.getElementById("notif-list");
+
+        // Toggle the notifications popup
+        notifBellBtn.addEventListener("click", () => {
+            notifPopup.classList.toggle("hidden");
+            if (!notifPopup.classList.contains("hidden")) {
+                fetchNotifs().then((notifs) => {
+                    if (notifs && Array.isArray(notifs)) {
+                        renderNotifs(notifs);
+                        readAllNotifs();
+                    } else {
+                        console.error("No notifications to render or invalid data format.");
+                    }
+                }).catch((error) => {
+                    console.error("Error fetching notifications:", error);
+                });
+            }
+        });
+
+        closeNotifPopup.addEventListener("click", () => {
+            notifPopup.classList.add("hidden");
+        });
+
+
+            // Render notifications in the popup
+        function renderNotifs(notifs) {
+            console.log(notifs, "from render")
+            notifList.innerHTML = ""; // Clear existing notifications
+
+            notifs.forEach(notif => {
+                const notifItem = document.createElement("div");
+                notifItem.classList.add("notif-item");
+                if (notif.is_read === "n") {
+                    notifItem.classList.add("unread");
+                }
+
+                notifItem.innerHTML = `
+                    <p>${notif.msg}</p>
+                    <a href="../${notif.event_type}/${notif.event_id}" target="_blank">View Details</a>
+                    <span class="notif-date">${formatDateTime(notif.date_notif)}</span>
+                `;
+
+                notifList.appendChild(notifItem);
+            });
+        }
+
+        // Format date and time
+        function formatDateTime(dateTime) {
+            const date = new Date(dateTime);
+            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        }
+
+        async function readAllNotifs(){
+            const data = new URLSearchParams();
+            data.append("type", "read_all");
+            try {
+            const result = await fetch(`../includes/notif.php`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: data.toString(),
+            });
+            const response = await result.json();
+            console.log(response);
+            } catch (error) {
+            console.error("Error:", error);
+            }
+        }
+
+    })
+
+
+
+
+    </script>
         
 </body>
 </html>

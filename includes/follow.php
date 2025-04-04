@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $id_event = $_POST['id_event'] ;
     $event_type= $_POST["event_type"] ;
     $id_user = $_SESSION['id']; 
-    if (isset($id_event) && isset($event_type) && isset($id_user) && (isFollowing( $id_event, $id_user, $event_type)== false) ) {
+    if (isset($id_event) && isset($event_type) && isset($id_user) && (isFollowing( $id_event, $id_user, $event_type)=== false) ) {
         try {
             $sql = "INSERT INTO follow (event_id, id_user, event_type) VALUES (:id_event, :id_user, :event_type)";
 
