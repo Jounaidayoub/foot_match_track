@@ -1,3 +1,5 @@
+<!-- user-select: none; -->
+
 <?php
 session_start();
 require '../includes/db.php';
@@ -219,12 +221,13 @@ foreach ($tournaments as $tournament) {
 
 <main class="match-container">
   <div class="match-layout">
-    <section class="match-video-section slideshow-container">
+    <section class="match-video-section slideshow-container" id="match-video-section">
         <?php foreach ($matchesData as $index => $matchData): ?>
             <?php $comingMatches = $matchData['comingMatches']; ?>
             <?php if (!empty($comingMatches)): ?>
                 <?php $closestMatch = $comingMatches[0]; ?>
                 <div class="slide fade">
+                    <h2 class="tournament-name">🏆 <?= $matchData['tournament']['tournament_name'] ?></h2>
                     <img src="../assets/<?= $closestMatch["team1_logo"] ?>" alt="" class="team-logo">
                     <div class="info">
                         <h2 class="info-match-name"><?= $closestMatch["Nom_match"] ?></h2>
@@ -235,27 +238,52 @@ foreach ($tournaments as $tournament) {
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
     </section>
 
     <script>
         let slideIndex = 0;
+        let slides = document.querySelectorAll(".slide");
+        let autoSlideTimeout;
+        const slideshowContainer = document.getElementById("match-video-section");
+
         showSlides();
 
         function showSlides() {
-            const slides = document.querySelectorAll(".slide");
             slides.forEach((slide) => slide.style.display = "none");
             slideIndex++;
             if (slideIndex > slides.length) { slideIndex = 1; }
             slides[slideIndex - 1].style.display = "flex";
-            setTimeout(showSlides, 5000); // Change slide every 5 seconds
+            autoSlideTimeout = setTimeout(showSlides, 5000); // Change slide every 5 seconds
         }
+
+        function changeSlide(n) {
+            clearTimeout(autoSlideTimeout); // Stop the automatic slide change
+            slides.forEach((slide) => slide.style.display = "none");
+            slideIndex += n;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            if (slideIndex < 1) { slideIndex = slides.length; }
+            slides[slideIndex - 1].style.display = "flex";
+            autoSlideTimeout = setTimeout(showSlides, 5000); // Restart the automatic slide change
+        }
+
+        // Pause auto-slide when mouse is over the slideshow container
+        slideshowContainer.addEventListener("mouseenter", () => {
+            clearTimeout(autoSlideTimeout);
+        });
+
+        // Resume auto-slide when mouse leaves the slideshow container
+        slideshowContainer.addEventListener("mouseleave", () => {
+            autoSlideTimeout = setTimeout(showSlides, 5000);
+        });
     </script>
 
     <style>
         .slideshow-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
+            max-width: 920px;
             margin: auto;
             display: flex;
             justify-content: center;
@@ -269,6 +297,7 @@ foreach ($tournaments as $tournament) {
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            animation: fade 1s ease-in-out;
         }
 
         .team-logo {
@@ -286,6 +315,56 @@ foreach ($tournaments as $tournament) {
         .info-match-time {
             margin: 5px 0;
         }
+
+        .tournament-name {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: Lato, sans-serif;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .prev {
+            left: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fade {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        .match-video-section div{
+            width: 95%;
+        }
+        .score{
+            width: 75px;
+        }
     </style>
     
     
@@ -294,7 +373,7 @@ foreach ($tournaments as $tournament) {
     
     
     
-    <section class="stats-section">
+    <!-- <section class="stats-section">
       <article class="stats-card">
         <header class="match-header">
           <h1 class="match-status">Latest Match</h1>
@@ -337,7 +416,7 @@ foreach ($tournaments as $tournament) {
           </div>
         </section>
       </article>
-    </section>
+    </section> -->
   </div>
 </main>
 
@@ -454,8 +533,25 @@ function getLatestMatches(){
       <div class="match-status">Upcoming</div>
       <div class="match-info">
         <time class="match-date"><?= $match['date_match'] ?></time>
-        <time class="match-time"><?= $match['time_match'] ?></time>
+        <!-- <time class="match-time"><?= $match['time_match'] ?></time> -->
       </div>
+      <div class="match-icons">
+        <a href="http://localhost/foot_match_track/match/match-details.php?id_match=<?= $match['id_match'] ?>" class="icon-button" aria-label="Match Information">
+            <svg
+              class="info-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.5 22.5C6.977 22.5 2.5 18.023 2.5 12.5C2.5 6.977 6.977 2.5 12.5 2.5C18.023 2.5 22.5 6.977 22.5 12.5C22.5 18.023 18.023 22.5 12.5 22.5ZM12.5 20.5C14.6217 20.5 16.6566 19.6571 18.1569 18.1569C19.6571 16.6566 20.5 14.6217 20.5 12.5C20.5 10.3783 19.6571 8.34344 18.1569 6.84315C16.6566 5.34285 14.6217 4.5 12.5 4.5C10.3783 4.5 8.34344 5.34285 6.84315 6.84315C5.34285 8.34344 4.5 10.3783 4.5 12.5C4.5 14.6217 5.34285 16.6566 6.84315 18.1569C8.34344 19.6571 10.3783 20.5 12.5 20.5V20.5ZM11.5 7.5H13.5V9.5H11.5V7.5ZM11.5 11.5H13.5V17.5H11.5V11.5Z"
+                fill="#A4A4A4"
+              />
+            </svg>
+        </a>
+        </div>
     </article>
   <?php endforeach; ?>
 </section>
