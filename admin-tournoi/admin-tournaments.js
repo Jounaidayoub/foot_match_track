@@ -228,8 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
               closeModal();
               fetchMatches(tournamentId);
                // Send notification
-               const message = `📅 ${homeTeamSelect.options[homeTeamSelect.selectedIndex].text} vs. ${awayTeamSelect.options[awayTeamSelect.selectedIndex].text} kicks off on ${matchDate} at ${matchTime}!`;
-               sendKickofNotif(data.match_id, "match", message);
+               const message = ` ${homeTeamSelect.options[homeTeamSelect.selectedIndex].text} vs. ${awayTeamSelect.options[awayTeamSelect.selectedIndex].text} kicks off on ${matchDate} at ${matchTime}!`;
+               sendKickofNotif(data.match_id, message);
             } else {
               alert("Error adding match: " + (data.error || "Unknown error"));
             }
@@ -343,8 +343,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-  async function sendKickofNotif(eventId, eventType, message){
+//send kickof or lineup notifs
+  async function sendKickofNotif(eventId, message){
     console.log("notification added")
     const data = new URLSearchParams();
     data.append("match_id", eventId);
@@ -371,13 +371,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 }
 
-async function sendLinupNotif(eventId, eventType, message){
+async function sendScoreNotif(eventId){
     console.log("notification added")
     const data = new URLSearchParams();
     data.append("match_id", eventId);
     data.append("event_type", "match");
-    data.append("message", message);
-    data.append("type", "linup_notif");
+    // data.append("message", message);
+    data.append("type", "score_notif");
     console.log("home team" + document.getElementById("match-home-team").value);
     
     data.append("team1_id", document.getElementById("match-home-team").value);
@@ -401,4 +401,9 @@ async function sendLinupNotif(eventId, eventType, message){
 
 });
 
-
+/*
+               // Send linup notification
+               sendKickofNotif(data.match_id, ` The official lineup for ${homeTeamSelect.options[homeTeamSelect.selectedIndex].text} vs. ${awayTeamSelect.options[awayTeamSelect.selectedIndex].text} is out!`);
+               //send score notification
+               sendScoreNotif(data.match_id)
+*/

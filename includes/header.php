@@ -193,9 +193,9 @@
         margin: 1em 5em;
         margin-bottom: 0;
         width: 150px;
-    text-overflow: hidden;
-    overflow: hidden;
-    font-family: Lato;
+        text-overflow: hidden;
+        overflow: hidden;
+        font-family: Lato;
 
     }
     .profile-pop-info span{
@@ -250,12 +250,11 @@
             padding: 8px;
             }
         .notification-bell:hover{
-            background-color: #9993;
+            background-color: #9993 !important;
+            padding: .3em;
         }
-        .notification-bell img{
-            display: flex;
-            margin: auto;
-            width: 28px;
+        .notification-bell svg{
+            width: 100%;
         }
         .notification-bell .badge {
         /*   right: -7px; */
@@ -275,8 +274,8 @@
         font-size: 12px;
         font-weight: 400;
         line-height: 16px;
-        right: 0;
-        width: 20px;
+        right: 10;
+        width: 16px;
         }
         .nav{
             z-index: 3000;
@@ -308,68 +307,73 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-}
+    }
 
-.notif-popup.hidden {
-    display: none;
-}
+    .notif-popup.hidden {
+        display: none;
+    }
+    .hidden {
+        display: none !important;
+    }
+    .notif-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background-color: #2B2D31;
+        border-bottom: 1px solid #ddd;
+    }
 
-.notif-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: #2B2D31;
-    border-bottom: 1px solid #ddd;
-}
+    .notif-header h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+        color: #f5c451;
+    }
 
-.notif-header h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-}
+    .notif-header button {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-.notif-header button {
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-}
+    .notif-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
 
-.notif-list {
-    max-height: 400px;
-    overflow-y: auto;
-}
+    .notif-item {
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #2B2D31;
+        color: white;
+    }
 
-.notif-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
+    .notif-item.unread {
+        color: #2B2D31;
+        background-color :#F5C451;
+    }
 
-.notif-item.unread {
-    color: #2B2D31;
-    background-color :#F5C451;
-}
+    .notif-item a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
 
-.notif-item a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-}
+    .notif-item a:hover {
+        text-decoration: underline;
+    }
 
-.notif-item a:hover {
-    text-decoration: underline;
-}
-
-.notif-item .notif-date {
-    font-size: 12px;
-    color: white;
-}
+    .notif-item .notif-date {
+        font-size: 12px;
+        color: #8b8c8c;
+    }
 </style>
 	
     <nav class="nav">
@@ -407,9 +411,12 @@
         <section class="nav-r">
 			<!--notification -->
             <?php if(isset($_SESSION["id"])) :?>
-	            <button class="notification-bell" id="notif-bell-btn">
-	                <img src=../assets/imgs/bell.svg alt="bell">
-<!-- 	                
+	            <button class="notification-bell" id="notif-bell-btn" style="background:none; border:none; width: 64px;">
+	                <!-- <img src=../assets/imgs/bell-fill.svg alt="bell"> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                    </svg>
+                    <!--
 	                <%-- storing the notifications number  --%>
 	                <% 
 		                String token =(String) session.getAttribute("id");
@@ -417,11 +424,11 @@
 		                request.setAttribute("notifNum",OraFactory.getNotifDao().getNotReadedNotifNum( id ) ); 
 	                
 	                %> -->
-                    <?php if(isset($notifNumber) && $notifNumber > 0) :?> 
-		        		<span class="badge">
-		        			${notifNum }
+                    <?php //if(isset($notifNumber) && $notifNumber > 0) :?> 
+		        		<span class="badge hidden" id="badge">
+		        			
 		        		</span> 
-                    <?php endif;?>
+                    <?php //endif;?>
 
                 </button>
 
@@ -506,9 +513,9 @@
             const data = await response.json();
             if (data.success) {
                 // Update the notification count in the badge
-                // const badge = document.querySelector('.notification-bell .badge');
-                // badge.textContent = data.notifNum;
-                // console.log('notifs', data.notifs)
+                if (data.notifs && data.notifs.some(notif => notif.is_read === "n")) {
+                    document.querySelector('#badge').classList.remove("hidden");
+                }  console.log('notifs', data.notifs)
                 return data.notifs;
             } else {
                 console.error('Error fetching notifications:', data.error);
@@ -520,7 +527,8 @@
         const notifBellBtn = document.getElementById("notif-bell-btn");
         const closeNotifPopup = document.getElementById("close-notif-popup");
         const notifList = document.getElementById("notif-list");
-
+        //initial notif fetch
+        fetchNotifs();
         // Toggle the notifications popup
         notifBellBtn.addEventListener("click", () => {
             notifPopup.classList.toggle("hidden");
@@ -557,7 +565,7 @@
 
                 notifItem.innerHTML = `
                     <p>${notif.msg}</p>
-                    <a href="../${notif.event_type}/${notif.event_id}" target="_blank">View Details</a>
+                    <a href="${getEventLink(notif.event_type, notif.event_id)}" target="_blank">View Details</a>
                     <span class="notif-date">${formatDateTime(notif.date_notif)}</span>
                 `;
 
@@ -589,6 +597,23 @@
             }
         }
 
+
+
+        //get the notification link based on the event type 
+        function getEventLink(eventType, eventId){
+            let link = "#"; // Default link if no match found
+            switch (eventType) {
+                case "match":
+                    link = `http://localhost/foot_match_track/match/match-details.php?id=${eventId}`;
+                    break;
+                case "team":
+                    link = `http://localhost/foot_match_track/teams/team-info.php?idTeam=${eventId}`;
+                    break;
+                default:
+                    break;
+            }
+            return link;
+        }
     })
 
 
