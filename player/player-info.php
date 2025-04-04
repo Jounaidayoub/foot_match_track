@@ -80,10 +80,10 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
         <!-- <div class="card"> -->
             <!-- <div class="card"> -->
                 <div class="player-stats">
-                    <div class="stat"> 10
+                    <div class="stat"> <?=$player["goals"]?? ''?>
                         <div class="stats-under"> ⚽ Goals</div>
                     </div>
-                    <div class="stat"> 5
+                    <div class="stat"> <?=$player["assists"]?? ''?>
                         <div class="stats-under"> 🦶 Assist</div>
 
                     </div>
