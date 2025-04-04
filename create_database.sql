@@ -467,38 +467,21 @@ ALTER TABLE `comments` CHANGE `likes` `likes` INT(11) NULL DEFAULT '0';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Create these tables if they don't exist
-CREATE TABLE IF NOT EXISTS match_lineups (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    match_id INT NOT NULL,
-    team_id INT NOT NULL,
-    formation VARCHAR(20) NOT NULL,
-    FOREIGN KEY (match_id) REFERENCES _match(id_match) ON DELETE CASCADE,
-    FOREIGN KEY (team_id) REFERENCES teams(id)
+create table notif(
+    id_notif int primary key auto_increment,
+    id_user int,
+    msg text,
+    date_notif datetime,
+    is_read char(1) default 'n', --'y' or 'n' d
+    event_id int, -- (match|tournament|player) id
+    event_type varchar(50), -- "match", "tournament", "team" (used when generating the link)
+    foreign key(id_user) references users(id)
 );
 
-CREATE TABLE IF NOT EXISTS lineup_positions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    lineup_id INT NOT NULL,
-    position_id VARCHAR(10) NOT NULL,
-    player_id INT NOT NULL,
-    FOREIGN KEY (lineup_id) REFERENCES match_lineups(id) ON DELETE CASCADE,
-    FOREIGN KEY (player_id) REFERENCES players(id)
+create table follow(
+    id int primary key auto_increment,
+    id_user int,
+    event_id int,
+    event_type varchar(50), -- "match", "tournament", "team" (used when generating the link)
+    foreign key(id_user) references users(id)
 );

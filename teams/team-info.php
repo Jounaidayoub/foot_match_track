@@ -60,7 +60,19 @@ require '../includes/db.php';
     // print_r($staff);
     // print_r($team);
 ?>
-
+<?php
+    // function isFollowing($id_team, $id_user){
+    //     global $bd;
+        
+    //     $sql = "SELECT id FROM follow WHERE event_id = :id_team AND id_user = :id_user AND event_type = 'team'";
+    //     $stmt = $bd->prepare($sql); 
+    //     $stmt->execute(['id_team' => $id_team, 'id_user' => $id_user]); 
+        
+    //     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+    //     return $row ? true : false; 
+    // }
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,7 +101,14 @@ require '../includes/db.php';
                     <h4 class="grey-font"><?=$team["city"] ?></h4>
                 </div>
             </div>
-            <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Ajouter Les matches du Arsenal dans votre Google calendar">Sync to calendar 🗓️</button>
+            <div class="btns" style="display: flex; gap: 1em;">
+                <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Ajouter Les matches du Arsenal dans votre Google calendar">Sync to calendar 🗓️</button>
+                <?php if( isFollowing($_GET["idTeam"], $_SESSION['id'], "team") === false ) :?>
+                    <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Follow Team" id="follow" onclick="follow()">Follow Team</button>
+                <?php else: ?>
+                    <div class="header-subsec1-calendar white-font" data-tooltip="Follow Team" id="follow" style="cursor:default; ">Followed </div>
+                <?php endif; ?>
+            </div>
         </section>
         <section class="header-nav">
             <ul class="header-nav-ul">
@@ -183,5 +202,33 @@ require '../includes/db.php';
     </main>
 
     <!-- end of main -->
+
+
+
+<script>
+async function follow() {
+    const idTeam = new URLSearchParams(window.location.search).get('idTeam');
+
+    const data = new URLSearchParams();
+    data.append("id_event", idTeam);
+    data.append("event_type", "team");
+    try {
+        const result = await fetch(`../includes/follow.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: data.toString(),
+        });
+
+        const response = await result.json();
+        console.log(response);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+</script>
+
+
 </body>
 </html>
