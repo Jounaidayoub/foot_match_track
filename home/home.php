@@ -219,21 +219,74 @@ foreach ($tournaments as $tournament) {
 
 <main class="match-container">
   <div class="match-layout">
-    <section class="match-video-section">
-      <!-- <img
-        src="../assets/://cdn.builder.io/api/v1/image/assets/TEMP/e84e93d41cdedb2ab30d787c222706464117e11247d92ef306a3b5e1456b33e8?placeholderIfAbsent=true&apiKey=b69a661c5a894991ba35079be4d28be0"
-        class="match-video"
-        alt="Live match stream"
-      /> -->
-
-   <img src="../assets/<?= $closestMatch["team1_logo"]?>" alt="">
-      <div class="info">
-        <h2 class="info-match-name"><?= $closestMatch ? $closestMatch["Nom_match"] : ''?></h2>
-        <h2 class="info-match-date"><?= $closestMatch ? $closestMatch["date_match"] : ''?></h2>
-        <h2 class="info-match-time"><?= $closestMatch ? $closestMatch["time_match"] : ''?></h2>
-      </div>
-      <img src="../assets/<?= $closestMatch["team2_logo"]?>" alt="">
+    <section class="match-video-section slideshow-container">
+        <?php foreach ($matchesData as $index => $matchData): ?>
+            <?php $comingMatches = $matchData['comingMatches']; ?>
+            <?php if (!empty($comingMatches)): ?>
+                <?php $closestMatch = $comingMatches[0]; ?>
+                <div class="slide fade">
+                    <img src="../assets/<?= $closestMatch["team1_logo"] ?>" alt="" class="team-logo">
+                    <div class="info">
+                        <h2 class="info-match-name"><?= $closestMatch["Nom_match"] ?></h2>
+                        <h2 class="info-match-date"><?= $closestMatch["date_match"] ?></h2>
+                        <h2 class="info-match-time"><?= $closestMatch["time_match"] ?></h2>
+                    </div>
+                    <img src="../assets/<?= $closestMatch["team2_logo"] ?>" alt="" class="team-logo">
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </section>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            const slides = document.querySelectorAll(".slide");
+            slides.forEach((slide) => slide.style.display = "none");
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            slides[slideIndex - 1].style.display = "flex";
+            setTimeout(showSlides, 5000); // Change slide every 5 seconds
+        }
+    </script>
+
+    <style>
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .team-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .info {
+            text-align: center;
+        }
+
+        .info-match-name,
+        .info-match-date,
+        .info-match-time {
+            margin: 5px 0;
+        }
+    </style>
     
     
     
