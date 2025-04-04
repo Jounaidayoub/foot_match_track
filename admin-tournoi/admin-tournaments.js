@@ -371,32 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 }
 
-async function sendScoreNotif(eventId){
-    console.log("notification added")
-    const data = new URLSearchParams();
-    data.append("match_id", eventId);
-    data.append("event_type", "match");
-    // data.append("message", message);
-    data.append("type", "score_notif");
-    console.log("home team" + document.getElementById("match-home-team").value);
-    
-    data.append("team1_id", document.getElementById("match-home-team").value);
-    data.append("team2_id", document.getElementById("match-away-team").value);
-    try {
-     const result = await fetch(`../includes/notif.php`, {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: data.toString(),
-    });
-     const response = await result.json();
-     console.log(response);
-    } catch (error) {
-     console.error("Error:", error);
-    }
 
-}
 
 
 });

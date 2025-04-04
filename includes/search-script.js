@@ -183,10 +183,13 @@ function renderAll(data){
       `;
     });
     data.players.forEach(player => {
+        console.log(player)
         resultsHTML += `
           <a class="result-item" href="../player/player-info.php?id=${player.id}">
             <div class="result-icon">
-              <img src="../assets/${player.player_photo}" alt="${player.last_name + ' ' + player.first_name}" >
+            
+            
+              <img src="${player.player_photo}" alt="${player.last_name + ' ' + player.first_name}" >
             </div>
             <div class="result-info">
               <div class="result-title">${player.last_name + ' ' + player.first_name}</div>
@@ -228,7 +231,7 @@ function renderPlayers(players){
       resultsHTML += `
         <a class="result-item" href="../player/player-info.php?id=${player.id}">
           <div class="result-icon">
-            <img src="../assets/${player.player_photo}" alt="${player.last_name + ' ' + player.first_name}" >
+            <img src="${player.player_photo}" alt="${player.last_name + ' ' + player.first_name}" >
           </div>
           <div class="result-info">
             <div class="result-title">${player.last_name + ' ' + player.first_name}</div>

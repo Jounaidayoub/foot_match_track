@@ -20,7 +20,7 @@ print_r($match_id);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Details | LaLiga</title>
+    <title>Match Details | BOTOLA</title>
     <link rel="stylesheet" href="match-details.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,9 +42,9 @@ print_r($match_id);
                     </div>
                     <div class="competition">
                         <div class="competition-logo">
-                            <img src="/placeholder.svg?height=24&width=24" alt="LaLiga">
+                            <img src="/placeholder.svg?height=24&width=24" alt="BOTOLA">
                         </div>
-                        <span>LaLiga Round 29</span>
+                        <span>BOTOLA</span>
                     </div>
                     <div class="follow-button">
                         <button>Follow</button>
@@ -132,6 +132,7 @@ print_r($match_id);
                     <div class="nav-item">Table</div>
                     <div class="nav-item">Stats</div>
                     <div class="nav-item">Head-to-Head</div>
+                    <div class="nav-item">Classement</div>
                 </div>
             </div>
 
@@ -191,10 +192,10 @@ print_r($match_id);
             <div class="card sidebar-card">
                 <div class="card-header">
                     <div class="competition-logo">
-                        <img src="/placeholder.svg?height=24&width=24" alt="LaLiga">
+                        <img src="/placeholder.svg?height=24&width=24" alt="BOTOLA">
                     </div>
                     <div class="sidebar-competition-info">
-                        <div class="sidebar-competition-name">LaLiga</div>
+                        <div class="sidebar-competition-name">BOTOLA</div>
                         <div class="sidebar-competition-round">Round 29</div>
                     </div>
                 </div>
@@ -292,6 +293,8 @@ print_r($match_id);
 
 
     <?php require('comments.php') ?>
+    <?php require('../includes/classement.php') ?>
+
 
     
     <script src="match-details.js"></script>

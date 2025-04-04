@@ -33,7 +33,7 @@ require '../includes/db.php';
     */
     function getPlayersByPosition($idTeam){
         global $bd;
-        $sql = " SELECT composer.id_player as 'id_player', position_name , first_name, last_name, country_name, alpha2_code  
+        $sql = " SELECT composer.id_player as 'id_player', position_name , first_name, last_name, country_name, alpha2_code, player_photo
                 FROM players JOIN composer on players.id = composer.id_player
                 JOIN teams on composer.id_team = teams.id
                 JOIN player_position on composer.id_position = player_position.id 

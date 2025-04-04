@@ -380,7 +380,7 @@
         <section class="nav-l">
             <div class="icon-div">
                 <a href="home" class="icon-link">
-                    <img src="assets/imgs/MG.svg" alt="icon">
+                    <img src="../includes/icon.png" alt="icon" style="width: 32px; height: 32px;">
                 </a>
             </div>
             <ul class="links">
@@ -397,7 +397,7 @@
                     FAQ
                 </a>
                 <?php if(isset($_SESSION["role"]) && $_SESSION["role"] === 'g'):?>
-                    <a href="../admin-general/team.php" class="link" >
+                    <a href="../admin-general/index.php" class="link" >
                         Espace Admin
                     </a>
                 <?php endif;?>
@@ -604,7 +604,7 @@
             let link = "#"; // Default link if no match found
             switch (eventType) {
                 case "match":
-                    link = `http://localhost/foot_match_track/match/match-details.php?id=${eventId}`;
+                    link = `http://localhost/foot_match_track/match/match-details.php?match_id=${eventId}`;
                     break;
                 case "team":
                     link = `http://localhost/foot_match_track/teams/team-info.php?idTeam=${eventId}`;

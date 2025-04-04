@@ -84,7 +84,7 @@ function register($nom, $email, $pass) {
 function redirectUser($role) {
     $routes = [
         "u" => "../home/home.php",
-        "g" => "../admin-general/team.php",
+        "g" => "../home/home.php",
         "t" => "../home/home.php"
     ];
     header("Location: " . ($routes[$role] ?? "auth.php"));

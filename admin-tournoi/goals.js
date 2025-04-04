@@ -57,7 +57,7 @@ function displayGoalsInTimeline(goals, matchId) {
         // Build the goal event HTML
         eventItem.innerHTML = `
             <div class="event-time">
-                <input type="number" class="event-minute" value="${goal.goal_time}" readonly>
+                <input type="number" class="event-dte" value="${goal.goal_time}" readonly>
             </div>
             <div class="event-team">
                 <select class="event-team-select" disabled>
@@ -163,6 +163,36 @@ function updateScoreDisplay(matchId, goals) {
     }
 }
 
+
+async function sendScoreNotif(eventId,homeTeamId,awayTeamId) {
+    console.log("notification added")
+    const data = new URLSearchParams();
+    data.append("match_id", eventId);
+    data.append("event_type", "match");
+    // data.append("message", message);
+    data.append("type", "score_notif");
+    data.append("team1_id", homeTeamId);
+    data.append("team2_id", awayTeamId);
+    console.log("home team" + document.getElementById("match-home-team").value);
+    
+    // data.append("team1_id", document.getElementById("match-home-team").value);
+    // data.append("team2_id", document.getElementById("match-away-team").value);
+    try {
+     const result = await fetch(`../includes/notif.php`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: data.toString(),
+    });
+     const response = await result.json();
+     console.log(response);
+    } catch (error) {
+     console.error("Error:", error);
+    }
+
+}
+
 // Save new goals to the database
 function saveNewGoals(matchId) {
     // Get all goal events that aren't already saved
@@ -218,6 +248,7 @@ function saveNewGoals(matchId) {
         .then(data => {
             if (data.success) {
                 // Mark this goal as saved
+                sendScoreNotif(matchId,matchCard.getAttribute("data-home-team-id"),matchCard.getAttribute("data-away-team-id"));
                 eventItem.setAttribute("data-goal-id", data.goal_id);
                 return true;
             } else {

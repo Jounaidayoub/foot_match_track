@@ -94,7 +94,22 @@ async function loadMatchData() {
       "../admin-tournoi/fetch-matches.php?tournament_id=1"
     );
     if (!matchesResponse.ok) throw new Error("Error fetching matches");
-    const matches = await matchesResponse.json();
+    let matches = await matchesResponse.json();
+    matches.forEach(match => {
+      let home_goals=0
+      let away_goals=0
+      fetchGoals(match.id_match).then((data)=>{
+        console.log("here we go")
+        console.log(data)
+        away_goals=data.away.length
+        home_goals=data.home.length
+        console.log(away_goals,home_goals)
+        match.home_score=home_goals
+        match.away_score=away_goals
+      })
+      
+      
+    });
 
     // Find the specific match by ID
     const match = matches.find(
@@ -189,7 +204,7 @@ async function fetchGoals(matchId) {
     // Process goals into home and away categories based on team_id
     const homeTeamId = match.home_team_id;
     const awayTeamId = match.away_team_id;
-    console.log(homeTeamId,awayTeamId)
+    console.log(homeTeamId, awayTeamId);
 
     const home = data.goals.filter((goal) => goal.team_id == homeTeamId);
     const away = data.goals.filter((goal) => goal.team_id == awayTeamId);
@@ -232,7 +247,7 @@ function updateMatchGoals(goals) {
       scorerElement.className = "scorer";
 
       const goalTypeText = goal.goal_type ? ` (${goal.goal_type})` : "";
-      scorerElement.innerHTML = `<span class="player">${goal.scorer_name} ${goal.goal_time}'${goalTypeText}</span>`;
+      scorerElement.innerHTML = `<span class="player">${goal.scorer_name} ${goal.goal_time}'${goalTypeText} ( 🦶${goal.assist_name})</span>`;
 
       homeScorersElement.appendChild(scorerElement);
     });
@@ -247,7 +262,7 @@ function updateMatchGoals(goals) {
       scorerElement.className = "scorer";
 
       const goalTypeText = goal.goal_type ? ` (${goal.goal_type})` : "";
-      scorerElement.innerHTML = `<span class="player">${goal.scorer_name} ${goal.goal_time}'${goalTypeText}</span>`;
+      scorerElement.innerHTML = `<span class="player">${goal.scorer_name} ${goal.goal_time}'${goalTypeText}, ( 🦶 ${goal.assist_name})</span>`;
 
       awayScorersElement.appendChild(scorerElement);
     });
@@ -471,6 +486,19 @@ function updateMatchStats(stats) {
  */
 function updateSidebarMatches(matches, currentMatchId) {
   const matchList = document.querySelector(".sidebar .match-list");
+  let home_goals=0
+  let away_goals=0
+  fetchGoals(currentMatchId).then((data)=>{
+    console.log("here we go")
+    console.log(data)
+    away_goals=data.away.length
+    home_goals=data.home.length
+    console.log(away_goals,home_goals)
+  })
+  
+
+  // console.log("this the gaol saddddddddddddd");
+  // console.log(goals_);
   if (!matchList) return;
 
   // Clear existing matches
@@ -478,6 +506,8 @@ function updateSidebarMatches(matches, currentMatchId) {
 
   // Add matches to the sidebar
   matches.forEach((match) => {
+    console.log('matchhh')
+    console.log(match)
     if (match.status === "completed") {
       const isCurrentMatch = match.id_match === parseInt(currentMatchId);
       const matchItem = document.createElement("div");
