@@ -58,7 +58,7 @@
     color: white;
     font-size: 24px;
     font-weight: bold;
-    width: 50%;
+    width: 95%;
   }
   
   .match-video {
@@ -394,7 +394,7 @@
   
   .score {
     padding: 6px 16px;
-    width: 64px;
+    width: 72px;
     border-radius: 16px;
     color: #f5c451;
     font-family: "Inter", sans-serif;

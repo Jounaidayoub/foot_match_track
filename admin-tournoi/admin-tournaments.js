@@ -222,10 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
         })
           .then(response => response.json())
           .then(data => {
+            var matchId = data.match_id;
             if (data.success) {
               alert("Match added successfully!");
               closeModal();
               fetchMatches(tournamentId);
+               // Send notification
+               const message = ` ${homeTeamSelect.options[homeTeamSelect.selectedIndex].text} vs. ${awayTeamSelect.options[awayTeamSelect.selectedIndex].text} kicks off on ${matchDate} at ${matchTime}!`;
+               sendKickofNotif(data.match_id, message);
             } else {
               alert("Error adding match: " + (data.error || "Unknown error"));
             }
@@ -334,4 +338,47 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize
   updateCalendar();
   attachMatchActionListeners();
+
+
+
+
+
+//send kickof or lineup notifs
+  async function sendKickofNotif(eventId, message){
+    console.log("notification added")
+    const data = new URLSearchParams();
+    data.append("match_id", eventId);
+    data.append("event_type", "match");
+    data.append("message", message);
+    data.append("type", "kickof_notif");
+    console.log("home team" + document.getElementById("match-home-team").value);
+    
+    data.append("team1_id", document.getElementById("match-home-team").value);
+    data.append("team2_id", document.getElementById("match-away-team").value);
+    try {
+     const result = await fetch(`../includes/notif.php`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: data.toString(),
+    });
+     const response = await result.json();
+     console.log(response);
+    } catch (error) {
+     console.error("Error:", error);
+    }
+
+}
+
+
+
+
 });
+
+/*
+               // Send linup notification
+               sendKickofNotif(data.match_id, ` The official lineup for ${homeTeamSelect.options[homeTeamSelect.selectedIndex].text} vs. ${awayTeamSelect.options[awayTeamSelect.selectedIndex].text} is out!`);
+               //send score notification
+               sendScoreNotif(data.match_id)
+*/

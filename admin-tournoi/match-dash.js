@@ -1,3 +1,6 @@
+// import initializeTeamPlayers from "./lineup";
+// import  showPlayerSelectionModal  from "./lineup";
+
 document.addEventListener("DOMContentLoaded", () => {
   function addOverlay(element) {
     const overlay = document.createElement("div");
@@ -21,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchMatches(tournamentId = 1) {
     fetch(`fetch-matches.php?tournament_id=${tournamentId}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         if (data.error) {
           console.error("Error fetching matches:", data.error);
           return;
@@ -35,7 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
           matchDashboard.innerHTML = "";
 
           // Create match cards for each match
-          data.forEach((match) => {
+          await  Promise.all( data.map(async (match) => {
+            console.log(
+              "here we are in the match card and we will display the score"
+            );
+            // calculateAndDisplayScore(match.id_match);
+
             const matchCard = document.createElement("div");
             matchCard.className = "match-card";
             matchCard.setAttribute("data-match-id", match.id_match);
@@ -45,7 +53,57 @@ document.addEventListener("DOMContentLoaded", () => {
             matchCard.setAttribute("data-away-team-id", match.away_team_id);
             matchCard.setAttribute("data-home-team-id", match.home_team_id);
 
-            // New structure for match cards
+            let this_match_home_score=0
+            let this_match_away_score=0
+
+
+
+            /// geting the score 
+            await fetch(`get_goals.php?match_id=${match.id_match}`)
+              .then((response) => response.json())
+              .then((data) => {
+              if (data.success) {
+                // Calculate scores
+                let homeScore = 0;
+                let awayScore = 0;
+
+                data.goals.forEach((goal) => {
+                const goalTeamId = parseInt(goal.team_id);
+
+                if (goal.goal_type === "own-goal") {
+                  // Own goals count for the opposite team
+                  if (goalTeamId == match.home_team_id) {
+                  awayScore++;
+                  } else if (goalTeamId == match.away_team_id) {
+                  homeScore++;
+                  }
+                } else {
+                  // Regular goals
+                  if (goalTeamId == match.home_team_id) {
+                  homeScore++;
+                  } else if (goalTeamId == match.away_team_id) {
+                  awayScore++;
+                  }
+                }
+                });
+
+                this_match_home_score = homeScore;
+                this_match_away_score = awayScore;
+              }
+              })
+              .catch((error) => console.error("Error fetching goals:", error));
+              
+              
+            //   console.log("now for teh match opbejct")
+            //   console.log(match)
+            //   console.log(match.home_score)
+            //   console.log(match.away_score)
+            // // New structure for match cards
+            //   console.log('            // New structure for match cards')
+            //   console.log(this_match_home_score)
+            //   console.log(this_match_away_score)
+              // console.log("now outise for eahc match")
+              // console.log(this_match_home_score,'=',this_match_away_score)
             matchCard.innerHTML = `
                             <div class="match-card-header">
                                 <div class="match-date">${formatDateDisplay(
@@ -64,8 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                     </div>
                                     <span class="vs">${
                                       match.status === "completed"
-                                        ? `${match.home_score || 0} - ${
-                                            match.away_score || 0
+                                        ? `${this_match_home_score || 0} - ${
+                                            this_match_away_score || 0
                                           }`
                                         : "vs"
                                     }</span>
@@ -88,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         `;
 
             matchDashboard.appendChild(matchCard);
-          });
+          }));
 
           // Add event listeners to the newly created match cards
           setupMatchCardListeners();
@@ -105,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const options = { month: "short", day: "numeric", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
   }
-
 
   function updateMatchReferees(matchId) {
     const refereeData = {
@@ -135,37 +192,42 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Error updating referees:", error));
   }
 
-// a fucntion to fetch referees from the database abd update the modal
-function get_match_referees(matchId) {
-  fetch(`get_match_referees.php?match_id=${matchId}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        console.error("Error fetching referees:", data.error);
-        return;
-      }
+  // a fucntion to fetch referees from the database abd update the modal
+  function get_match_referees(matchId) {
+    fetch(`get_match_referees.php?match_id=${matchId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.error("Error fetching referees:", data.error);
+          return;
+        }
 
-      // Check for success and referees data
-      if (data.success && data.referees) {
-        document.getElementById("match-referee").value = data.referees.main_referee || "";
-        document.getElementById("match-assistant1").value = data.referees.assistant1 || "";
-        document.getElementById("match-assistant2").value = data.referees.assistant2 || "";
-      } else {
-        console.error("No referee data found in response:", data);
-      }
-    })
-    .catch(error => {
-      console.error("Error updating referees in modal:", error);
-    });
-}
+        // Check for success and referees data
+        if (data.success && data.referees) {
+          document.getElementById("match-referee").value =
+            data.referees.main_referee || "";
+          document.getElementById("match-assistant1").value =
+            data.referees.assistant1 || "";
+          document.getElementById("match-assistant2").value =
+            data.referees.assistant2 || "";
+        } else {
+          console.error("No referee data found in response:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating referees in modal:", error);
+      });
+  }
 
   // Add event listeners to match cards
   function setupMatchCardListeners() {
     const matchCards = document.querySelectorAll(".match-card");
     const matchDetailsModal = document.getElementById("match-details-modal");
-
+    console.log("Match cards found:", matchCards.length);
+    // console.log(matchCards.length)
     matchCards.forEach((card) => {
-      card.addEventListener("click", function () {
+      card.addEventListener("click",async function () {
+        console.log("Match card clicked:", card);
         const matchId = this.getAttribute("data-match-id");
         document.getElementById("detail-match-id").value = matchId;
 
@@ -174,11 +236,12 @@ function get_match_referees(matchId) {
         const saveThisTabButton = document.getElementById("save-tab");
         if (saveThisTabButton) {
           saveThisTabButton.addEventListener("click", () => {
-
             updateMatchReferees(matchId);
+          });
+        }
 
-          })}
-
+        console.log("here is the match modal");
+        // initializeTeamPlayers()
 
         // Set match details based on the selected match card
         const homeTeam = this.querySelector(
@@ -187,6 +250,21 @@ function get_match_referees(matchId) {
         const awayTeam = this.querySelector(
           ".team-display:last-child span"
         ).textContent;
+
+
+              await  fetch(`get_goals.php?match_id=${matchId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              window.displayGoalsInTimeline(data.goals || [], matchId); // Or window.displayGoalsInTimeline(...) if using the window object
+            } else {
+              console.error("Error fetching goals:", data.error);
+            }
+          })
+          .catch((error) => console.error("Error fetching goals:", error));
+
+
+
 
         document.getElementById("detail-home-team").textContent = homeTeam;
         document.getElementById("detail-away-team").textContent = awayTeam;
@@ -197,8 +275,7 @@ function get_match_referees(matchId) {
         // document.getElementById("match-assistant1").value =/
         // document.getElementById("match-assistant2").value =
 
-
-
+        // showPlayerSelectionModal()
 
         //adding team id to home and away teams
 
@@ -226,8 +303,13 @@ function get_match_referees(matchId) {
             statusClass || "scheduled";
         }
 
+        // window.initiali
+
         // Fetch match stats
         fetchMatchStats(matchId);
+
+        // events_tab=document.getElementById("events")
+        // events_tab.innerHTML=""
 
         // Show the modal
         matchDetailsModal.classList.add("active");
@@ -518,6 +600,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.classList.add("active");
       document.getElementById(target).classList.add("active");
+
+      // can see what the probelm here , to make it work #file:match-dash.js
+
+      if (target === "lineups") {
+        // Get the match ID from the currently opened modal
+        const matchId = document.getElementById("detail-match-id").value;
+
+        // Find the match card with this ID to get the team IDs
+        const matchCard = document.querySelector(
+          `.match-card[data-match-id="${matchId}"]`
+        );
+
+        if (matchCard) {
+          const homeTeamId = matchCard.getAttribute("data-home-team-id");
+          const awayTeamId = matchCard.getAttribute("data-away-team-id");
+
+          console.log("Opening lineup for teams:", homeTeamId, awayTeamId);
+
+          // Call the player selection modal function with these team IDs
+          if (typeof window.showPlayerSelectionModal === "function") {
+            window.showPlayerSelectionModal(homeTeamId, awayTeamId);
+          } else {
+            console.error("showPlayerSelectionModal function is not available");
+          }
+        }
+      }
     });
   });
 

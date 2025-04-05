@@ -683,7 +683,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
 
                         <div class="form-row">
-                            
+
 
                             <div class="form-group">
                                 <label for="detail-attendance">Attendance</label>
@@ -699,6 +699,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- Lineups Tab Content -->
                     <div class="tab-content" id="lineups">
+                        <button id="save-lineup-btn" class="btn btn-primary">Save Lineup</button>
                         <div class="formation-selector">
                             <label for="formation-select">Formation:</label>
                             <select id="formation-select">
@@ -855,8 +856,8 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </body>
 <script src="admin-tournaments.js"></script>
 <script src="match_detail.js"></script>
-<script src="match-dash.js"></script>
-<script src="lineup.js"></script>
+<script src="match-dash.js" type="module"></script>
+<script src="lineup.js" type="module"></script>
 <script src="goals.js"></script>
 
 

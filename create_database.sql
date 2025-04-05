@@ -464,3 +464,24 @@ create table comments(
 );
 
 ALTER TABLE `comments` CHANGE `likes` `likes` INT(11) NULL DEFAULT '0'; 
+
+
+
+create table notif(
+    id_notif int primary key auto_increment,
+    id_user int,
+    msg text,
+    date_notif datetime,
+    is_read char(1) default 'n', --'y' or 'n' d
+    event_id int, -- (match|tournament|player) id
+    event_type varchar(50), -- "match", "tournament", "team" (used when generating the link)
+    foreign key(id_user) references users(id)
+);
+
+create table follow(
+    id int primary key auto_increment,
+    id_user int,
+    event_id int,
+    event_type varchar(50), -- "match", "tournament", "team" (used when generating the link)
+    foreign key(id_user) references users(id)
+);

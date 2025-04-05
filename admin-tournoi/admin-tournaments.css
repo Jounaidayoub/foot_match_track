@@ -1,5 +1,3 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
@@ -974,28 +972,27 @@ textarea {
 
 }
 
-
-
-
-
-
-/* Football field styles */
+/* Adjust the football field container */
 .football-field-container {
-  margin: 30px 0;
+  margin: 0 auto;
+  width: 400px; /* Adjust width to fit the container */
+  height: 600px; /* Taller height for a vertical field */
   position: relative;
-}
-
-.football-field {
   background-color: #3a7d44;
-  background-image: linear-gradient(#3a7d44, #2d6a38);
   border-radius: 10px;
-  width: 100%;
-  height: 500px;
-  position: relative;
-  overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
+/* Football field styling */
+.football-field {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(#3a7d44, #2d6a38);
+}
+
+/* Field markings */
 .field-markings {
   position: absolute;
   top: 0;
@@ -1010,9 +1007,9 @@ textarea {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
 }
 
@@ -1023,25 +1020,24 @@ textarea {
   transform: translate(-50%, -50%);
   width: 6px;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
 }
 
 .halfway-line {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.4);
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .penalty-area {
   position: absolute;
-  width: 40%;
-  height: 30%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  width: 60%;
+  height: 20%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 .penalty-area.top {
@@ -1058,9 +1054,9 @@ textarea {
 
 .goal-area {
   position: absolute;
-  width: 20%;
+  width: 30%;
   height: 10%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 .goal-area.top {
@@ -1075,6 +1071,7 @@ textarea {
   transform: translateX(-50%);
 }
 
+/* Player positions */
 .player-position {
   position: absolute;
   width: 40px;
@@ -1088,13 +1085,75 @@ textarea {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 10;
 }
 
 .player-position:hover {
   transform: scale(1.1);
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+/* Example player positions for 4-3-3 formation */
+.player-position[data-position="gk"] {
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.player-position[data-position="cb1"] {
+  top: 75%;
+  left: 35%;
+}
+
+.player-position[data-position="cb2"] {
+  top: 75%;
+  left: 65%;
+}
+
+.player-position[data-position="lb"] {
+  top: 85%;
+  left: 20%;
+}
+
+.player-position[data-position="rb"] {
+  top: 85%;
+  left: 80%;
+}
+
+.player-position[data-position="cm1"] {
+  top: 50%;
+  left: 40%;
+}
+
+.player-position[data-position="cm2"] {
+  top: 50%;
+  left: 60%;
+}
+
+.player-position[data-position="cam"] {
+  top: 40%;
+  left: 50%;
+}
+
+.player-position[data-position="lw"] {
+  top: 20%;
+  left: 20%;
+}
+
+.player-position[data-position="rw"] {
+  top: 20%;
+  left: 80%;
+}
+
+.player-position[data-position="st"] {
+  top: 15%;
+  left: 50%;
+}
+
+
+
+
+
+
 
 .player-position.filled {
   background-color: #0066cc;
@@ -1251,5 +1310,69 @@ textarea {
 
 
 
+/* Player Selection Modal Styles */
+.player-selection-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.player-selection-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+}
 
+.player-selection-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.player-selection-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.player-selection-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.player-selection-item label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.player-number {
+  width: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.player-name {
+  flex: 1;
+  padding: 0 10px;
+}
+
+/* .player-position {
+  width: 80px;
+  text-align: right;
+  color: var(--muted-color);
+} */
+
+.team-players {
+  display: none;
+}
+
+.team-players.active {
+  display: block;
+}

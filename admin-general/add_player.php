@@ -58,9 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->execute()) {
             $successMessage = "Player added successfully!";
             $showSuccessPopup = true;
+            header("Location: ../admin-general/index.php");
         }
     } catch (PDOException $e) {
         $errorMessage = "Database error: " . $e->getMessage();
+        header("Location: ../admin-general/gestion_joueur.php");
     }
 }
 ?>

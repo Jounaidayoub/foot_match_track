@@ -37,7 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Nombre_spectateur' => $Nombre_spectateur
         ]);
         
-        echo json_encode(['success' => true]);
+        // Get the ID of the inserted match
+        $match_id = $bd->lastInsertId();
+        
+        echo json_encode(['success' => true, 'match_id' => $match_id]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     }

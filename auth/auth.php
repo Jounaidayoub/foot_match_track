@@ -7,7 +7,7 @@ if(isset($_SESSION["email"])){
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" />a
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login SignUp || Learn Code With Amit</title>
     <link rel="stylesheet" href="auth-style.css" />
@@ -71,7 +71,7 @@ if(isset($_SESSION["email"])){
                 </div>
             </div>
         </div>
-        <!-- <input type="hidden" name="type" value="login" id="type"> -->
+        <!-- <input type="hidden" name="type" value="login" id="type"> -->a
 
     </div>
 
