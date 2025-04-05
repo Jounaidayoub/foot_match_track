@@ -2,7 +2,7 @@
 
 
 $match_id=$_GET['match_id'];
-print_r($match_id);
+// print_r($match_id);
 
 // require '../admin-tournoi/fetch-matches.php?${match_id}' ;
 

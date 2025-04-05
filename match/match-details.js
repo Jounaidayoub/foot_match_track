@@ -99,13 +99,14 @@ async function loadMatchData() {
       let home_goals=0
       let away_goals=0
       fetchGoals(match.id_match).then((data)=>{
-        console.log("here we go")
-        console.log(data)
+        // console.log("here we go")
+        // console.log(data)
         away_goals=data.away.length
         home_goals=data.home.length
         console.log(away_goals,home_goals)
         match.home_score=home_goals
         match.away_score=away_goals
+        
       })
       
       
@@ -164,6 +165,15 @@ async function fetchReferees(matchId) {
     };
   }
 }
+
+
+
+
+
+
+
+
+
 
 /**
  * Fetch match goals and process data to home/away format
