@@ -1,4 +1,6 @@
 <?php
+//check for session
+session_start();
 
 $match_id = $_GET['match_id'];
 

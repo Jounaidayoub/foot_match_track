@@ -319,8 +319,8 @@
         </button>
     </div>
     
-
-    <?php if (isset($_SESSION['user'])): ?>
+    <?php print_r($_SESSION) ?>
+    <?php if (isset($_SESSION['id'])): ?>
         <form class="text-box" action="#" method="POST" id="comment-form">
             <div class="box-container">
                 <textarea placeholder="Comment" id="textarea"></textarea>
@@ -498,7 +498,10 @@
     //     document.getElementById("comments-container").innerHTML = renderString;
     // }
     async function getComments() {
-        let result = await fetch(`comments-serv.php?id_match=44`, {
+        // hadi makhdamach
+        // const id_match = new URLSearchParams(window.location.search).get('id_match'); 
+        const id_match=<?php echo json_encode($match_id); ?>;
+        let result = await fetch(`comments-serv.php?id_match=${id_match}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -509,7 +512,12 @@
     }
 
     async function publish() {
-        const id_match = new URLSearchParams(window.location.search).get('id_match');
+        // const id_match = new URLSearchParams(window.location.search).get('id_match');
+        const id_match=<?php echo json_encode($match_id); ?>;
+
+        // console.log("hgjasdbjashd")
+
+        // console.log(id_match)
         const comment = textarea.value;
 
         if (!id_match || !comment) {

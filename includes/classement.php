@@ -1,6 +1,6 @@
 <?php
 
-// session_start();
+session_start();
 require_once 'db.php'; // Assurez-vous que le chemin est correct
 function getTournamentClassement($tournament_id)
 {
