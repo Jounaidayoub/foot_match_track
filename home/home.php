@@ -91,7 +91,7 @@ $unFollowedTeams = getUnFollowedTeams();
 //     return $matches;
 // }
 
-function getLatestMatches($tournament_id, $limit = 20)
+function getLatestMatches($tournament_id, $limit = 30)
 {
   global $bd;
 

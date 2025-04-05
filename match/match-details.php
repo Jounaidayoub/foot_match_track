@@ -1,9 +1,16 @@
 <?php
 
+$match_id = $_GET['match_id'];
 
-$match_id=$_GET['match_id'];
+// Fetch the tournament ID for the current match
+require_once '../includes/db.php'; // Ensure DB connection is included
+$stmt = $bd->prepare("SELECT tournament_id FROM _match WHERE id_match = :match_id");
+$stmt->bindParam(':match_id', $match_id, PDO::PARAM_INT);
+$stmt->execute();
+$match_data = $stmt->fetch(PDO::FETCH_ASSOC);
+$tournament_id_for_classement = $match_data ? $match_data['tournament_id'] : 1; // Default to 1 if not found
+
 // print_r($match_id);
-
 // require '../admin-tournoi/fetch-matches.php?${match_id}' ;
 
 
@@ -80,20 +87,20 @@ $match_id=$_GET['match_id'];
             <div class="card match-score-card">
                 <div class="card-body">
                     <div class="team home-team">
-                        <div class="team-name">Real Madrid</div>
+                        <div class="team-name"></div>
                         <div class="team-logo">
                             <img src="/placeholder.svg?height=70&width=70" alt="Real Madrid">
                         </div>
                     </div>
                     <div class="score-display">
-                        <div class="score">3 - 2</div>
-                        <div class="match-status">Full time</div>
+                        <div class="score"></div>
+                        <div class="match-status"> </div>
                     </div>
                     <div class="team away-team">
                         <div class="team-logo">
                             <img src="/placeholder.svg?height=70&width=70" alt="Leganes">
                         </div>
-                        <div class="team-name">Leganes</div>
+                        <div class="team-name"></div>
                     </div>
                 </div>
             </div>
@@ -126,18 +133,35 @@ $match_id=$_GET['match_id'];
             <!-- Match Navigation Card -->
             <div class="card match-navigation-card">
                 <div class="card-body">
-                    <div class="nav-item active">Facts</div>
-                    <div class="nav-item">Commentary</div>
-                    <div class="nav-item">Lineup</div>
-                    <div class="nav-item">Table</div>
-                    <div class="nav-item">Stats</div>
-                    <div class="nav-item">Head-to-Head</div>
-                    <div class="nav-item">Classement</div>
+                    <div class="nav-item " data-tab="facts-content">Facts</div>
+                    <div class="nav-item" data-tab="commentary-content">Commentary</div>
+                    <div class="nav-item" data-tab="lineup-content">Lineup</div>
+                    <!-- <div class="nav-item" data-tab="table-content">Table</div> -->
+                    <div class="nav-item active" data-tab="stats-content">Stats</div>
+                    <div class="nav-item" data-tab="h2h-content">Head-to-Head</div>
+                    <div class="nav-item" data-tab="classement-content">Classement</div>
                 </div>
             </div>
 
-            <!-- Stats Card -->
-            <div class="card stats-card">
+            <!-- Tab Content Panels -->
+            <div class="tab-panels">
+                <div id="facts-content" class="tab-content active">
+                    <!-- Content for Facts tab goes here -->
+                    <div class="card card-body" style="border-radius: 0 0 var(--card-radius) var(--card-radius); border-top: none; margin-top:0;">Facts Content Placeholder</div>
+                </div>
+                <div id="commentary-content" class="tab-content">
+                     <?php require('comments.php') ?> <!-- Comments moved here -->
+                </div>
+                <div id="lineup-content" class="tab-content">
+                    <!-- Content for Lineup tab goes here -->
+                     <div class="card card-body" style="border-radius: 0 0 var(--card-radius) var(--card-radius); border-top: none; margin-top:0;">Lineup Content Placeholder</div>
+                </div>
+                <!-- <div id="table-content" class="tab-content"> -->
+                    <!-- Content for Table tab goes here -->
+                <!-- </div> -->
+                <div id="stats-content" class="tab-content">
+                    <!-- Stats Card moved here -->
+                    <div class="card stats-card" style="margin-top: 0; border-radius: 0 0 var(--card-radius) var(--card-radius); border-top: none;">
                 <div class="card-header">
                     <h2 class="card-title">Top stats</h2>
                 </div>
@@ -182,9 +206,18 @@ $match_id=$_GET['match_id'];
                     <div class="view-all-stats">
                         <button>All stats</button>
                     </div>
-                </div>
+                    </div>
+                </div> <!-- End stats-card -->
+            </div> <!-- End stats-content -->
+             <div id="h2h-content" class="tab-content">
+                <!-- Content for Head-to-Head tab goes here -->
+                 <div class="card card-body" style="border-radius: 0 0 var(--card-radius) var(--card-radius); border-top: none; margin-top:0;">H2H Content Placeholder</div>
             </div>
-        </div>
+            <div id="classement-content" class="tab-content card card-body" style="border-radius: 0 0 var(--card-radius) var(--card-radius); border-top: none; margin-top:0;">
+                <?php require('../includes/classement.php'); ?>
+            </div>
+        </div> <!-- End tab-panels -->
+    </div> <!-- End main-content -->
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -289,12 +322,10 @@ $match_id=$_GET['match_id'];
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- End container -->
 
 
-    <?php require('comments.php') ?>
-    <?php require('../includes/classement.php') ?>
-
+    <!-- Includes moved into tab panels -->
 
     
     <script src="match-details.js"></script>

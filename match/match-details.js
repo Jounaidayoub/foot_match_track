@@ -1,23 +1,52 @@
+// Function to show the initial active tab
+function showInitialTab() {
+    const navItems = document.querySelectorAll(".match-navigation-card .nav-item");
+    const tabPanels = document.querySelectorAll(".tab-panels .tab-content"); // Select panels inside the new container
+
+    const initialActiveTab = document.querySelector('.match-navigation-card .nav-item.active');
+    if (initialActiveTab) {
+         const initialTargetId = initialActiveTab.getAttribute('data-tab');
+         const initialTargetContent = document.getElementById(initialTargetId);
+         if (initialTargetContent) {
+             // Ensure only the correct initial tab is active
+             tabPanels.forEach(panel => panel.classList.remove('active')); // Use tabPanels
+             initialTargetContent.classList.add('active');
+         }
+    } else {
+        // Fallback: If no nav item is active, activate the first one
+        if (navItems.length > 0 && tabPanels.length > 0) {
+            navItems[0].classList.add('active');
+            tabPanels[0].classList.add('active');
+        }
+    }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Tab Navigation (keep existing functionality)
-  const tabButtons = document.querySelectorAll(".tab-btn");
-  const tabContents = document.querySelectorAll(".tab-content");
+  // NEW Tab Navigation Logic for main nav
+  const navItems = document.querySelectorAll(".match-navigation-card .nav-item");
+  const tabPanels = document.querySelectorAll(".tab-panels .tab-content"); // Select panels inside the new container
 
-  tabButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const target = button.getAttribute("data-tab");
+  navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+          const targetId = item.getAttribute("data-tab");
+          const targetContent = document.getElementById(targetId);
 
-      // Remove active class from all buttons and contents
-      tabButtons.forEach((btn) => btn.classList.remove("active"));
-      tabContents.forEach((content) => content.classList.remove("active"));
+          // Remove active class from all nav items and tab panels
+          navItems.forEach((nav) => nav.classList.remove("active"));
+          tabPanels.forEach((panel) => panel.classList.remove("active")); // Use tabPanels here
 
-      // Add active class to clicked button and corresponding content
-      button.classList.add("active");
-      document.getElementById(target).classList.add("active");
-    });
+          // Add active class to clicked nav item and corresponding content
+          item.classList.add("active");
+          if (targetContent) {
+              targetContent.classList.add("active");
+          } else {
+              console.warn(`Tab content with ID ${targetId} not found.`);
+          }
+      });
   });
 
-  // Team Tabs for Lineups (keep existing functionality)
+  // Team Tabs for Lineups (keep existing functionality - assuming this is still needed elsewhere)
   const teamTabs = document.querySelectorAll(".team-tab");
   const teamLineups = document.querySelectorAll(".team-lineup");
 
@@ -39,6 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // NEW CODE: Fetch and display match data
   loadMatchData();
+
+  // Show the initial tab after setting up listeners and loading data
+  showInitialTab();
 });
 
 /**
