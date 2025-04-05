@@ -1,7 +1,7 @@
 <?php
 session_start();
 require '../includes/db.php';
-    $id = $_GET["idTeam"];
+    $id = $_GET["idTeam"] ?? null;
     if(!isset($_GET["idTeam"])) header("Location: ../home/home.php");
 
     function getTeam($id){
@@ -103,10 +103,12 @@ require '../includes/db.php';
             </div>
             <div class="btns" style="display: flex; gap: 1em;">
                 <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Ajouter Les matches du Arsenal dans votre Google calendar">Sync to calendar 🗓️</button>
-                <?php if( isFollowing($_GET["idTeam"], $_SESSION['id'], "team") === false ) :?>
-                    <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Follow Team" id="follow" onclick="follow()">Follow Team</button>
-                <?php else: ?>
-                    <div class="header-subsec1-calendar white-font" data-tooltip="Follow Team" id="follow" style="cursor:default; ">Followed </div>
+                <?php if( isset($_SESSION['id'])): ?>
+                    <?php if( isFollowing($_GET["idTeam"], $_SESSION['id'], "team") === false ) :?>
+                        <button class="header-subsec1-calendar white-font tooltiped" data-tooltip="Follow Team" id="follow" onclick="follow()">Follow Team</button>
+                    <?php else: ?>
+                        <div class="header-subsec1-calendar white-font" data-tooltip="Follow Team" id="follow" style="cursor:default; ">Followed </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </section>
