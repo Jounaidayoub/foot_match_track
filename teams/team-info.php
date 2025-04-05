@@ -209,6 +209,11 @@ require '../includes/db.php';
 
 <script>
 async function follow() {
+    document.getElementById("follow").innerHTML = "Followed";
+    document.getElementById("follow").style.cursor = "default";
+    document.getElementById("follow").setAttribute("onclick", "void(0)");
+    document.getElementById("follow").disabled = true;
+    document.getElementById("follow").classList.remove("tooltiped");
     const idTeam = new URLSearchParams(window.location.search).get('idTeam');
 
     const data = new URLSearchParams();
