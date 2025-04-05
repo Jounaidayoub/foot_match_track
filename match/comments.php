@@ -299,7 +299,7 @@
         }
     }
 </style>
-<div class="comments-card">
+<div class="comments-card" style="position: relative;">
     <span class="title">Comments</span>
 
     <section id="comments-container">
@@ -318,25 +318,65 @@
             </svg>
         </button>
     </div>
+    
 
-    <form class="text-box" action="#" method="POST" id="comment-form">
-        <div class="box-container">
-            <textarea placeholder="Comment" id="textarea"></textarea>
-            <div>
-                <div class="formatting">
-                    <button type="submit" class="send" title="Send" id="send">
-                        <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
-                                d="M12 5L12 20"></path>
-                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
-                                d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9">
-                            </path>
-                        </svg>
-                    </button>
+    <?php if (isset($_SESSION['user'])): ?>
+        <form class="text-box" action="#" method="POST" id="comment-form">
+            <div class="box-container">
+                <textarea placeholder="Comment" id="textarea"></textarea>
+                <div>
+                    <div class="formatting">
+                        <button type="submit" class="send" title="Send" id="send">
+                            <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
+                                    d="M12 5L12 20"></path>
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
+                                    d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
+        </form>
+    <?php else: ?>
+        <div class="text-box" style="padding: 10px; background-color: var(--bg-card); position: relative; filter: blur(4px);">
+        <style>
+            .comments-card::after {
+                content: "You must be logged in to comment.";
+                position: absolute;
+                top: 51.7%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #707277;
+                font-size: 14px;
+                filter: none;
+                text-align: center;
+            }
+        </style>
+            <!-- <p style="color: #707277; font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                You must be logged in to comment.
+            </p> -->
+            <form class="text-box" action="#" method="POST" id="comment-form">
+                <div class="box-container">
+                    <textarea placeholder="Comment" id="textarea" disabled></textarea>
+                    <div>
+                        <div class="formatting">
+                            <button type="submit" class="send" title="Send" id="send" disabled>
+                                <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
+                                        d="M12 5L12 20"></path>
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff"
+                                        d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    <?php endif; ?>
 </div>
 
 

@@ -453,11 +453,20 @@
             <!--the profile icon -->
             <?php if(isset($_SESSION["id"])) :?>
 	            <section class="profile-wraper">
-	                <a href="Profile" class="profile-div ">
+                <?php if(isset($_SESSION["role"]) && $_SESSION["role"] === 'g'):?>
+                    <a href="../admin-general/index.php" class="profile-div" >
                         <img src="<?= isset($img)? $img: '../assets/imgs/user-circle.svg' ?>" alt="profile">
-	                </a>
+                    </a>
+                <?php endif;?>
+                <?php if(isset($_SESSION["role"]) && $_SESSION["role"] === 't'):?>
+                    <a href="../admin-tournoi/admin-tournaments.php" class=" profile-div"" >
+                        <img src="<?= isset($img)? $img: '../assets/imgs/user-circle.svg' ?>" alt="profile">
+                    </a>
+                <?php endif;?>
+
 	                <div class="profile-pop pop">
 	                    <div class="profile-pop-info">
+                        <span class="badge " id="badge" style="padding: .5em .7em; width: auto;font-size: inherit;"><?php if($_SESSION["role"] == 'g') echo 'Admin Géneral';else if($_SESSION["role"] == 't') echo 'Admin Tournoi'?></span> 
                             <!-- https://api.dicebear.com/9.x/initials/svg?seed=Felix -->
 	                        <img src="<?= isset($img)? $img: '../assets/imgs/user-circle.svg' ?>" alt="profile">
 	                        <span class="profile-pop-name"><?= $_SESSION["nom"] ?></span>
