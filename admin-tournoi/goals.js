@@ -344,6 +344,7 @@ function saveNewGoals(matchId) {
             matchCard.getAttribute("data-home-team-id"),
             matchCard.getAttribute("data-away-team-id")
           );
+          
           eventItem.setAttribute("data-goal-id", data.goal_id);
           return true;
         } else {
@@ -466,6 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (success) {
           // Refresh goals display
           fetchGoals(matchId);
+          sendScoreNotif(
+            matchId,
+            matchCard.getAttribute("data-home-team-id"),
+            matchCard.getAttribute("data-away-team-id")
+          );
         }
 
         // Let the original handler run or close the modal
