@@ -37,6 +37,14 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
 
 </head>
 <body>
+<style>
+body{
+    margin: 0;
+}
+</style>
+<?php require('../includes/header.php');?>
+
+
     <div class="main_card" style="width: 800px; height: 400px;">
         <?php if(isset($player["player_photo"]) && !empty($player["player_photo"])):?>
             <div class="card" style="max-width: fit-content;">
@@ -75,11 +83,11 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
         </div>
     </div> 
         
-    <div class="main_card stats " style="width: 370px ; height: 400px;">
+    <div class="main_card stats " style="width: 370px ; height: 400px; padding: 1em ">
 
         <!-- <div class="card"> -->
             <!-- <div class="card"> -->
-                <div class="player-stats">
+                <div class="player-stats" style="font-size: 1rem;">
                     <div class="stat"> <?=$player["goals"]?? ''?>
                         <div class="stats-under"> ⚽ Goals</div>
                     </div>
@@ -94,14 +102,13 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
                 </div>
                 <div class="separator"></div>
                 <div class="next-game">
-                    <div>
+                    <!-- <div>
                         <span>Wolves</span>
                         <img class="flag" src="download.png" alt="Portugal Flag" style="width:40px; position: relative;top: -1px; left: 3px; vertical-align: middle;" >  
                         <span style="font-size: 15px;"> 18:30 </span>
                         <span></span><img class="flag" src="chealsea.png" alt="Portugal Flag" style="width:40px; position: relative;top: -1px; left: 3px; vertical-align: middle;"> Chealsea</span>
-                        <!-- <span>Chealsea</span> -->
 
-                    </div>
+                    </div> -->
 
                     
                 </div>
@@ -143,11 +150,11 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
 
         
        
-    <div class="main_card" style="width: 800px; height:fit-content;flex-direction: column;">
+    <!-- <div class="main_card" style="width: 800px; height:fit-content;flex-direction: column;">
         <h3 style="margin: 0px;padding: 0px;font-size: smaller;">Last 10 Matches</h3>
         <div class="tabel-container">
             <table class="match-table">
-                <!-- <thead> -->
+                 <thead> 
                   <tr class="table-header">
                     <th><i class="hgi-stroke hgi-calendar-03 " style="position:  relative; top: 2px;"></i>
                         Date</th>
@@ -160,9 +167,8 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
                     <th>🟥</th>
                     <th>Rating</th>
                   </tr>
-                <!-- </thead> -->
-                <!-- <tbody> -->
-                  <!-- Example row 1 -->
+                </thead> 
+                <tbody> 
                   <tr class="table-row">
                     <td>Feb 15</td>
                     <td>
@@ -177,7 +183,6 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
                     <td>0</td>
                     <td>8.5</td>
                   </tr>
-                  <!-- Example row 2 -->
                   <tr class="table-row">
                     <td>Feb 8</td>
                     <td>
@@ -295,13 +300,108 @@ $player["age"] = floor($ageSeconds / 60 / 60 / 24 / 365);//convert seconds to ye
                     <td>0</td>
                     <td>7.4</td>
                 </tr>
-                  <!-- Continue adding rows for the last 10 matches -->
-                <!-- </tbody> -->
               </table>
-    </div>
+    </div> -->
          
+<!-- filepath: c:\xampp\htdocs\foot_match_track\player\player-info.php -->
+<!-- ...existing code... -->
+<!-- <div class="main_card stats" style="width: 800px; height: auto; margin-top: 20px;font-size: 1rem; padding: 2em;">
+    <h3 style="text-align: center; color: var(--primary-color);">Player Statistics</h3>
+    <div class="player-stats-grid" style="width: 70%">
+        <div class="stat-item">
+            <i class="fa-solid fa-futbol stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["goals"] ?? 0?></span>
+            <span class="stat-label">Goals</span>
+        </div>
+        <div class="stat-item">
+            <i class="fa-solid fa-handshake stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["assists"] ?? 0?></span>
+            <span class="stat-label">Assists</span>
+        </div>
+        <div class="stat-item">
+            <i class="fa-solid fa-calendar-days stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["appearances"] ?? 0?></span>
+            <span class="stat-label">Matches</span>
+        </div>
+        <div class="stat-item">
+            <i class="fa-solid fa-ruler-vertical stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["height"] ?? 'N/A'?> cm</span>
+            <span class="stat-label">Height</span>
+        </div>
+        <div class="stat-item">
+            <i class="fa-solid fa-weight-scale stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["weight"] ?? 'N/A'?> kg</span>
+            <span class="stat-label">Weight</span>
+        </div>
+        <div class="stat-item">
+            <i class="fa-solid fa-person-running stat-icon" style="color: black;"></i>
+            <span class="stat-value"><?=$player["position_name"] ?? 'N/A'?></span>
+            <span class="stat-label">Position</span>
+        </div>
     </div>
-    <div class="main_card stats " style="width: 370px ; height: 300px;"></div>
+</div> -->
+
+<style>
+    .player-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .stat-item {
+        text-align: center;
+        background: var(--bg-darker);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    .stat-icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    .stat-value {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: var(--text-light);
+    }
+    .stat-label {
+        font-size: 1em;
+        color: var(--text-muted);
+    }
+</style>
+<!-- ...existing code... -->
+
+<style>
+    .player-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 20px;
+        margin-top: 10px;
+    }
+    .stat-item {
+        text-align: center;
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .stat-value {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+    }
+    .stat-label {
+        font-size: 0.9em;
+        color: #666;
+    }
+</style>
+<!-- ...existing code... -->
+    </div>
 
 
     <!-- <div class="main_card"> test cards </div> -->
