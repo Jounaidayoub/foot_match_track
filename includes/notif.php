@@ -80,22 +80,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (m.date_match = CURRENT_DATE AND m.time_match < (CURRENT_TIME + INTERVAL 3 HOUR))
             )
             ORDER BY m.date_match DESC, m.time_match ASC
-            LIMIT :limit
         ";
             //generate the message from the teams names and the score
-            $sql1 = "SELECT butes_team1, butes_team2, team1_name, team2_name 
-                FROM match_info 
-                WHERE id_match = :id_match;";
+            // $sql1 = "SELECT butes_team1, butes_team2, team1_name, team2_name 
+            //     FROM match_info 
+            //     WHERE id_match = :id_match;";
             $stmt = $bd->prepare($sql);
             $stmt->execute([
                 ':id_match' => $match_id
             ]);
             $match_info = $stmt->fetch(PDO::FETCH_ASSOC);
-            $team1_butes = $a['butes_team1'];
+            $team1_butes = $match_info['butes_team1'];
             $team2_butes = $match_info['butes_team2'];
             $team1_name = $match_info['team1_name'];
             $team2_name = $match_info['team2_name'];
             $message = "Full-time: $team1_name $team1_butes - $team2_butes $team2_name";
+            echo json_encode(['msg' => $message, 'message' => 'Notifications sent successfully']);
 
             followMatchForTeamFollower($match_id, $team1_id, $team2_id);
             $users = getMatchFollowers($match_id);
