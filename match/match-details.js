@@ -658,9 +658,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) throw new Error("Error fetching poll results");
         const results = await response.json();
   
-        homeVotesElement.textContent = results.home || 0;
-        drawVotesElement.textContent = results.draw || 0;
-        awayVotesElement.textContent = results.away || 0;
+        // homeVotesElement.textContent = results.home || 0;
+        // drawVotesElement.textContent = results.draw || 0;
+        // awayVotesElement.textContent = results.away || 0;
+
+        document.getElementById("home-odds").textContent = results.home || 0;
+        document.getElementById("draw-odds").textContent = results.draw || 0;
+        document.getElementById("away-odds").textContent = results.away || 0;
       } catch (error) {
         console.error("Error fetching poll results:", error);
       }
@@ -696,3 +700,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize poll
     fetchPollResults();
 });
+

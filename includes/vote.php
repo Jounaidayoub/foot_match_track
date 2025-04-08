@@ -56,4 +56,19 @@ function getMatchInfo($match_id) {
         return null;
     }
 }
+
+
+//get teams id from a match
+function getMatchTeams($match_id) {
+    global $bd;
+    try {
+        $sql = "SELECT id_equipe1, id_equipe2 FROM _match WHERE id_match = :id_match";
+        $stmt = $bd->prepare($sql);
+        $stmt->execute([':id_match' => $match_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return null;
+    }
+}
 ?>

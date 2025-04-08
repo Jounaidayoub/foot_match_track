@@ -5,9 +5,48 @@ require 'includes/db.php';
 
 global $bd;
 
+//get teams id from a match
+function getMatchTeams($match_id) {
+    global $bd;
+    try {
+        $sql = "SELECT id_equipe1, id_equipe2 FROM _match WHERE id_match = :id_match";
+        $stmt = $bd->prepare($sql);
+        $stmt->execute([':id_match' => $match_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return null;
+    }
+}
+
+//function to check if the match has ended or not
+function isMatchEnded($match_id) {
+    global $bd;
+    try {
+        $sql = "SELECT date_match, time_match FROM _match WHERE id_match = :id_match";
+        $stmt = $bd->prepare($sql);
+        $stmt->execute([':id_match' => $match_id]);
+        $match_info = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($match_info) {
+            $match_date_time = strtotime($match_info['date_match'] . ' ' . $match_info['time_match']);
+            return time() > $match_date_time + 10800; // 3 hours after the match time
+        } else {
+            return false; // Match not found
+        }
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return false;
+    }
+}
 
 // Handle POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //pas possible de voter après la fin de match
+    if(isMatchEnded(intval($_POST['match_id']))) {
+        echo json_encode(["status" => "error", "message" => "You cannot vote for a match that has already ended."]);
+        exit;
+    }
     $user_id = $_SESSION['id'];
     $match_id = intval($_POST['match_id']);
     $vote_type = $_POST['vote_type']; // "home", "draw", or "away"
@@ -24,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Insert the vote
             $team_id = null; // Default to null for "draw" votes
             if ($vote_type === "home") {
-                $team_id = intval($_POST['home_team_id']);
+                $team_id = intval(getMatchTeams($match_id)['id_equipe1']);
             } elseif ($vote_type === "away") {
-                $team_id = intval($_POST['away_team_id']);
+                $team_id = intval(getMatchTeams($match_id)['id_equipe2']);
             }
 
             $insertVoteQuery = "INSERT INTO votes (user_id, match_id, team_id) VALUES (:user_id, :match_id, :team_id)";
