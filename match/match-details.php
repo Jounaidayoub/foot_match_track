@@ -223,6 +223,26 @@ $tournament_id_for_classement = $match_data ? $match_data['tournament_id'] : 1; 
 
         <!-- Sidebar -->
         <div class="sidebar">
+            <!-- Poll Section -->
+            <div class="poll-section">
+                <h3>Vote for the Winner</h3>
+                <div class="poll-buttons">
+                    <button class="poll-button" id="vote-home">
+                    <img src="" alt="Home Team" class="poll-team-logo" id="home-team-logo">
+                    <span id="home-team-name">Home Team</span>
+                    </button>
+                    <button class="poll-button" id="vote-draw">Draw</button>
+                    <button class="poll-button" id="vote-away">
+                    <img src="" alt="Away Team" class="poll-team-logo" id="away-team-logo">
+                    <span id="away-team-name">Away Team</span>
+                    </button>
+                </div>
+                <div class="poll-results">
+                    <p>Home Team Votes: <span id="home-votes">0</span></p>
+                    <p>Draw Votes: <span id="draw-votes">0</span></p>
+                    <p>Away Team Votes: <span id="away-votes">0</span></p>
+                </div>
+            </div>
             <!-- Sidebar Competition Card -->
             <div class="card sidebar-card">
                 <div class="card-header">

@@ -485,3 +485,17 @@ create table follow(
     event_type varchar(50), -- "match", "tournament", "team" (used when generating the link)
     foreign key(id_user) references users(id)
 );
+
+CREATE TABLE votes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    match_id INT NOT NULL,
+    team_id INT,
+    vote_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+alter TABLE votes add CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id);
+alter TABLE votes add CONSTRAINT fk_match FOREIGN KEY(match_id) REFERENCES `_match`(id_match);
+alter TABLE votes add CONSTRAINT fk_team FOREIGN KEY(team_id) REFERENCES teams(id);
+alter TABLE votes add CONSTRAINT unique_vote UNIQUE(user_id, match_id); 
+
