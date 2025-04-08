@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              window.displayGoalsInTimeline(data.goals || [], matchId); // Or window.displayGoalsInTimeline(...) if using the window object
+              window.displayGoalsInTimeline(data.goals || [], matchId); 
             } else {
               console.error("Error fetching goals:", data.error);
             }

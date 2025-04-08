@@ -296,7 +296,7 @@ body {
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 50%;
-  padding: 8px;
+  padding: 1px;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
 }
@@ -618,6 +618,101 @@ body {
   transform: rotate(45deg) translate(10%, 10%);
 }
 
+/* Tab Content Styles */
+.tab-content {
+    display: none; /* Hide all tab content by default */
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-top: none; /* Nav card provides top border */
+    border-radius: 0 0 var(--card-radius) var(--card-radius);
+    margin-top: 0; /* Remove gap between nav and content */
+}
+
+.tab-content.active {
+    display: block; /* Show active tab content */
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Ensure card-body padding is applied if content is directly inside */
+.tab-content.card-body {
+     padding: var(--card-padding);
+}
+
+/* Style the classement table to match the theme */
+#classement-content h1 { /* Style the title inside the tab */
+     text-align: center;
+     margin-bottom: 20px;
+     color: var(--primary-color);
+     font-size: 1.5em; /* Adjust as needed */
+     padding-top: 10px; /* Add some space if needed */
+}
+
+.classement-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-light); /* Use theme text color */
+}
+
+.classement-table th,
+.classement-table td {
+    padding: 12px 15px; /* Adjust padding */
+    text-align: left;
+    border-bottom: 1px solid var(--border-color); /* Use theme border color */
+}
+
+.classement-table th {
+    background-color: var(--bg-element); /* Use a slightly different bg for header */
+    font-weight: 600; /* Adjust font weight */
+    color: var(--text-muted); /* Use muted color for header text */
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.05em;
+}
+
+ .classement-table tr:last-child td {
+     border-bottom: none; /* Remove border from last row */
+}
+
+.classement-table tr:hover {
+    background-color: var(--bg-element); /* Use theme hover color */
+}
+
+.classement-table .team-logo {
+    width: 24px; /* Adjust size */
+    height: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 50%; /* Make logos circular if desired */
+}
+
+/* Adjustments for stats-card moved inside a tab */
+#stats-content .stats-card {
+     border: none; /* Remove original border */
+     box-shadow: none; /* Remove original shadow */
+     margin-bottom: 0; /* Remove original margin */
+     border-radius: 0; /* Remove radius as it's now inside a container */
+}
+/* Ensure padding is consistent within the moved stats card */
+#stats-content .stats-card .card-body,
+#stats-content .stats-card .card-header,
+#stats-content .stats-card .card-footer {
+     padding-left: 0; /* Reset padding if parent .tab-content has it */
+     padding-right: 0;
+}
+/* Add padding back if the parent .tab-content doesn't have .card-body */
+ #stats-content.card-body .stats-card .card-body,
+ #stats-content.card-body .stats-card .card-header,
+ #stats-content.card-body .stats-card .card-footer {
+      padding-left: var(--card-padding);
+      padding-right: var(--card-padding);
+ }
+
+/* Adjustments for comments moved inside a tab */
+#commentary-content .comments-section { /* Assuming comments.php has a main container like this */
+     padding: var(--card-padding); /* Add padding if needed */
+}
+
+
 /* Sidebar Cards */
 .sidebar-card {
   margin-bottom: var(--card-gap);
@@ -850,4 +945,3 @@ body {
     padding: 4px 8px;
   }
 }
-
