@@ -223,6 +223,35 @@ $tournament_id_for_classement = $match_data ? $match_data['tournament_id'] : 1; 
 
         <!-- Sidebar -->
         <div class="sidebar">
+            <!-- Poll Section -->
+            <div class="poll-section">
+                <h3>Who will win?</h3>
+                <div class="poll-buttons">
+                    <button class="poll-button" id="vote-home">
+                        <img src="" alt="Home Team" class="poll-team-logo" id="home-team-logo">
+                        <span id="home-team-name">Home Team</span>
+                    </button>
+                    <button class="poll-button draw-button" id="vote-draw">X</button>
+                    <button class="poll-button" id="vote-away">
+                        <img src="" alt="Away Team" class="poll-team-logo" id="away-team-logo">
+                        <span id="away-team-name">Away Team</span>
+                    </button>
+                </div>
+                <div class="poll-odds">
+                    <div class="odds-item">
+                        <span class="odds-label"></span>
+                        <span class="odds-value" id="home-odds"></span>
+                    </div>
+                    <div class="odds-item">
+                        <span class="odds-label">X</span>
+                        <span class="odds-value" id="draw-odds"></span>
+                    </div>
+                    <div class="odds-item">
+                        <span class="odds-label"></span>
+                        <span class="odds-value" id="away-odds"></span>
+                    </div>
+                </div>
+            </div>
             <!-- Sidebar Competition Card -->
             <div class="card sidebar-card">
                 <div class="card-header">

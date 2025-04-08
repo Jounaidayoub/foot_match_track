@@ -405,12 +405,31 @@ function updateMatchScore(match) {
   if (match.home_team_logo)
     homeTeamLogo.src = `../assets/${match.home_team_logo}`;
 
+
+ // Update poll buttons
+ const pollHomeTeamName = document.getElementById("home-team-name");
+ const pollHomeTeamLogo = document.getElementById("home-team-logo");
+ pollHomeTeamName.textContent = match.home_team || "Home Team";
+ pollHomeTeamLogo.src = `../assets/${match.home_team_logo}`;
+
+
+
   // Away team
   const awayTeamName = document.querySelector(".away-team .team-name");
   const awayTeamLogo = document.querySelector(".away-team .team-logo img");
   awayTeamName.textContent = match.away_team || "Away Team";
   if (match.away_team_logo)
     awayTeamLogo.src = `../assets/${match.away_team_logo}`;
+
+  
+
+  // Update poll buttons
+  const pollAwayTeamName = document.getElementById("away-team-name");
+  const pollAwayTeamLogo = document.getElementById("away-team-logo");
+  pollAwayTeamName.textContent = match.away_team || "Away Team";
+  pollAwayTeamLogo.src = `../assets/${match.away_team_logo}`;
+
+
 
   // Score and status
   const scoreElement = document.querySelector(".score-display .score");
@@ -619,3 +638,66 @@ function updateSidebarMatches(matches, currentMatchId) {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const homeVoteButton = document.getElementById("vote-home");
+    const drawVoteButton = document.getElementById("vote-draw");
+    const awayVoteButton = document.getElementById("vote-away");
+  
+    const homeVotesElement = document.getElementById("home-votes");
+    const drawVotesElement = document.getElementById("draw-votes");
+    const awayVotesElement = document.getElementById("away-votes");
+  
+    // Fetch poll results
+    async function fetchPollResults() {
+      try {
+        const params = getUrlParams();
+        const matchId = params.match_id;
+
+        const response = await fetch(`../handle_votes.php?match_id=${matchId}`);
+        if (!response.ok) throw new Error("Error fetching poll results");
+        const results = await response.json();
+  
+        // homeVotesElement.textContent = results.home || 0;
+        // drawVotesElement.textContent = results.draw || 0;
+        // awayVotesElement.textContent = results.away || 0;
+
+        document.getElementById("home-odds").textContent = results.home || 0;
+        document.getElementById("draw-odds").textContent = results.draw || 0;
+        document.getElementById("away-odds").textContent = results.away || 0;
+      } catch (error) {
+        console.error("Error fetching poll results:", error);
+      }
+    }
+  
+    // Submit a vote
+    async function submitVote(voteType) {
+      try {
+        const params = getUrlParams();
+        const matchId = params.match_id;
+
+        const formData = new URLSearchParams();
+        formData.append("vote_type", voteType);
+        formData.append("match_id", matchId);
+
+        const response = await fetch("../handle_votes.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formData.toString(),
+        });
+        if (!response.ok) throw new Error("Error submitting vote");
+        await fetchPollResults(); // Refresh results after voting
+      } catch (error) {
+        console.error("Error submitting vote:", error);
+      }
+    }
+
+    // Add event listeners for voting
+    homeVoteButton.addEventListener("click", () => submitVote("home"));
+    drawVoteButton.addEventListener("click", () => submitVote("draw"));
+    awayVoteButton.addEventListener("click", () => submitVote("away"));
+  
+    // Initialize poll
+    fetchPollResults();
+});
+
